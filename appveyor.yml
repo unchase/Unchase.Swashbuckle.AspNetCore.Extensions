@@ -26,7 +26,7 @@ test:
     - Main
     - Sinks
 artifacts:
-- path: artifacts/*.nupkg
+- path: artifacts/Unchase.*.nupkg
 deploy:
 - provider: GitHub
   tag: v$(appveyor_build_version)
@@ -34,7 +34,7 @@ deploy:
   auth_token:
     secure: 5YjB5tKbw0Z/mnSTKxo3WLD9TWuyGpGPhaNlSTA+cFA1oORUk46i6tPuyvekHaS9
   repository: unchase/Unchase.Swashbuckle.AspNetCore.Extensions
-  artifact: /*\*.nupkg/
+  artifact: /Unchase.*\.nupkg/
   on:
     branch: master                # release from master branch only
     appveyor_repo_tag: false      # deploy on tag push only
@@ -42,7 +42,7 @@ deploy:
   api_key:
     secure: UJc0HVrXjjNdua/8khUqCyE90DCZn1vbvSyBMhVFm1yoZFNaVu8FysJWYsgU2I0K
   skip_symbols: true
-  artifact: /*\*.nupkg/
+  artifact: /Unchase.*\.nupkg/
   on:
     branch: master                # release from master branch only
     appveyor_repo_tag: false      # deploy on tag push only
