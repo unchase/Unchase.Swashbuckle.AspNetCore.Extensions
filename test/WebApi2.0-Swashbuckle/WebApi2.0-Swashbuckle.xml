@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebApi2.0-Swashbuckle</name>
+    </assembly>
+    <members>
+        <member name="T:WebApi2._0_Swashbuckle.Controllers.SamplePersonController">
+            <summary>
+            Sample Person Controller.
+            </summary>
+        </member>
+        <member name="M:WebApi2._0_Swashbuckle.Controllers.SamplePersonController.Get(WebApi2._0_Swashbuckle.Models.Title)">
+            <summary>
+            Sample GET-action.
+            </summary>
+            <param name="title">Sample Person title.</param>
+            <returns>Returns sample Person response.</returns>
+            <response code="200">Returns sample Person response.</response>
+        </member>
+        <member name="M:WebApi2._0_Swashbuckle.Controllers.SamplePersonController.Post(WebApi2._0_Swashbuckle.Models.SamplePersonRequestResponse)">
+            <summary>
+            Sample POST-action.
+            </summary>
+            <param name="request">Sample Person request.</param>
+            <returns>Returns sample Person response.</returns>
+            <response code="200">Returns sample Person response.</response>
+        </member>
+        <member name="T:WebApi2._0_Swashbuckle.Models.SamplePersonRequestResponse">
+            <summary>
+            Sample Person request and response.
+            </summary>
+        </member>
+        <member name="P:WebApi2._0_Swashbuckle.Models.SamplePersonRequestResponse.Title">
+            <summary>
+            Sample Person title.
+            </summary>
+        </member>
+        <member name="P:WebApi2._0_Swashbuckle.Models.SamplePersonRequestResponse.Age">
+            <summary>
+            Sample Person age.
+            </summary>
+        </member>
+        <member name="P:WebApi2._0_Swashbuckle.Models.SamplePersonRequestResponse.FirstName">
+            <summary>
+            Sample Person firstname.
+            </summary>
+        </member>
+        <member name="P:WebApi2._0_Swashbuckle.Models.SamplePersonRequestResponse.Income">
+            <summary>
+            Sample Person income.
+            </summary>
+        </member>
+        <member name="T:WebApi2._0_Swashbuckle.Models.Title">
+            <summary>
+            Title enum.
+            </summary>
+        </member>
+        <member name="F:WebApi2._0_Swashbuckle.Models.Title.None">
+            <summary>
+            None.
+            </summary>
+        </member>
+        <member name="F:WebApi2._0_Swashbuckle.Models.Title.Miss">
+            <summary>
+            Miss.
+            </summary>
+        </member>
+        <member name="F:WebApi2._0_Swashbuckle.Models.Title.Mr">
+            <summary>
+            Mr.
+            </summary>
+        </member>
+    </members>
+</doc>

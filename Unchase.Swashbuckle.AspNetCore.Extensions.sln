@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7C4518F9-6506-49BE-B39D-1BD1BE121E4B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{41C53B82-ED58-4927-B597-CCCAEC8E3BF8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{145A03BF-E60E-41F6-BD89-457F940F6C9B}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		appveyor.yml = appveyor.yml
+		Build.ps1 = Build.ps1
+		assets\buymeacoffe.png = assets\buymeacoffe.png
+		CHANGELOG.md = CHANGELOG.md
+		assets\enumDescriptionInSchemaDefinitions.png = assets\enumDescriptionInSchemaDefinitions.png
+		assets\enumDescriptionInSchemaParameters.png = assets\enumDescriptionInSchemaParameters.png
+		assets\enumDescriptionInSwaggerUI.png = assets\enumDescriptionInSwaggerUI.png
+		assets\icon.png = assets\icon.png
+		LICENSE = LICENSE
+		assets\logo.png = assets\logo.png
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unchase.Swashbuckle.AspNetCore.Extensions", "src\Unchase.Swashbuckle.AspNetCore.Extensions\Unchase.Swashbuckle.AspNetCore.Extensions.csproj", "{63011319-4764-44DE-B8C2-CDABAD5FD8BE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unchase.Swashbuckle.AspNetCore.Extensions.Tests", "test\Unchase.Swashbuckle.AspNetCore.Extensions.Tests\Unchase.Swashbuckle.AspNetCore.Extensions.Tests.csproj", "{ADFE3232-3F94-4582-BE4E-CD93603EAE18}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi2.0-Swashbuckle", "test\WebApi2.0-Swashbuckle\WebApi2.0-Swashbuckle.csproj", "{0377750B-D944-47A6-A1CB-D722D2803047}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{63011319-4764-44DE-B8C2-CDABAD5FD8BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63011319-4764-44DE-B8C2-CDABAD5FD8BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63011319-4764-44DE-B8C2-CDABAD5FD8BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63011319-4764-44DE-B8C2-CDABAD5FD8BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADFE3232-3F94-4582-BE4E-CD93603EAE18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADFE3232-3F94-4582-BE4E-CD93603EAE18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADFE3232-3F94-4582-BE4E-CD93603EAE18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADFE3232-3F94-4582-BE4E-CD93603EAE18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0377750B-D944-47A6-A1CB-D722D2803047}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0377750B-D944-47A6-A1CB-D722D2803047}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0377750B-D944-47A6-A1CB-D722D2803047}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0377750B-D944-47A6-A1CB-D722D2803047}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{63011319-4764-44DE-B8C2-CDABAD5FD8BE} = {7C4518F9-6506-49BE-B39D-1BD1BE121E4B}
+		{ADFE3232-3F94-4582-BE4E-CD93603EAE18} = {41C53B82-ED58-4927-B597-CCCAEC8E3BF8}
+		{0377750B-D944-47A6-A1CB-D722D2803047} = {41C53B82-ED58-4927-B597-CCCAEC8E3BF8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4830AE48-C5E4-460E-B23E-B2D7D0578670}
+	EndGlobalSection
+EndGlobal

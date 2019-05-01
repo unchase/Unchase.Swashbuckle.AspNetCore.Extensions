@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Company>Unchase</Company>
+    <Authors>Unchase</Authors>
+    <Description>Some additional useful extensions for Swashbuckle.AspNetCore.</Description>
+    <Copyright>Copyright 2019 Unchase</Copyright>
+    <PackageLicenseUrl>https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Swagger;Swashbuckle;Filters;NSwag</PackageTags>
+    <NeutralLanguage></NeutralLanguage>
+    <LangVersion>7.3</LangVersion>
+    <PackageIconUrl>https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/blob/master/assets/icon.png?raw=true</PackageIconUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="4.0.1" />
+  </ItemGroup>
+
+</Project>
