@@ -8,6 +8,12 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v1.1.0 `(2019-05-07)`
+
+- [x] Add extension-method `HidePathItemsWithoutAcceptedRoles` for hiding all SwaggerDocument PathItems with added Security information for OAuth2 without accepted roles
+- [x] Change extension-method name from `EnumsWithValuesFixFilters` to `AddEnumsWithValuesFixFilters`
+- [x] Update [`README`](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/)
+
 ## v1.0.0 `(2019-05-01)`
 
 - [x] Add an output enums integer values with there strings like `0 = FirstEnumValue` without a `StringEnumConverter` in swaggerUI and schema (by default enums will output only their integer values)

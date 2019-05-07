@@ -8,7 +8,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
 {
     public static class SwaggerGenOptionsExtensions
     {
-        public static void EnumsWithValuesFixFilters(this SwaggerGenOptions swaggerGenOptions, bool includeDescriptionFromAttribute = false)
+        public static void AddEnumsWithValuesFixFilters(this SwaggerGenOptions swaggerGenOptions, bool includeDescriptionFromAttribute = false)
         {
             swaggerGenOptions.SchemaFilter<XEnumNamesSchemaFilter>();
             swaggerGenOptions.ParameterFilter<XEnumNamesParameterFilter>();

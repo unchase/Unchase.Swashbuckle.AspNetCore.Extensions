@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebApi2._0_Swashbuckle.Models;
 
 namespace WebApi2._0_Swashbuckle.Controllers
@@ -18,6 +20,7 @@ namespace WebApi2._0_Swashbuckle.Controllers
         /// <param name="title">Sample Person title.</param>
         /// <returns>Returns sample Person response.</returns>
         /// <response code="200">Returns sample Person response.</response>
+        [Authorize(Roles = "AcceptedRole")]
         [HttpGet("get")]
         [Consumes("application/json")]
         [ProducesResponseType(typeof(SamplePersonRequestResponse), 200)]
@@ -40,6 +43,7 @@ namespace WebApi2._0_Swashbuckle.Controllers
         /// <param name="request">Sample Person request.</param>
         /// <returns>Returns sample Person response.</returns>
         /// <response code="200">Returns sample Person response.</response>
+        [Authorize(Roles = "NotAcceptedRole")]
         [HttpPost("post")]
         [Consumes("application/json")]
         [ProducesResponseType(typeof(SamplePersonRequestResponse), 200)]

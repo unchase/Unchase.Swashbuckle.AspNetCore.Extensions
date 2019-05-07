@@ -14,10 +14,11 @@
     <NeutralLanguage></NeutralLanguage>
     <LangVersion>7.3</LangVersion>
     <PackageIconUrl>https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/blob/master/assets/icon.png?raw=true</PackageIconUrl>
-    <Version>1.0.1</Version>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="4.5.5" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="4.0.1" />
   </ItemGroup>
 
