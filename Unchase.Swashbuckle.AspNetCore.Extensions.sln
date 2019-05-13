@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{145A03
 		assets\enumDescriptionInSchemaDefinitions.png = assets\enumDescriptionInSchemaDefinitions.png
 		assets\enumDescriptionInSchemaParameters.png = assets\enumDescriptionInSchemaParameters.png
 		assets\enumDescriptionInSwaggerUI.png = assets\enumDescriptionInSwaggerUI.png
+		assets\hideSwaggerDocumentPathItems.png = assets\hideSwaggerDocumentPathItems.png
 		assets\icon.png = assets\icon.png
 		LICENSE = LICENSE
 		assets\logo.png = assets\logo.png

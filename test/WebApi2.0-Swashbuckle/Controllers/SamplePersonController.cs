@@ -1,6 +1,6 @@
-﻿using System.Net;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 using WebApi2._0_Swashbuckle.Models;
 
 namespace WebApi2._0_Swashbuckle.Controllers
@@ -8,6 +8,7 @@ namespace WebApi2._0_Swashbuckle.Controllers
     /// <summary>
     /// Sample Person Controller.
     /// </summary>
+    [SwaggerTag("SamplePerson description")]
     [Route("api/[controller]")]
     [Produces("application/json")]
     [ApiController]

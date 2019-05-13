@@ -18,7 +18,7 @@ Install-Package Unchase.Swashbuckle.AspNetCore.Extensions
 
 ## Extensions (Filters) use
 
-1. **For fix enums**: 
+1. **Fix enums**: 
 - In the _ConfigureServices_ method of _Startup.cs_, inside your `AddSwaggerGen` call, enable whichever extensions (filters) you need:
 
 ```csharp
@@ -48,7 +48,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-2. **For hiding SwaggerDocumentation PathItems** without accepted roles: 
+2. **Hide SwaggerDocumentation PathItems** without accepted roles: 
 - In the _ConfigureServices_ method of _Startup.cs_, inside your `AddSwaggerGen` call, enable whichever extensions (filters) you need:
 
 ```csharp
@@ -94,6 +94,30 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     });
 
     ...
+}
+```
+
+3. **Append action count into the SwaggetTag's descriptions**:
+- In the _ConfigureServices_ method of _Startup.cs_, inside your `AddSwaggerGen` call, enable whichever extensions (filters) you need:
+
+```csharp
+// This method gets called by the runtime. Use this method to add services to the container.
+public void ConfigureServices(IServiceCollection services)
+{
+    ...
+
+    services.AddSwaggerGen(options =>
+    {
+        ...
+
+        // enable swagger Annotations
+        options.EnableAnnotations();
+
+        // add action count into the SwaggerTag's descriptions
+        options.DocumentFilter<AppendActionCountToTagSummaryDocumentFilter>();
+
+        ...
+    });
 }
 ```
 
@@ -237,6 +261,20 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         }
     }
     ```
+
+### Append action count into the SwaggetTag's descriptions
+
+![Append action count](assets/appendActionCountIntoSwaggerTag.png)
+
+You should use `SwaggerTagAttribute` for controllers:
+
+```csharp
+[SwaggerTag("SamplePerson description")]
+public class SamplePersonController : ControllerBase
+{
+    ...
+}
+```
 
 ## HowTos
 

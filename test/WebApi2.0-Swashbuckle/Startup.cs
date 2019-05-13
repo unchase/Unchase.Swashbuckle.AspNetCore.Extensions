@@ -50,6 +50,11 @@ namespace WebApi2._0_Swashbuckle
                 // add Security information to each operation for OAuth2
                 options.OperationFilter<SecurityRequirementsOperationFilter>();
 
+                // enable swagger Annotations
+                options.EnableAnnotations();
+                // add action count into the SwaggerTag's descriptions
+                options.DocumentFilter<AppendActionCountToTagSummaryDocumentFilter>();
+
                 // if you're using the SecurityRequirementsOperationFilter, you also need to tell Swashbuckle you're using OAuth2
                 options.AddSecurityDefinition("oauth2", new ApiKeyScheme
                 {

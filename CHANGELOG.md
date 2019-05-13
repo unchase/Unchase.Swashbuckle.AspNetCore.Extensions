@@ -8,6 +8,10 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v1.1.1 `(2019-05-14)`
+
+- [x] Add `AppendActionCountToTagSummaryDocumentFilter` to append action count into the SwaggetTag's descriptions
+
 ## v1.1.0 `(2019-05-07)`
 
 - [x] Add extension-method `HidePathItemsWithoutAcceptedRoles` for hiding all SwaggerDocument PathItems with added Security information for OAuth2 without accepted roles
