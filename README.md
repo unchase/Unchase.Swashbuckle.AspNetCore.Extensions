@@ -31,8 +31,6 @@ public void ConfigureServices(IServiceCollection services)
     services.AddSwaggerGen(options =>
     {
         options.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
-        
-        options.SwaggerDoc("v1", new Info {Title = "My API", Version = "v2"});
 
         // Add filters to fix enums
         options.AddEnumsWithValuesFixFilters(true);
