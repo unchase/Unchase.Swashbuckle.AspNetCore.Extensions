@@ -26,7 +26,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                     var property = propertyDictionaryItem.Value;
                     var propertyEnums = property.Enum;
                     if (propertyEnums != null && propertyEnums.Count > 0)
-                        property.Description += DescribeEnum(propertyEnums);
+                        property.Description += DescribeEnum(propertyEnums, _includeDescriptionFromAttribute);
                 }
             }
 
