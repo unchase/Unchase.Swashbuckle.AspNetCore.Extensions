@@ -8,10 +8,10 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
     {
         public void Apply(IParameter parameter, ParameterFilterContext context)
         {
-            var typeInfo = context.ParameterInfo.ParameterType;
+            var typeInfo = context.ParameterInfo?.ParameterType?? context.PropertyInfo.PropertyType;
             if (typeInfo.IsEnum)
             {
-                var names = Enum.GetNames(context.ParameterInfo.ParameterType);
+                var names = Enum.GetNames(typeInfo);
                 parameter.Extensions.Add("x-enumNames", names);
             }
             else if (typeInfo.IsGenericType && !parameter.Extensions.ContainsKey("x-enumNames"))
