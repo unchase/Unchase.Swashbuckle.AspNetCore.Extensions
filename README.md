@@ -1,4 +1,8 @@
-![Unchase Swashbuckle Asp.Net Core Extensions Logo](assets/logo.png)
+<p align="center">
+  <a href="https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/">
+    <img src="assets/logo.png" alt="Unchase Swashbuckle Asp.Net Core Extensions Logo">
+  </a>
+</p>
 
 [Unchase Swashbuckle Asp.Net Core Extensions](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/) is a library contains a bunch of extensions (filters) for [Swashbuckle.AspNetCore](https://github.com/domaindrivendev/Swashbuckle.AspNetCore).
 
