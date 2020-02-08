@@ -1,41 +1,45 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 {
     public class AppendActionCountToTagSummaryDocumentFilter : IDocumentFilter
     {
-        public void Apply(SwaggerDocument swaggerDoc, DocumentFilterContext context)
+        #region Methods
+
+        public void Apply(OpenApiDocument openApiDoc, DocumentFilterContext context)
         {
-            if (swaggerDoc.Tags == null)
+            if (openApiDoc.Tags == null)
                 return;
 
             var tagActionCount = new Dictionary<string, int>();
-            foreach (var path in swaggerDoc.Paths)
+            foreach (var path in openApiDoc.Paths)
             {
-                var possibleParameterizedOperations = new List<Operation> {path.Value.Get, path.Value.Post, path.Value.Put, path.Value.Delete, path.Value.Patch};
+                var possibleParameterizedOperations = path.Value.Operations.Select(o => o.Value);
                 possibleParameterizedOperations.Where(o => o?.Tags != null).ToList().ForEach(o =>
                 {
                     foreach (var tag in o.Tags)
                     {
-                        if (!tagActionCount.ContainsKey(tag))
-                            tagActionCount.Add(tag, 1);
+                        if (!tagActionCount.ContainsKey(tag.Name))
+                            tagActionCount.Add(tag.Name, 1);
                         else
-                            tagActionCount[tag]++;
+                            tagActionCount[tag.Name]++;
                     }
                 });
             }
 
             foreach (var tagActionCountKey in tagActionCount.Keys)
             {
-                foreach (var tag in swaggerDoc.Tags)
+                foreach (var tag in openApiDoc.Tags)
                 {
                     if (tag.Name == tagActionCountKey)
                         tag.Description += $" (action count: {tagActionCount[tagActionCountKey]})";
                 }
             }
         }
+
+        #endregion
     }
 }

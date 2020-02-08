@@ -1,0 +1,198 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebApi3.1-Swashbuckle</name>
+    </assembly>
+    <members>
+        <member name="T:WebApi3._1_Swashbuckle.Contexts.TodoContext">
+            <summary>
+            Context for todo items.
+            </summary>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Contexts.TodoContext.TodoItems">
+            <summary>
+            List of todo items.
+            </summary>
+        </member>
+        <member name="M:WebApi3._1_Swashbuckle.Contexts.TodoContext.Add(TodoApi.Models.TodoItem)">
+            <summary>
+            Add todo item.
+            </summary>
+            <param name="item"><see cref="T:TodoApi.Models.TodoItem"/>.</param>
+        </member>
+        <member name="M:WebApi3._1_Swashbuckle.Contexts.TodoContext.Find(System.Int64)">
+            <summary>
+            Find todo item by id.
+            </summary>
+            <param name="id">Id.</param>
+            <returns>
+            Returns founded todo item.
+            </returns>
+        </member>
+        <member name="M:WebApi3._1_Swashbuckle.Contexts.TodoContext.Remove(TodoApi.Models.TodoItem)">
+            <summary>
+            Remove todo item.
+            </summary>
+            <param name="item"><see cref="T:TodoApi.Models.TodoItem"/>.</param>
+        </member>
+        <member name="T:WebApi3._1_Swashbuckle.Controllers.HidedController">
+            <summary>
+            Hided controller.
+            </summary>
+        </member>
+        <member name="M:WebApi3._1_Swashbuckle.Controllers.HidedController.HidedAction">
+            <summary>
+            Hided action.
+            </summary>
+        </member>
+        <member name="T:WebApi3._1_Swashbuckle.Controllers.TodoController">
+            <summary>
+            Todo controller.
+            </summary>
+        </member>
+        <member name="M:WebApi3._1_Swashbuckle.Controllers.TodoController.HidedAction">
+            <summary>
+            Hided action.
+            </summary>
+        </member>
+        <member name="M:WebApi3._1_Swashbuckle.Controllers.TodoController.ComplicatedAction">
+            <summary>
+            Complicated action.
+            </summary>
+            <returns>A complicated class.</returns>
+            <response code="200">Returns a complicated class.</response>
+        </member>
+        <member name="M:WebApi3._1_Swashbuckle.Controllers.TodoController.Delete(System.Int64)">
+            <summary>
+            Deletes a specific TodoItem.
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:WebApi3._1_Swashbuckle.Controllers.TodoController.Create(TodoApi.Models.TodoItem)">
+             <summary>
+             Creates a TodoItem.
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 POST /Todo
+                 {
+                    "id": 1,
+                    "name": "Item1",
+                    "isComplete": true,
+                    "tag": 0
+                 }
+            
+             </remarks>
+             <param name="item">TodoItem.</param>
+             <returns>A newly created TodoItem.</returns>
+             <response code="201">Returns the newly created item.</response>
+             <response code="400">If the item is null.</response>
+        </member>
+        <member name="T:WebApi3._1_Swashbuckle.Models.ComplicatedClass">
+            <summary>
+            Complicated class for testing enums.
+            </summary>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Models.ComplicatedClass.Tag">
+            <summary>
+            Tag.
+            </summary>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Models.ComplicatedClass.InnerClass">
+            <summary>
+            Inner class.
+            </summary>
+        </member>
+        <member name="T:WebApi3._1_Swashbuckle.Models.InnerClass">
+            <summary>
+            Inner class.
+            </summary>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Models.InnerClass.InnerEnum">
+            <summary>
+            List of inner enums.
+            </summary>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Models.InnerClass.SecondInnerClass">
+            <summary>
+            Second inner class.
+            </summary>
+        </member>
+        <member name="T:WebApi3._1_Swashbuckle.Models.InnerEnum">
+            <summary>
+            Inner enum.
+            </summary>
+        </member>
+        <member name="F:WebApi3._1_Swashbuckle.Models.InnerEnum.Value">
+            <summary>
+            Inner enum value.
+            </summary>
+        </member>
+        <member name="T:WebApi3._1_Swashbuckle.Models.SecondInnerClass`1">
+            <summary>
+            Second inner class.
+            </summary>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Models.SecondInnerClass`1.InnerEnum">
+            <summary>
+            Second inner enum.
+            </summary>
+        </member>
+        <member name="T:WebApi3._1_Swashbuckle.Models.SecondInnerEnum">
+            <summary>
+            Second inner enum.
+            </summary>
+        </member>
+        <member name="F:WebApi3._1_Swashbuckle.Models.SecondInnerEnum.Value">
+            <summary>
+            Second inner enum value.
+            </summary>
+        </member>
+        <member name="T:WebApi3._1_Swashbuckle.Models.Tag">
+            <summary>
+            Tag for TodoItem.
+            </summary>
+        </member>
+        <member name="F:WebApi3._1_Swashbuckle.Models.Tag.None">
+            <summary>
+            None.
+            </summary>
+        </member>
+        <member name="F:WebApi3._1_Swashbuckle.Models.Tag.Task">
+            <summary>
+            Task.
+            </summary>
+        </member>
+        <member name="F:WebApi3._1_Swashbuckle.Models.Tag.Workout">
+            <summary>
+            Workout.
+            </summary>
+        </member>
+        <member name="T:TodoApi.Models.TodoItem">
+            <summary>
+            Todo item.
+            </summary>
+        </member>
+        <member name="P:TodoApi.Models.TodoItem.Id">
+            <summary>
+            Id.
+            </summary>
+        </member>
+        <member name="P:TodoApi.Models.TodoItem.Name">
+            <summary>
+            Name.
+            </summary>
+        </member>
+        <member name="P:TodoApi.Models.TodoItem.IsComplete">
+            <summary>
+            Is complete.
+            </summary>
+        </member>
+        <member name="P:TodoApi.Models.TodoItem.Tag">
+            <summary>
+            Tag.
+            </summary>
+        </member>
+    </members>
+</doc>

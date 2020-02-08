@@ -1,86 +1,25 @@
-<p align="center">
-  <a href="https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/">
-    <img src="assets/logo.png" alt="Unchase Swashbuckle Asp.Net Core Extensions Logo">
-  </a>
-</p>
+#
+![Unchase Swashbuckle Asp.Net Core Extensions Logo](assets/logo.png)
 
 [Unchase Swashbuckle Asp.Net Core Extensions](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/) is a library contains a bunch of extensions (filters) for [Swashbuckle.AspNetCore](https://github.com/domaindrivendev/Swashbuckle.AspNetCore).
 
 > The project is developed and maintained by [Nikolay Chebotov (**Unchase**)](https://github.com/unchase).
 
-## Breaking Changes
-
-Since [v2.0.0](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/releases/tag/v2.0.0) supports [Swashbuckle.AspNetCore 5.0.0](https://www.nuget.org/packages/Swashbuckle.AspNetCore/) with **breaking changes**.
-
-For old versions see [README_OLD.md](README_OLD.md).
-
-### Compatibility
-
-|Swashbuckle Version|ASP.NET Core|Swagger / OpenAPI Spec.|This extension Version|
-|:------------------|:-----------|:----------------------|:---------------------|
-|[master](https://github.com/domaindrivendev/Swashbuckle.AspNetCore/tree/master/README.md)|>= 2.0.0|2.0, 3.0|[master](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/tree/master/README.md)|
-|[5.0.0](https://github.com/domaindrivendev/Swashbuckle.AspNetCore/tree/v5.0.0)|>= 2.0.0|2.0, 3.0|[v2.0.0](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/tree/v2.0.0/README.md)|
-|[4.0.0](https://github.com/domaindrivendev/Swashbuckle.AspNetCore/tree/v4.0.0)|>= 2.0.0, < 3.0.0|2.0|[v1.1.4](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/tree/v1.1.4/README.md)|
-
 ## Getting Started
 
-To use the extensions, install [*NuGet* package](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/) into your project:
-
-#### Manually with the *NuGet* Package Manager:
+To use the extensions: 
+1. First install the [NuGet package](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/):
 
 ```powershell
 Install-Package Unchase.Swashbuckle.AspNetCore.Extensions
 ```
 
-#### Using the .NET CLI:
-
-```powershell
-dotnet add package Unchase.Swashbuckle.AspNetCore.Extensions --version {version}
-```
-
-> Where {version} is the version of the package you want to install. 
-> For example, `dotnet add package Unchase.Swashbuckle.AspNetCore.Extensions --version 2.0.0`
-
-Then use whichever extensions (filters) you need.
+2. Then use whichever extensions (filters) you need
 
 ## Extensions (Filters) use
 
-Ensure your API actions and parameters are decorated with explicit **"Http"** and **"From"** (optional) bindings.
-
-```csharp
-[HttpPost]
-public void CreateProduct([FromBody]Product product)
-...
-```
-
-```csharp
-[HttpGet]
-public IEnumerable<Product> SearchProducts([FromQuery]string keywords)
-...
-```
-
-In the `Configure` method, insert middleware to expose the generated Swagger as JSON endpoint(s):
-
-```csharp
-app.UseSwagger();
-```
-
-Optionally, insert the swagger-ui middleware if you want to expose interactive documentation, specifying the Swagger JSON endpoint(s) to power it from:
-
-```csharp
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-});
-```
-
-1. **Fix enums**:
+1. **Fix enums**: 
 - In the _ConfigureServices_ method of _Startup.cs_, inside your `AddSwaggerGen` call, enable whichever extensions (filters) you need:
-
-```csharp
-using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
-using Unchase.Swashbuckle.AspNetCore.Extensions.Filters;
-```
 
 ```csharp
 // This method gets called by the runtime. Use this method to add services to the container.
@@ -91,25 +30,24 @@ public void ConfigureServices(IServiceCollection services)
 
     services.AddSwaggerGen(options =>
     {
-        options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-
-        // if you want to add xml comments into the swagger documentation, first of all add:
-        var filePath = Path.Combine(AppContext.BaseDirectory, "WebApi3.1-Swashbuckle.xml");
-        options.IncludeXmlComments(filePath);
+        options.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
 
         // Add filters to fix enums
         options.AddEnumsWithValuesFixFilters(true);
-
         // or custom use:
-        //options.SchemaFilter<XEnumNamesSchemaFilter>(true); // add schema filter to fix enums (add 'x-enumNames' for NSwag) in schema
-        //options.ParameterFilter<XEnumNamesParameterFilter>(true); // add parameter filter to fix enums (add 'x-enumNames' for NSwag) in schema parameters
+        //options.SchemaFilter<XEnumNamesSchemaFilter>(); // add schema filter to fix enums (add 'x-enumNames' for NSwag) in schema
+        //options.ParameterFilter<XEnumNamesParameterFilter>(); // add parameter filter to fix enums (add 'x-enumNames' for NSwag) in schema parameters
         //options.DocumentFilter<DisplayEnumsWithValuesDocumentFilter>(true); // add document filter to fix enums displaying in swagger document
+
+        // Include xml-comments from xml-file generated by project
+        var filePath = Path.Combine(AppContext.BaseDirectory, "WebApi2.0-Swashbuckle.xml");
+        options.IncludeXmlComments(filePath);
     });
 }
 ```
 
-2. **Hide Paths and Defenitions from OpenApi documentation** without accepted roles: 
-- In the _ConfigureServices_ method of _Startup.cs_, inside your `AddSwaggerGen` call, enable `HidePathsAndDefinitionsByRolesDocumentFilter` document filter:
+2. **Hide SwaggerDocumentation PathItems** without accepted roles: 
+- In the _ConfigureServices_ method of _Startup.cs_, inside your `AddSwaggerGen` call, enable whichever extensions (filters) you need:
 
 ```csharp
 // This method gets called by the runtime. Use this method to add services to the container.
@@ -121,14 +59,44 @@ public void ConfigureServices(IServiceCollection services)
     {
         ...
 
-        // remove Paths and Defenitions from OpenApi documentation without accepted roles
-        options.DocumentFilter<HidePathsAndDefinitionsByRolesDocumentFilter>(new List<string> { "AcceptedRole" });
+        // add Security information to each operation for OAuth2
+        options.OperationFilter<SecurityRequirementsOperationFilter>();
+
+        // optional: if you're using the SecurityRequirementsOperationFilter, you also need to tell Swashbuckle you're using OAuth2
+        options.AddSecurityDefinition("oauth2", new ApiKeyScheme
+        {
+            Description = "Standard Authorization header using the Bearer scheme. Example: \"bearer {token}\"",
+            In = "header",
+            Name = "Authorization",
+            Type = "apiKey"
+        });
     });
+}
+```
+
+- In the _Configure_ method of _Startup.cs_, inside your `UseSwagger` call, enable whichever extensions (filters) you need:
+
+```csharp
+// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+{
+    ...
+
+    app.UseSwagger(c =>
+    {
+        c.PreSerializeFilters.Add((swaggerDoc, httpRequest) =>
+        {
+            // hide all SwaggerDocument PathItems with added Security information for OAuth2 without accepted roles (for example, "AcceptedRole")
+            swaggerDoc.HidePathItemsWithoutAcceptedRoles(new List<string> {"AcceptedRole"});
+        });
+    });
+
+    ...
 }
 ```
 
 3. **Append action count into the SwaggetTag's descriptions**:
-- In the _ConfigureServices_ method of _Startup.cs_, inside your `AddSwaggerGen` call, enable `AppendActionCountToTagSummaryDocumentFilter` document filter:
+- In the _ConfigureServices_ method of _Startup.cs_, inside your `AddSwaggerGen` call, enable whichever extensions (filters) you need:
 
 ```csharp
 // This method gets called by the runtime. Use this method to add services to the container.
@@ -140,11 +108,10 @@ public void ConfigureServices(IServiceCollection services)
     {
         ...
 
-        // enable openApi Annotations
+        // enable swagger Annotations
         options.EnableAnnotations();
 
         // add action count into the SwaggerTag's descriptions
-        // you can use it after "HidePathsAndDefinitionsByRolesDocumentFilter"
         options.DocumentFilter<AppendActionCountToTagSummaryDocumentFilter>();
 
         ...
@@ -152,22 +119,10 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-In the controller need to use `SwaggerTag` attribute:
-
-```csharp
-using Swashbuckle.AspNetCore.Annotations;
-```
-
-```csharp
-[SwaggerTag("Controller for todo")]
-public class TodoController : ControllerBase
-...
-```
-
 ## Builds status
 
 |Status|Value|
-|:-----|:---:|
+|:----|:---:|
 |Build|[![Build status](https://ci.appveyor.com/api/projects/status/els72xabgex9lntc)](https://ci.appveyor.com/project/unchase/unchase-swashbuckle-aspnetcore-extensions)
 |Tests|[![Build Tests](https://img.shields.io/appveyor/tests/unchase/unchase-swashbuckle-aspnetcore-extensions.svg)](https://ci.appveyor.com/project/unchase/unchase-swashbuckle-aspnetcore-extensions/build/tests)
 |Buid History|![Build history](https://buildstats.info/appveyor/chart/unchase/unchase-swashbuckle-aspnetcore-extensions)
@@ -275,9 +230,9 @@ public class TodoController : ControllerBase
     }
     ```
 
-#### Hide Paths and Defenitions from OpenApi documentation
+#### Hide PathItems
 
-- Hide all OpenAPIDocument **Paths** and **Defenitions** without accepted roles:
+- Hide all SwaggerDocument PathItems with added Security information for OAuth2 (with [Swashbuckle.AspNetCore.Filters](https://github.com/mattfrear/Swashbuckle.AspNetCore.Filters)) without accepted roles:
 
     ![Hide SwaggerDocument PathItems](assets/hideSwaggerDocumentPathItems.png)
 

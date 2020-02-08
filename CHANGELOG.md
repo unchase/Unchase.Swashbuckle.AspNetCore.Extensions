@@ -8,6 +8,11 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.0.0 `(2020-02-08)`
+
+**BREAKING CHANGES (see [README.md](README.md)):**
+- [x] Close [#2 issue](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/2): Add support for [Swashbuckle.AspNetCore 5.0.0](https://www.nuget.org/packages/Swashbuckle.AspNetCore/)
+
 ## v1.1.1 `(2019-05-14)`
 
 - [x] Add `AppendActionCountToTagSummaryDocumentFilter` to append action count into the SwaggetTag's descriptions

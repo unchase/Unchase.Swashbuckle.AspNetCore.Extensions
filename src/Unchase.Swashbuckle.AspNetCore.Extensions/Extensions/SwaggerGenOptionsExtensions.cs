@@ -10,8 +10,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
     {
         public static void AddEnumsWithValuesFixFilters(this SwaggerGenOptions swaggerGenOptions, bool includeDescriptionFromAttribute = false)
         {
-            swaggerGenOptions.SchemaFilter<XEnumNamesSchemaFilter>();
-            swaggerGenOptions.ParameterFilter<XEnumNamesParameterFilter>();
+            swaggerGenOptions.SchemaFilter<XEnumNamesSchemaFilter>(includeDescriptionFromAttribute);
+            swaggerGenOptions.ParameterFilter<XEnumNamesParameterFilter>(includeDescriptionFromAttribute);
             swaggerGenOptions.DocumentFilter<DisplayEnumsWithValuesDocumentFilter>(includeDescriptionFromAttribute);
         }
 

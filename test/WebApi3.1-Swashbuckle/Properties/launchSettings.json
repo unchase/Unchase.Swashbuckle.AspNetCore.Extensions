@@ -1,10 +1,9 @@
 ﻿{
-  "$schema": "http://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:59211",
+      "applicationUrl": "http://localhost:27183",
       "sslPort": 0
     }
   },
@@ -17,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "WebApi2._0_Swashbuckle": {
+    "WebApi3._1_Swashbuckle": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

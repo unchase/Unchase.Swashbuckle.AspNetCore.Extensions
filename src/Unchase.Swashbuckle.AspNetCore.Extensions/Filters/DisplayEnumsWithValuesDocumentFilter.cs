@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Swashbuckle.AspNetCore.Swagger;
+﻿using System.Linq;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 
@@ -9,74 +7,68 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 {
     public class DisplayEnumsWithValuesDocumentFilter : IDocumentFilter
     {
+        #region Fields
+
         private readonly bool _includeDescriptionFromAttribute;
+
+        #endregion
+
+        #region Constructors
 
         public DisplayEnumsWithValuesDocumentFilter(bool includeDescriptionFromAttribute = false)
         {
             _includeDescriptionFromAttribute = includeDescriptionFromAttribute;
         }
 
-        public void Apply(SwaggerDocument swaggerDoc, DocumentFilterContext context)
+        #endregion
+
+        #region Methods
+
+        public void Apply(OpenApiDocument openApiDoc, DocumentFilterContext context)
         {
-            foreach (var schemaDictionaryItem in swaggerDoc.Definitions)
+            foreach (var schemaDictionaryItem in openApiDoc.Components.Schemas)
             {
                 var schema = schemaDictionaryItem.Value;
-                foreach (var propertyDictionaryItem in schema.Properties)
-                {
-                    var property = propertyDictionaryItem.Value;
-                    var propertyEnums = property.Enum;
-                    if (propertyEnums != null && propertyEnums.Count > 0)
-                        property.Description += DescribeEnum(propertyEnums, _includeDescriptionFromAttribute);
-                }
+                schema.Description += schema.AddEnumValuesDescription(this._includeDescriptionFromAttribute);
             }
 
-            if (swaggerDoc.Paths.Count <= 0)
+            if (openApiDoc.Paths.Count <= 0)
                 return;
 
-            // add enum descriptions to input parameters
-            foreach (var pathItem in swaggerDoc.Paths.Values)
+            // add enum descriptions to input parameters of every operation
+            foreach (var parameter in openApiDoc.Paths.Values.SelectMany(v => v.Operations).SelectMany(op => op.Value.Parameters))
             {
-                DescribeEnumParameters(pathItem.Parameters, _includeDescriptionFromAttribute);
+                if (parameter.Schema.Reference == null)
+                    continue;
 
-                // head, patch, options, delete left out
-                var possibleParameterizedOperations = new List<Operation> { pathItem.Get, pathItem.Post, pathItem.Put, pathItem.Delete, pathItem.Patch };
-                possibleParameterizedOperations.FindAll(x => x != null)
-                    .ForEach(x => DescribeEnumParameters(x.Parameters, _includeDescriptionFromAttribute));
+                var componentReference = parameter.Schema.Reference.Id;
+                var schema = openApiDoc.Components.Schemas[componentReference];
+
+                parameter.Description += schema.AddEnumValuesDescription(this._includeDescriptionFromAttribute);
             }
-        }
 
-        private static void DescribeEnumParameters(IList<IParameter> parameters, bool includeDescriptionFromAttribute = false)
-        {
-            if (parameters == null)
-                return;
-            foreach (var param in parameters)
+            // add enum descriptions to request body
+            foreach (var operation in openApiDoc.Paths.Values.SelectMany(v => v.Operations))
             {
-                if (param.Extensions.ContainsKey("enum") && param.Extensions["enum"] is IList<object> paramEnums && paramEnums.Count > 0)
-                    param.Description += DescribeEnum(paramEnums, includeDescriptionFromAttribute);
-                else if (param is NonBodyParameter nbParam && nbParam.Enum?.Any() == true)
-                    param.Description += DescribeEnum(nbParam.Enum, includeDescriptionFromAttribute);
-            }
-        }
-
-        private static string DescribeEnum(IEnumerable<object> enums, bool includeDescriptionFromAttribute = false)
-        {
-            var enumDescriptions = new List<string>();
-            Type type = null;
-            foreach (var enumOption in enums)
-            {
-                if (type == null)
-                    type = enumOption.GetType();
-                if (includeDescriptionFromAttribute)
+                var requestBodyContents = operation.Value.RequestBody?.Content;
+                if (requestBodyContents != null)
                 {
-                    var enumOptionDescription = type.GetFieldAttributeDescription(enumOption, 0);
-                    enumDescriptions.Add(string.IsNullOrWhiteSpace(enumOptionDescription)
-                        ? $"{Convert.ChangeType(enumOption, type.GetEnumUnderlyingType())} = {Enum.GetName(type, enumOption)}"
-                        : $"{Convert.ChangeType(enumOption, type.GetEnumUnderlyingType())} = {Enum.GetName(type, enumOption)} ({enumOptionDescription})");
+                    foreach (var requestBodyContent in requestBodyContents)
+                    {
+                        if (requestBodyContent.Value.Schema?.Reference?.Id != null)
+                        {
+                            var schema = context.SchemaRepository.Schemas[requestBodyContent.Value.Schema?.Reference?.Id];
+                            if (schema != null)
+                            {
+                                requestBodyContent.Value.Schema.Description = schema.Description;
+                                requestBodyContent.Value.Schema.Extensions = schema.Extensions;
+                            }
+                        }
+                    }
                 }
-                else
-                    enumDescriptions.Add($"{Convert.ChangeType(enumOption, type.GetEnumUnderlyingType())} = {Enum.GetName(type, enumOption)}");
             }
-            return $"{Environment.NewLine}{string.Join(Environment.NewLine, enumDescriptions)}";
         }
+
+        #endregion
     }
 }
