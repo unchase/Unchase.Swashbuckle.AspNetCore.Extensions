@@ -59,9 +59,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                         schema.Extensions.Add("x-enumDescriptions", enumsDescriptionsArray);
                     }
                 }
+                return;
             }
+            
             // add "x-enumNames" for schema with generic types
-            else if (typeInfo.IsGenericType && !schema.Extensions.ContainsKey("x-enumNames"))
+            if (typeInfo.IsGenericType && !schema.Extensions.ContainsKey("x-enumNames"))
             {
                 foreach (var genericArgumentType in typeInfo.GetGenericArguments())
                 {
@@ -98,7 +100,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                     }
                 }
             }
-            else if (schema.Properties?.Count > 0)
+            
+            if (schema.Properties?.Count > 0)
             {
                 foreach (var schemaProperty in schema.Properties)
                 {
