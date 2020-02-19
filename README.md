@@ -74,7 +74,7 @@ app.UseSwaggerUI(c =>
 });
 ```
 
-1. **Fix enums**:
+1. **Fix enums in OpenApi document**:
 - In the _ConfigureServices_ method of _Startup.cs_, inside your `AddSwaggerGen` call, enable whichever extensions (filters) you need:
 
 ```csharp
@@ -108,7 +108,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-2. **Hide Paths and Defenitions from OpenApi documentation** without accepted roles: 
+2. **Hide Paths and Defenitions from OpenApi documentation** without accepted roles in OpenApi document: 
 - In the _ConfigureServices_ method of _Startup.cs_, inside your `AddSwaggerGen` call, enable `HidePathsAndDefinitionsByRolesDocumentFilter` document filter:
 
 ```csharp
@@ -127,7 +127,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-3. **Append action count into the SwaggetTag's descriptions**:
+3. **Append action count into the SwaggetTag's descriptions in OpenApi document**:
 - In the _ConfigureServices_ method of _Startup.cs_, inside your `AddSwaggerGen` call, enable `AppendActionCountToTagSummaryDocumentFilter` document filter:
 
 ```csharp
@@ -164,6 +164,66 @@ public class TodoController : ControllerBase
 ...
 ```
 
+4. **Change all responses for specific HTTP status codes in OpenApi document**:
+- In the _ConfigureServices_ method of _Startup.cs_, inside your `AddSwaggerGen` call, enable `ChangeAllResponsesByHttpStatusCode<T>` extension (filter) with whichever HTTP status codes you need:
+
+```csharp
+// This method gets called by the runtime. Use this method to add services to the container.
+public void ConfigureServices(IServiceCollection services)
+{
+    ...
+
+    services.AddSwaggerGen(options =>
+    {
+        ...
+
+        // change responses for specific HTTP status code ("200")
+        options.ChangeAllResponsesByHttpStatusCode(
+            httpStatusCode: 200,
+            responseDescription: "200 status code description",
+            responseExampleOption : ResponseExampleOptions.AddNew, // add new response examples
+            responseExample: new TodoItem { Tag = Tag.Workout, Id = 111, IsComplete = false, Name = "test" }); // some class for response examples
+        
+        // change responses for specific HTTP status code ("400" (HttpStatusCode.BadRequest))
+        options.ChangeAllResponsesByHttpStatusCode(
+            httpStatusCode: HttpStatusCode.BadRequest,
+            responseDescription: "400 status code description",
+            responseExampleOption: ResponseExampleOptions.Clear, // claer response examples
+            responseExample: new ComplicatedClass()); // some class for response examples
+        
+        // change responses for specific HTTP status code ("201" (StatusCodes.Status201Created))
+        options.ChangeAllResponsesByHttpStatusCode(
+            httpStatusCode: StatusCodes.Status201Created,
+            responseDescription: "201 status code description",
+            responseExampleOption: ResponseExampleOptions.None, // do nothing with response examples
+            responseExample: new ComplicatedClass()); // some class for response examples
+
+        ...
+    });
+}
+```
+
+5. **Order tags by name in OpenApi document**:
+- In the _ConfigureServices_ method of _Startup.cs_, inside your `AddSwaggerGen` call, enable `TagOrderByNameDocumentFilter` document filter:
+
+```csharp
+// This method gets called by the runtime. Use this method to add services to the container.
+public void ConfigureServices(IServiceCollection services)
+{
+    ...
+
+    services.AddSwaggerGen(options =>
+    {
+        ...
+
+        // order tags by name
+        options.DocumentFilter<TagOrderByNameDocumentFilter>();
+
+        ...
+    });
+}
+```
+
 ## Builds status
 
 |Status|Value|
@@ -179,7 +239,7 @@ public class TodoController : ControllerBase
 
 ## Features
 
-#### Fix enums
+### Fix enums
 
 - Add an output enums integer values with there strings like `0 = FirstEnumValue` without a `StringEnumConverter` in swaggerUI and schema (by default enums will output only their integer values)
 - Add description to each enum value that has an `[Description]` attribute in `swaggerUI` and schema - should use *options.DocumentFilter\<DisplayEnumsWithValuesDocumentFilter\>(**true**);* or *options.AddEnumsWithValuesFixFilters(**true**);*
@@ -275,7 +335,7 @@ public class TodoController : ControllerBase
     }
     ```
 
-#### Hide Paths and Defenitions from OpenApi documentation
+### Hide Paths and Defenitions from OpenApi documentation
 
 - Hide all OpenAPIDocument **Paths** and **Defenitions** without accepted roles:
 
@@ -318,6 +378,12 @@ public class SamplePersonController : ControllerBase
     ...
 }
 ```
+
+### Change responses for specific HTTP status codes
+
+For example:
+
+![Change responses](assets/changeResponsesByHttpStatusCode.png)
 
 ## HowTos
 

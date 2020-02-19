@@ -3,14 +3,26 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Text;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
 {
     internal static class EnumTypeExtensions
     {
-        internal static string GetDescriptionFromEnumOption(Type enumOptionType, object enumOption)
+        private static string GetDescriptionFromEnumOption(Type enumOptionType, object enumOption)
         {
             return enumOptionType.GetFieldAttributeDescription(enumOption, 0);
+        }
+
+        private static string GetFieldAttributeDescription(this Type enumType, object enumField, int attributeNumber)
+        {
+            if (!enumType.IsEnum)
+                return string.Empty;
+            var memInfo = enumType.GetMember(enumField.ToString());
+            var attributes = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+            if (attributes.Length > 0)
+                return (attributes[attributeNumber] as DescriptionAttribute)?.Description ?? string.Empty;
+            return string.Empty;
         }
 
         internal static List<OpenApiString> GetEnumValuesDescription(Type enumType)

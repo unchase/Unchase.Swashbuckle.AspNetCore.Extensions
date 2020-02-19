@@ -45,6 +45,16 @@
             Hided action.
             </summary>
         </member>
+        <member name="T:WebApi3._1_Swashbuckle.Controllers.SecondController">
+            <summary>
+            Second controller.
+            </summary>
+        </member>
+        <member name="M:WebApi3._1_Swashbuckle.Controllers.SecondController.TestAction">
+            <summary>
+            Test action.
+            </summary>
+        </member>
         <member name="T:WebApi3._1_Swashbuckle.Controllers.TodoController">
             <summary>
             Todo controller.

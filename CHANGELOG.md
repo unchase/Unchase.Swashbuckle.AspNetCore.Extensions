@@ -8,6 +8,11 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.1.0 `(2020-02-19)`
+
+- [x] Add `ChangeAllResponsesByHttpStatusCode<T>` extension method for `SwaggerGenOptions` allows to change all responses by specific http status codes in OpenApi document
+- [x] Add `TagOrderByNameDocumentFilter` for ordering tags by name in OpenApi document
+
 ## v2.0.0 `(2020-02-08)`
 
 **BREAKING CHANGES (see [README.md](README.md)):**
