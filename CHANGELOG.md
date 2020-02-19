@@ -8,6 +8,10 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.1.1 `(2020-02-19)`
+
+- [x] Fix bug: use `System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping` encoder for responses examples
+
 ## v2.1.0 `(2020-02-19)`
 
 - [x] Add `ChangeAllResponsesByHttpStatusCode<T>` extension method for `SwaggerGenOptions` allows to change all responses by specific http status codes in OpenApi document
