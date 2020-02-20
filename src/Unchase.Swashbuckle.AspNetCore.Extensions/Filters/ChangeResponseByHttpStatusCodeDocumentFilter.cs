@@ -93,12 +93,14 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                                 case ResponseExampleOptions.AddNew:
                                     if (this._responseExample != null)
                                     {
-                                        jsonContent.Example = new OpenApiString(System.Text.Json.JsonSerializer.Serialize(this._responseExample, 
+                                        var jsonExample = new OpenApiString(System.Text.Json.JsonSerializer.Serialize(this._responseExample,
                                             new System.Text.Json.JsonSerializerOptions
                                             {
                                                 WriteIndented = true,
                                                 Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
                                             }));
+
+                                        jsonContent.Example = jsonExample;
                                     }
                                     jsonContent.Schema = schema;
                                     break;
@@ -114,14 +116,15 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                                 case ResponseExampleOptions.AddNew:
                                     if (this._responseExample != null)
                                     {
+                                        var jsonExample = new OpenApiString(System.Text.Json.JsonSerializer.Serialize(this._responseExample,
+                                            new System.Text.Json.JsonSerializerOptions
+                                            {
+                                                WriteIndented = true,
+                                                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                                            }));
                                         response.Value.Content.Add("application/json", new OpenApiMediaType()
                                         {
-                                            Example = new OpenApiString(System.Text.Json.JsonSerializer.Serialize(this._responseExample, 
-                                                new System.Text.Json.JsonSerializerOptions 
-                                                { 
-                                                    WriteIndented = true, 
-                                                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping 
-                                                })),
+                                            Example = jsonExample,
                                             Schema = schema
                                         });
                                     }

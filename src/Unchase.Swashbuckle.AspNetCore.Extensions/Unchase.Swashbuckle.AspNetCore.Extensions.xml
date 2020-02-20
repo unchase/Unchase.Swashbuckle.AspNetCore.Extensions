@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Unchase.Swashbuckle.AspNetCore.Extensions</name>
+    </assembly>
+    <members>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.SwaggerGenOptionsExtensions.ChangeAllResponsesByHttpStatusCode``1(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,System.Int32,System.String,Unchase.Swashbuckle.AspNetCore.Extensions.Filters.ResponseExampleOptions,``0)">
+            <summary>
+            Change all responses by specific http status codes in OpenApi document.
+            </summary>
+            <typeparam name="T">Type of response example.</typeparam>
+            <param name="swaggerGenOptions"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions"/>.</param>
+            <param name="httpStatusCode">HTTP status code.</param>
+            <param name="responseDescription">Response description.</param>
+            <param name="responseExampleOption"><see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.ResponseExampleOptions"/>.</param>
+            <param name="responseExample">New example for response.</param>
+            <returns>
+            Returns <see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions"/>.
+            </returns>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.SwaggerGenOptionsExtensions.ChangeAllResponsesByHttpStatusCode``1(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,System.Net.HttpStatusCode,System.String,Unchase.Swashbuckle.AspNetCore.Extensions.Filters.ResponseExampleOptions,``0)">
+            <summary>
+            Change all responses by specific http status codes in OpenApi document.
+            </summary>
+            <typeparam name="T">Type of response example.</typeparam>
+            <param name="swaggerGenOptions"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions"/>.</param>
+            <param name="httpStatusCode">HTTP status code.</param>
+            <param name="responseDescription">Response description.</param>
+            <param name="responseExampleOption"><see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.ResponseExampleOptions"/>.</param>
+            <param name="responseExample">New example for response.</param>
+            <returns>
+            Returns <see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions"/>.
+            </returns>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.SwaggerGenOptionsExtensions.AddEnumsWithValuesFixFilters(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,System.Boolean)">
+            <summary>
+            Add filters to fix enums in OpenApi document.
+            </summary>
+            <param name="swaggerGenOptions"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions"/>.</param>
+            <param name="includeDescriptionFromAttribute">If true - add extensions (descriptions) from <see cref="T:System.ComponentModel.DescriptionAttribute"/>.</param>
+            <returns>
+            Returns <see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions"/>.
+            </returns>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.ResponseExampleOptions">
+            <summary>
+            Options for response example.
+            </summary>
+        </member>
+        <member name="F:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.ResponseExampleOptions.Clear">
+            <summary>
+            Clear example.
+            </summary>
+        </member>
+        <member name="F:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.ResponseExampleOptions.AddNew">
+            <summary>
+            Add (replace) example.
+            </summary>
+        </member>
+        <member name="F:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.ResponseExampleOptions.None">
+            <summary>
+            Do nothing.
+            </summary>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.ChangeResponseByHttpStatusCodeDocumentFilter`1">
+            <summary>
+            Document filter for changing responses by specific http status codes in OpenApi document.
+            </summary>
+            <typeparam name="T">Type of response example.</typeparam>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.ChangeResponseByHttpStatusCodeDocumentFilter`1.#ctor(System.Int32,System.String,Unchase.Swashbuckle.AspNetCore.Extensions.Filters.ResponseExampleOptions,`0)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="httpStatusCode">HTTP status code.</param>
+            <param name="responseDescription">Response description.</param>
+            <param name="responseExampleOption"><see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.ResponseExampleOptions"/>.</param>
+            <param name="responseExample">New example for response.</param>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.ChangeResponseByHttpStatusCodeDocumentFilter`1.Apply(Microsoft.OpenApi.Models.OpenApiDocument,Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext)">
+            <summary>
+            Apply filter.
+            </summary>
+            <param name="swaggerDoc"><see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.</param>
+            <param name="context"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext"/>.</param>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.HidePathsAndDefinitionsByRolesDocumentFilter">
+            <summary>
+            Filter for removing Paths and Defenitions from OpenApi documentation without accepted roles.
+            </summary>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.HidePathsAndDefinitionsByRolesDocumentFilter.#ctor(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Конструктор класса <see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.HidePathsAndDefinitionsByRolesDocumentFilter"/>.
+            </summary>
+            <param name="acceptedRoles"></param>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.HidePathsAndDefinitionsByRolesDocumentFilter.Apply(Microsoft.OpenApi.Models.OpenApiDocument,Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext)">
+            <summary>
+            Apply filter.
+            </summary>
+            <param name="openApiDoc"><see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.</param>
+            <param name="context"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext"/>.</param>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.TagOrderByNameDocumentFilter">
+            <summary>
+            Document filter for ordering tags by name in OpenApi document.
+            </summary>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.TagOrderByNameDocumentFilter.Apply(Microsoft.OpenApi.Models.OpenApiDocument,Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext)">
+            <summary>
+            Apply filter.
+            </summary>
+            <param name="swaggerDoc"><see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.</param>
+            <param name="context"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext"/>.</param>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XEnumNamesParameterFilter.#ctor(System.Boolean)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="includeXEnumDescriptions">If true - add "x-enumDescriptions" extensions from <see cref="T:System.ComponentModel.DescriptionAttribute"/>.</param>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XEnumNamesSchemaFilter.#ctor(System.Boolean)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="includeXEnumDescriptions">If true - add "x-enumDescriptions" extensions from <see cref="T:System.ComponentModel.DescriptionAttribute"/>.</param>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XEnumNamesSchemaFilter.Apply(Microsoft.OpenApi.Models.OpenApiSchema,Swashbuckle.AspNetCore.SwaggerGen.SchemaFilterContext)">
+            <summary>
+            Apply the filter.
+            </summary>
+            <param name="schema"><see cref="T:Microsoft.OpenApi.Models.OpenApiSchema"/>.</param>
+            <param name="context"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SchemaFilterContext"/>.</param>
+        </member>
+    </members>
+</doc>

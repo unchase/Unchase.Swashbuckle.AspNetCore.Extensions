@@ -8,6 +8,10 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.1.2 `(2020-02-20)`
+
+- [x] Add xml-comments to nuget package
+
 ## v2.1.1 `(2020-02-19)`
 
 - [x] Fix bug: use `System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping` encoder for responses examples
