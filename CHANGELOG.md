@@ -8,7 +8,7 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
-## v2.1.2 `(2020-02-20)`
+## v2.1.3 `(2020-02-20)`
 
 - [x] Add xml-comments to nuget package
 
