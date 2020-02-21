@@ -49,7 +49,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             {
                 var value = ((OpenApiInteger)schema.Enum[i]).Value;
                 var name = ((OpenApiString)((OpenApiArray)schema.Extensions["x-enumNames"])[i]).Value;
-                sb.Append($"<br>{value} = {name}");
+                sb.AppendLine($"{Environment.NewLine}{Environment.NewLine}{value} = {name}");
 
                 // add description from DescriptionAttribute
                 if (includeDescriptionFromAttribute)
