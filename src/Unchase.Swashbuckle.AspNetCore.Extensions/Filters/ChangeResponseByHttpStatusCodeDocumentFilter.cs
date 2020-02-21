@@ -102,7 +102,14 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
                                         jsonContent.Example = jsonExample;
                                     }
-                                    jsonContent.Schema = schema;
+                                    jsonContent.Schema = new OpenApiSchema
+                                    {
+                                        Reference = new OpenApiReference
+                                        {
+                                            Id = typeof(T).Name,
+                                            Type = ReferenceType.Schema
+                                        }
+                                    };
                                     break;
                                 case ResponseExampleOptions.None:
                                 default:
@@ -122,10 +129,17 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                                                 WriteIndented = true,
                                                 Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
                                             }));
-                                        response.Value.Content.Add("application/json", new OpenApiMediaType()
+                                        response.Value.Content.Add("application/json", new OpenApiMediaType
                                         {
                                             Example = jsonExample,
-                                            Schema = schema
+                                            Schema = new OpenApiSchema
+                                            {
+                                                Reference = new OpenApiReference
+                                                {
+                                                    Id = typeof(T).Name,
+                                                    Type = ReferenceType.Schema
+                                                }
+                                            }
                                         });
                                     }
                                     break;

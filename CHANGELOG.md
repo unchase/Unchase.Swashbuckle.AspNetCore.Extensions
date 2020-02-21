@@ -8,6 +8,10 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.1.5 `(2020-02-21)`
+
+- [x] Fix bug: fix openApi response content schema in `ChangeResponseByHttpStatusCodeDocumentFilter`
+
 ## v2.1.4 `(2020-02-20)`
 
 - [x] Add xml-comments to nuget package
