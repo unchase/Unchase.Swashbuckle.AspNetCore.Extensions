@@ -16,7 +16,7 @@ namespace WebApi3._1_Swashbuckle.Controllers
         /// <summary>
         /// Hided action.
         /// </summary>
-        [HttpGet()]
+        [HttpGet("HidedAction")]
         [Authorize(Roles = "NotAcceptedRole")]
         public IActionResult HidedAction()
         {

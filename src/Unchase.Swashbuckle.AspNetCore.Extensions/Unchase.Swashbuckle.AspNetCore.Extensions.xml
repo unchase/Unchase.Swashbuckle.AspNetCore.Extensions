@@ -4,6 +4,27 @@
         <name>Unchase.Swashbuckle.AspNetCore.Extensions</name>
     </assembly>
     <members>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.OpenApiDocumentExtensions">
+            <summary>
+            Extension methods for <see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.
+            </summary>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.OpenApiDocumentExtensions.RemovePathsAndComponentsWithoutAcceptedRolesFor``1(Microsoft.OpenApi.Models.OpenApiDocument,System.Func{``0,System.String},System.Collections.Generic.IReadOnlyList{System.String})">
+            <summary>
+            Remove Paths and Components from OpenApi documentation without accepted roles.
+            </summary>
+            <param name="openApiDoc"><see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.</param>
+            <param name="actionNameSelector">Action name selector.</param>
+            <param name="acceptedRoles">Collection of accepted roles.</param>
+            <returns>
+            Returns <see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.
+            </returns>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.SwaggerGenOptionsExtensions">
+            <summary>
+            Extension methods for <see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions"/>.
+            </summary>
+        </member>
         <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.SwaggerGenOptionsExtensions.ChangeAllResponsesByHttpStatusCode``1(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,System.Int32,System.String,Unchase.Swashbuckle.AspNetCore.Extensions.Filters.ResponseExampleOptions,``0)">
             <summary>
             Change all responses by specific http status codes in OpenApi document.
@@ -40,6 +61,43 @@
             <param name="includeDescriptionFromAttribute">If true - add extensions (descriptions) from <see cref="T:System.ComponentModel.DescriptionAttribute"/>.</param>
             <returns>
             Returns <see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions"/>.
+            </returns>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Factories.ApiDescriptionFactory">
+            <summary>
+            <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/> factory.
+            </summary>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Factories.ApiDescriptionFactory.Create(System.Type,System.String,System.String,System.String,System.String,System.Collections.Generic.IEnumerable{Microsoft.AspNetCore.Mvc.ApiExplorer.ApiParameterDescription},System.Collections.Generic.IEnumerable{Microsoft.AspNetCore.Mvc.ApiExplorer.ApiRequestFormat},System.Collections.Generic.IEnumerable{Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseType})">
+            <summary>
+            Create <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/>.
+            </summary>
+            <param name="controllerType">Type of Controller.</param>
+            <param name="actionName">Controller action name.</param>
+            <param name="groupName">Group name.</param>
+            <param name="httpMethod">Http method.</param>
+            <param name="relativePath">Relative path.</param>
+            <param name="parameterDescriptions">Collection of <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiParameterDescription"/>.</param>
+            <param name="supportedRequestFormats">Collection of <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiRequestFormat"/>.</param>
+            <param name="supportedResponseTypes">Collection of <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseType"/>.</param>
+            <returns>
+            Returns <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/>.
+            </returns>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Factories.ApiDescriptionFactory.Create``1(System.Func{``0,System.String},System.String,System.String,System.String,System.Collections.Generic.IEnumerable{Microsoft.AspNetCore.Mvc.ApiExplorer.ApiParameterDescription},System.Collections.Generic.IEnumerable{Microsoft.AspNetCore.Mvc.ApiExplorer.ApiRequestFormat},System.Collections.Generic.IEnumerable{Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseType})">
+            <summary>
+            Create <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/>.
+            </summary>
+            <typeparam name="TController">Type of Controller.</typeparam>
+            <param name="actionNameSelector">Action name selector.</param>
+            <param name="groupName">Group name.</param>
+            <param name="httpMethod">Http method.</param>
+            <param name="relativePath">Relative path.</param>
+            <param name="parameterDescriptions">Collection of <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiParameterDescription"/>.</param>
+            <param name="supportedRequestFormats">Collection of <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiRequestFormat"/>.</param>
+            <param name="supportedResponseTypes">Collection of <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseType"/>.</param>
+            <returns>
+            Returns <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/>.
             </returns>
         </member>
         <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.ResponseExampleOptions">
@@ -86,7 +144,7 @@
         </member>
         <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.HidePathsAndDefinitionsByRolesDocumentFilter">
             <summary>
-            Filter for removing Paths and Defenitions from OpenApi documentation without accepted roles.
+            Filter for removing Paths and Components from OpenApi documentation without accepted roles.
             </summary>
         </member>
         <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.HidePathsAndDefinitionsByRolesDocumentFilter.#ctor(System.Collections.Generic.IEnumerable{System.String})">
@@ -94,6 +152,15 @@
             Конструктор класса <see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.HidePathsAndDefinitionsByRolesDocumentFilter"/>.
             </summary>
             <param name="acceptedRoles"></param>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.HidePathsAndDefinitionsByRolesDocumentFilter.RemovePathsAndComponents(Microsoft.OpenApi.Models.OpenApiDocument,System.Collections.Generic.IDictionary{System.Reflection.MethodInfo,System.String},System.Collections.Generic.IDictionary{System.String,Microsoft.OpenApi.Models.OpenApiSchema},System.Collections.Generic.IReadOnlyList{System.String})">
+            <summary>
+            Remove Paths and Components from OpenApi documentation without accepted roles.
+            </summary>
+            <param name="openApiDoc"><see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.</param>
+            <param name="paths">Dictionary of openApi paths with <see cref="T:System.Reflection.MethodInfo"/> keys.</param>
+            <param name="schemas">Dictionary with openApi schemas with schame name keys.</param>
+            <param name="acceptedRoles">Collection of accepted roles.</param>
         </member>
         <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.HidePathsAndDefinitionsByRolesDocumentFilter.Apply(Microsoft.OpenApi.Models.OpenApiDocument,Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext)">
             <summary>

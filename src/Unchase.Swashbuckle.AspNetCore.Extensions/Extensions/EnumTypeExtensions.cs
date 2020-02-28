@@ -57,8 +57,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                     if (!schema.Extensions.ContainsKey("x-enumDescriptions"))
                         continue;
 
-                    var xenumDescriptions = (OpenApiArray)schema.Extensions["x-enumDescriptions"];
-                    if (xenumDescriptions?.Count == schema.Enum.Count)
+                    var xEnumDescriptions = (OpenApiArray)schema.Extensions["x-enumDescriptions"];
+                    if (xEnumDescriptions?.Count == schema.Enum.Count)
                     {
                         var description = ((OpenApiString)((OpenApiArray)schema.Extensions["x-enumDescriptions"])[i]).Value;
                         sb.Append($" ({description})");

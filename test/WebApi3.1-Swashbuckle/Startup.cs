@@ -11,6 +11,7 @@ using System.Net;
 using TodoApi.Models;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Filters;
+using WebApi3._1_Swashbuckle.Controllers;
 using WebApi3._1_Swashbuckle.Models;
 
 namespace WebApi3._1_Swashbuckle
@@ -47,7 +48,7 @@ namespace WebApi3._1_Swashbuckle
 
                 #region HidePathsAndDefinitionsByRolesDocumentFilter
 
-                // remove Paths and Defenitions from OpenApi documentation without accepted roles
+                // remove Paths and Components from OpenApi documentation without accepted roles
                 options.DocumentFilter<HidePathsAndDefinitionsByRolesDocumentFilter>(new List<string> { "AcceptedRole" });
 
                 #endregion
@@ -105,8 +106,15 @@ namespace WebApi3._1_Swashbuckle
                 app.UseDeveloperExceptionPage();
             }
 
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
-            app.UseSwagger();
+            // enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger(c =>
+            {
+                c.PreSerializeFilters.Add((openApiDoc, httpRequest) =>
+                {
+                    // remove Paths and Components from OpenApi documentation for specific controller action without accepted roles
+                    openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesFor<HidedController>(controller => nameof(controller.HidedAction), new List<string> {"AcceptedRole"});
+                });
+            });
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
             // specifying the Swagger JSON endpoint.

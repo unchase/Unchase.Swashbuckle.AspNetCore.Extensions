@@ -108,7 +108,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-2. **Hide Paths and Defenitions from OpenApi documentation** without accepted roles in OpenApi document: 
+2. **Hide Paths and Definitions from OpenApi documentation** without accepted roles: 
 - In the _ConfigureServices_ method of _Startup.cs_, inside your `AddSwaggerGen` call, enable `HidePathsAndDefinitionsByRolesDocumentFilter` document filter:
 
 ```csharp
@@ -124,6 +124,28 @@ public void ConfigureServices(IServiceCollection services)
         // remove Paths and Defenitions from OpenApi documentation without accepted roles
         options.DocumentFilter<HidePathsAndDefinitionsByRolesDocumentFilter>(new List<string> { "AcceptedRole" });
     });
+}
+```
+
+- Since [v2.2.0](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/releases/tag/v2.2.0) you can hide Paths and Definitions from OpenApi documentation for specific controller action without accepted roles like this:
+
+```csharp
+// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    //...    
+
+    // enable middleware to serve generated Swagger as a JSON endpoint.
+    app.UseSwagger(c =>
+    {
+        c.PreSerializeFilters.Add((openApiDoc, httpRequest) =>
+        {
+            // remove Paths and Components from OpenApi documentation for specific controller action without accepted roles
+            openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesFor<SomeController>(controller => nameof(controller.SomeAction), new List<string> {"AcceptedRole"});
+        });
+    });
+
+    //...
 }
 ```
 

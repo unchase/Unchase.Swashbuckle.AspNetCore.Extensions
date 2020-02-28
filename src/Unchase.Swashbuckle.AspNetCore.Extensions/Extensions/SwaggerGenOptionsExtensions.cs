@@ -6,6 +6,9 @@ using Unchase.Swashbuckle.AspNetCore.Extensions.Filters;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
 {
+    /// <summary>
+    /// Extension methods for <see cref="SwaggerGenOptions"/>.
+    /// </summary>
     public static class SwaggerGenOptionsExtensions
     {
         #region Extensions

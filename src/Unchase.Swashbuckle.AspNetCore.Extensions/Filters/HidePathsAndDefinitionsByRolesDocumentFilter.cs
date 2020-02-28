@@ -4,11 +4,12 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc.Controllers;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 {
     /// <summary>
-    /// Filter for removing Paths and Defenitions from OpenApi documentation without accepted roles.
+    /// Filter for removing Paths and Components from OpenApi documentation without accepted roles.
     /// </summary>
     public class HidePathsAndDefinitionsByRolesDocumentFilter : IDocumentFilter
     {
@@ -33,7 +34,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
         #region Methods
 
-        private List<string> GetRequiredDefinitions(DocumentFilterContext context, OpenApiReference reference)
+        #region GetRequiredDefinitions
+
+        private static List<string> GetRequiredDefinitions(IDictionary<string, OpenApiSchema> schemas, OpenApiReference reference)
         {
             var result = new List<string>();
 
@@ -44,7 +47,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                     result.Add(reference.Id);
                 }
 
-                var responseSchema = context.SchemaRepository.Schemas[reference?.Id];
+                var responseSchema = schemas[reference?.Id];
                 if (responseSchema != null)
                 {
                     if (responseSchema.Properties?.Count > 0)
@@ -54,16 +57,16 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                             if (schemaProperty.Value?.Reference?.Id != null)
                             {
                                 result.Add(schemaProperty.Value?.Reference?.Id);
-                                var responseSchemaPropertySchema = context.SchemaRepository.Schemas[schemaProperty.Value?.Reference?.Id];
+                                var responseSchemaPropertySchema = schemas[schemaProperty.Value?.Reference?.Id];
                                 if (responseSchemaPropertySchema?.Reference != null)
                                 {
-                                    result.AddRange(GetRequiredDefinitions(context, responseSchemaPropertySchema.Reference));
+                                    result.AddRange(GetRequiredDefinitions(schemas, responseSchemaPropertySchema.Reference));
                                     if (responseSchemaPropertySchema.Items?.Reference?.Id != null)
                                     {
-                                        var itemsSchema = context.SchemaRepository.Schemas[responseSchemaPropertySchema.Items?.Reference?.Id];
+                                        var itemsSchema = schemas[responseSchemaPropertySchema.Items?.Reference?.Id];
                                         if (itemsSchema?.Reference?.Id != null)
                                         {
-                                            result.AddRange(GetRequiredDefinitions(context, itemsSchema.Reference));
+                                            result.AddRange(GetRequiredDefinitions(schemas, itemsSchema.Reference));
                                         }
                                     }
                                 }
@@ -72,10 +75,10 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                             if (schemaProperty.Value?.Items?.Reference?.Id != null)
                             {
                                 result.Add(schemaProperty.Value?.Items?.Reference?.Id);
-                                var itemsSchema = context.SchemaRepository.Schemas[schemaProperty.Value?.Items?.Reference?.Id];
+                                var itemsSchema = schemas[schemaProperty.Value?.Items?.Reference?.Id];
                                 if (itemsSchema?.Reference?.Id != null)
                                 {
-                                    result.AddRange(GetRequiredDefinitions(context, itemsSchema.Reference));
+                                    result.AddRange(GetRequiredDefinitions(schemas, itemsSchema.Reference));
                                 }
 
                                 if (itemsSchema?.Properties?.Count > 0)
@@ -93,7 +96,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                                             {
                                                 if (itemsSchemaPropertyAllOf?.Reference?.Id != null)
                                                 {
-                                                    result.AddRange(GetRequiredDefinitions(context, itemsSchemaPropertyAllOf?.Reference));
+                                                    result.AddRange(GetRequiredDefinitions(schemas, itemsSchemaPropertyAllOf?.Reference));
                                                 }
                                             }
                                         }
@@ -107,7 +110,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                                 {
                                     if (schemaPropertyAllOf?.Reference?.Id != null)
                                     {
-                                        result.AddRange(GetRequiredDefinitions(context, schemaPropertyAllOf.Reference));
+                                        result.AddRange(GetRequiredDefinitions(schemas, schemaPropertyAllOf.Reference));
                                     }
                                 }
                             }
@@ -117,10 +120,10 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                     if (responseSchema?.Items?.Reference?.Id != null)
                     {
                         result.Add(responseSchema?.Items?.Reference?.Id);
-                        var itemsSchema = context.SchemaRepository.Schemas[responseSchema?.Items?.Reference?.Id];
+                        var itemsSchema = schemas[responseSchema?.Items?.Reference?.Id];
                         if (itemsSchema?.Reference?.Id != null)
                         {
-                            result.AddRange(GetRequiredDefinitions(context, itemsSchema?.Reference));
+                            result.AddRange(GetRequiredDefinitions(schemas, itemsSchema?.Reference));
                         }
                     }
                 }
@@ -131,36 +134,34 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             return result;
         }
 
+        #endregion
+
+        #region RemovePathsAndComponents
+
         /// <summary>
-        /// Apply filter.
+        /// Remove Paths and Components from OpenApi documentation without accepted roles.
         /// </summary>
         /// <param name="openApiDoc"><see cref="OpenApiDocument"/>.</param>
-        /// <param name="context"><see cref="DocumentFilterContext"/>.</param>
-        public void Apply(OpenApiDocument openApiDoc, DocumentFilterContext context)
+        /// <param name="paths">Dictionary of openApi paths with <see cref="MethodInfo"/> keys.</param>
+        /// <param name="schemas">Dictionary with openApi schemas with schame name keys.</param>
+        /// <param name="acceptedRoles">Collection of accepted roles.</param>
+        internal static void RemovePathsAndComponents(OpenApiDocument openApiDoc, IDictionary<MethodInfo, string> paths, IDictionary<string, OpenApiSchema> schemas, IReadOnlyList<string> acceptedRoles)
         {
-            if (!this._acceptedRoles.Any())
-                return;
-
             var keysForRemove = new List<string>();
-            var refsForProbablyRemove = new List<string>();
             var requiredRefs = new List<string>();
 
             #region Remove Paths
 
-            foreach (var apiDescriptionActioDescription in context.ApiDescriptions.Select(ad => ad.ActionDescriptor))
+            foreach (var path in paths)
             {
-                var methodInfo = ((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)apiDescriptionActioDescription).MethodInfo;
-                var authorizeAttributes = methodInfo.GetCustomAttributes<AuthorizeAttribute>(false);
-                if (authorizeAttributes != null)
+                var authorizeAttributes = path.Key.GetCustomAttributes<AuthorizeAttribute>(false);
+                foreach (var authorizeAttribute in authorizeAttributes)
                 {
-                    foreach (var authorizeAttribute in authorizeAttributes)
+                    var authorizeAttributeRoles = authorizeAttribute?.Roles?.Split(',').Select(r => r.Trim()).ToList();
+                    var intersect = authorizeAttributeRoles?.Intersect(acceptedRoles);
+                    if (intersect == null || !intersect.Any())
                     {
-                        var authorizeAttributeRoles = authorizeAttribute?.Roles?.Split(',').Select(r => r.Trim()).ToList();
-                        var intersect = authorizeAttributeRoles?.Intersect(this._acceptedRoles);
-                        if (intersect == null || !intersect.Any())
-                        {
-                            keysForRemove.Add($"/{apiDescriptionActioDescription.AttributeRouteInfo.Template}");
-                        }
+                        keysForRemove.Add($"/{path.Value}");
                     }
                 }
             }
@@ -172,16 +173,16 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
             #endregion
 
-            #region Remove components
+            #region Remove Components
 
-            foreach (var operation in openApiDoc.Paths?.Where(p => p.Value?.Operations != null).SelectMany(p => p.Value?.Operations))
+            foreach (var operation in openApiDoc?.Paths?.Where(p => p.Value?.Operations != null)?.SelectMany(p => p.Value?.Operations))
             {
                 if (operation.Value?.Responses != null)
                     foreach (var response in operation.Value?.Responses)
                     {
                         if (response.Value?.Reference?.Id != null && !requiredRefs.Contains(response.Value?.Reference?.Id))
                         {
-                            requiredRefs.AddRange(GetRequiredDefinitions(context, response.Value?.Reference));
+                            requiredRefs.AddRange(GetRequiredDefinitions(schemas, response.Value?.Reference));
                             requiredRefs = requiredRefs.Distinct().ToList();
                         }
 
@@ -189,7 +190,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                         {
                             if (responseContentSchema?.Reference?.Id != null && !requiredRefs.Contains(responseContentSchema?.Reference?.Id))
                             {
-                                requiredRefs.AddRange(GetRequiredDefinitions(context, responseContentSchema?.Reference));
+                                requiredRefs.AddRange(GetRequiredDefinitions(schemas, responseContentSchema?.Reference));
                                 requiredRefs = requiredRefs.Distinct().ToList();
                             }
                         }
@@ -199,7 +200,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                 {
                     if (parameter?.Schema?.Reference?.Id != null && !requiredRefs.Contains(parameter.Schema.Reference.Id))
                     {
-                        requiredRefs.AddRange(GetRequiredDefinitions(context, parameter.Schema.Reference));
+                        requiredRefs.AddRange(GetRequiredDefinitions(schemas, parameter.Schema.Reference));
                         requiredRefs = requiredRefs.Distinct().ToList();
                     }
 
@@ -207,7 +208,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                     {
                         if (parameterContentSchema?.Reference?.Id != null && !requiredRefs.Contains(parameterContentSchema?.Reference?.Id))
                         {
-                            requiredRefs.AddRange(GetRequiredDefinitions(context, parameterContentSchema?.Reference));
+                            requiredRefs.AddRange(GetRequiredDefinitions(schemas, parameterContentSchema?.Reference));
                             requiredRefs = requiredRefs.Distinct().ToList();
                         }
                     }
@@ -249,14 +250,42 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             {
                 if (tagsDict[tag] == 0)
                 {
-                    var seaggerTag = openApiDoc.Tags.FirstOrDefault(t => t.Name == tag);
-                    if (seaggerTag != null)
-                        openApiDoc.Tags.Remove(seaggerTag);
+                    var swaggerTag = openApiDoc.Tags.FirstOrDefault(t => t.Name == tag);
+                    if (swaggerTag != null)
+                        openApiDoc.Tags.Remove(swaggerTag);
                 }
             }
 
             #endregion
         }
+
+        #endregion
+
+        #region Apply
+
+        /// <summary>
+        /// Apply filter.
+        /// </summary>
+        /// <param name="openApiDoc"><see cref="OpenApiDocument"/>.</param>
+        /// <param name="context"><see cref="DocumentFilterContext"/>.</param>
+        public void Apply(OpenApiDocument openApiDoc, DocumentFilterContext context)
+        {
+            if (!this._acceptedRoles.Any())
+                return;
+
+            var apiDescriptions = context.ApiDescriptions;
+            var schemas = context.SchemaRepository.Schemas;
+
+            var paths = new Dictionary<MethodInfo, string>();
+            foreach (var actionDescriptor in apiDescriptions.Select(ad => ad.ActionDescriptor))
+            {
+                paths.Add(((ControllerActionDescriptor)actionDescriptor).MethodInfo, actionDescriptor.AttributeRouteInfo.Template);
+            }
+
+            RemovePathsAndComponents(openApiDoc, paths, schemas, this._acceptedRoles.ToList());
+        }
+
+        #endregion
 
         #endregion
     }

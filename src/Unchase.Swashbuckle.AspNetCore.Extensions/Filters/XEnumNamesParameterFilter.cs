@@ -12,7 +12,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
     {
         #region Fields
 
-        private bool _includeXEnumDescriptions;
+        private readonly bool _includeXEnumDescriptions;
 
         #endregion
 

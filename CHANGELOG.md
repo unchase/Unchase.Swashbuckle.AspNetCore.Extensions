@@ -8,6 +8,10 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.2.0 `(2020-02-28)`
+
+- [x] Add feature: remove Paths and Definitions from OpenApi documentation for specific controller action without accepted roles
+
 ## v2.1.6 `(2020-02-21)`
 
 - [x] Fix bug: replace `<br>` tag to `{Envirinment.NewLine}{Envirinment.NewLine}` for enum descriptions

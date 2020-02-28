@@ -34,13 +34,13 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
     {
         #region Fileds
 
-        private int _httpStatusCode;
+        private readonly int _httpStatusCode;
 
-        private string _responseDescription;
+        private readonly string _responseDescription;
 
-        private ResponseExampleOptions _responseExampleOption;
+        private readonly ResponseExampleOptions _responseExampleOption;
 
-        private T _responseExample;
+        private readonly T _responseExample;
 
         #endregion
 
