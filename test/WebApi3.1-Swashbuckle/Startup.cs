@@ -116,6 +116,9 @@ namespace WebApi3._1_Swashbuckle
 
                     // remove Paths and Components from OpenApi documentation for all controller actions without accepted roles
                     openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesForController<TodoController>(new List<string> {"AcceptedRole"});
+
+                    // or you can get accepted roles by httpRequest like this:
+                    //openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesForController<TodoController>(GetAcceptedRolesByRemoteIp(httpRequest.HttpContext.Connection.RemoteIpAddress));
                 });
             });
 
