@@ -8,6 +8,10 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.2.1 `(2020-02-29)`
+
+- [x] Add feature: remove Paths and Definitions from OpenApi documentation for all controller actions without accepted roles
+
 ## v2.2.0 `(2020-02-28)`
 
 - [x] Add feature: remove Paths and Definitions from OpenApi documentation for specific controller action without accepted roles

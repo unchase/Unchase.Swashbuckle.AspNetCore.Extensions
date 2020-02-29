@@ -127,7 +127,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-- Since [v2.2.0](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/releases/tag/v2.2.0) you can hide Paths and Definitions from OpenApi documentation for specific controller action without accepted roles like this:
+- Since [v2.2.1](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/releases/tag/v2.2.1) you can hide Paths and Definitions from OpenApi documentation for specific controller action (or all actions) without accepted roles like this:
 
 ```csharp
 // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -142,6 +142,9 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             // remove Paths and Components from OpenApi documentation for specific controller action without accepted roles
             openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesFor<SomeController>(controller => nameof(controller.SomeAction), new List<string> {"AcceptedRole"});
+
+            // remove Paths and Components from OpenApi documentation for all controller actions without accepted roles
+            openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesForController<AnotherController>(new List<string> {"AcceptedRole"});
         });
     });
 

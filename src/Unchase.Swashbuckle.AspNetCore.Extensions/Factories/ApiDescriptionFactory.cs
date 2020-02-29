@@ -39,7 +39,16 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Factories
             IEnumerable<ApiRequestFormat> supportedRequestFormats = null,
             IEnumerable<ApiResponseType> supportedResponseTypes = null)
         {
-            var methodInfo = controllerType.GetMethod(actionName);
+            MethodInfo methodInfo;
+
+            try
+            {
+                methodInfo = controllerType.GetMethod(actionName);
+            }
+            catch (AmbiguousMatchException)
+            {
+                return null;
+            }
 
             if (methodInfo == null)
                 return null;
@@ -48,7 +57,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Factories
 
             var routAttr = controllerType.GetCustomAttributes().OfType<RouteAttribute>().LastOrDefault();
 
-            if (string.IsNullOrWhiteSpace(actionDescriptor.AttributeRouteInfo.Template))
+            if (string.IsNullOrWhiteSpace(actionDescriptor?.AttributeRouteInfo?.Template))
                 return null;
                 //throw new InvalidOperationException($"HttpMethod attribute of \"{methodInfo.Name}\" action in \"{controllerType.Name}\" controller must have a template specified.");
 

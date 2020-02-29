@@ -11,10 +11,20 @@
         </member>
         <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.OpenApiDocumentExtensions.RemovePathsAndComponentsWithoutAcceptedRolesFor``1(Microsoft.OpenApi.Models.OpenApiDocument,System.Func{``0,System.String},System.Collections.Generic.IReadOnlyList{System.String})">
             <summary>
-            Remove Paths and Components from OpenApi documentation without accepted roles.
+            Remove Paths and Components from OpenApi documentation for specific controller action without accepted roles.
             </summary>
             <param name="openApiDoc"><see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.</param>
             <param name="actionNameSelector">Action name selector.</param>
+            <param name="acceptedRoles">Collection of accepted roles.</param>
+            <returns>
+            Returns <see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.
+            </returns>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.OpenApiDocumentExtensions.RemovePathsAndComponentsWithoutAcceptedRolesForController``1(Microsoft.OpenApi.Models.OpenApiDocument,System.Collections.Generic.IReadOnlyList{System.String})">
+            <summary>
+            Remove Paths and Components from OpenApi documentation for specific controller without accepted roles.
+            </summary>
+            <param name="openApiDoc"><see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.</param>
             <param name="acceptedRoles">Collection of accepted roles.</param>
             <returns>
             Returns <see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.
@@ -159,7 +169,7 @@
             </summary>
             <param name="openApiDoc"><see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.</param>
             <param name="paths">Dictionary of openApi paths with <see cref="T:System.Reflection.MethodInfo"/> keys.</param>
-            <param name="schemas">Dictionary with openApi schemas with schame name keys.</param>
+            <param name="schemas">Dictionary with openApi schemas with scheme name keys.</param>
             <param name="acceptedRoles">Collection of accepted roles.</param>
         </member>
         <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.HidePathsAndDefinitionsByRolesDocumentFilter.Apply(Microsoft.OpenApi.Models.OpenApiDocument,Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext)">

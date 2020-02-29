@@ -143,7 +143,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// </summary>
         /// <param name="openApiDoc"><see cref="OpenApiDocument"/>.</param>
         /// <param name="paths">Dictionary of openApi paths with <see cref="MethodInfo"/> keys.</param>
-        /// <param name="schemas">Dictionary with openApi schemas with schame name keys.</param>
+        /// <param name="schemas">Dictionary with openApi schemas with scheme name keys.</param>
         /// <param name="acceptedRoles">Collection of accepted roles.</param>
         internal static void RemovePathsAndComponents(OpenApiDocument openApiDoc, IDictionary<MethodInfo, string> paths, IDictionary<string, OpenApiSchema> schemas, IReadOnlyList<string> acceptedRoles)
         {
