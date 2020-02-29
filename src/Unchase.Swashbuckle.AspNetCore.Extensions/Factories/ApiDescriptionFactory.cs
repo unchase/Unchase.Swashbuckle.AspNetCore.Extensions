@@ -19,7 +19,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Factories
         /// Create <see cref="ApiDescription"/>.
         /// </summary>
         /// <param name="controllerType">Type of Controller.</param>
-        /// <param name="actionName">Controller action name.</param>
+        /// <param name="methodInfo">Controller action <see cref="MethodInfo"/>.</param>
         /// <param name="groupName">Group name.</param>
         /// <param name="httpMethod">Http method.</param>
         /// <param name="relativePath">Relative path.</param>
@@ -31,7 +31,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Factories
         /// </returns>
         internal static ApiDescription Create(
             Type controllerType,
-            string actionName,
+            MethodInfo methodInfo,
             string groupName = null,
             string httpMethod = null,
             string relativePath = null,
@@ -39,17 +39,6 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Factories
             IEnumerable<ApiRequestFormat> supportedRequestFormats = null,
             IEnumerable<ApiResponseType> supportedResponseTypes = null)
         {
-            MethodInfo methodInfo;
-
-            try
-            {
-                methodInfo = controllerType.GetMethod(actionName);
-            }
-            catch (AmbiguousMatchException)
-            {
-                return null;
-            }
-
             if (methodInfo == null)
                 return null;
 
@@ -59,7 +48,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Factories
 
             if (string.IsNullOrWhiteSpace(actionDescriptor?.AttributeRouteInfo?.Template))
                 return null;
-                //throw new InvalidOperationException($"HttpMethod attribute of \"{methodInfo.Name}\" action in \"{controllerType.Name}\" controller must have a template specified.");
+            //throw new InvalidOperationException($"HttpMethod attribute of \"{methodInfo.Name}\" action in \"{controllerType.Name}\" controller must have a template specified.");
 
             if (routAttr != null && !string.IsNullOrWhiteSpace(routAttr.Template))
             {
@@ -130,6 +119,45 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Factories
         /// <summary>
         /// Create <see cref="ApiDescription"/>.
         /// </summary>
+        /// <param name="controllerType">Type of Controller.</param>
+        /// <param name="actionName">Controller action name.</param>
+        /// <param name="groupName">Group name.</param>
+        /// <param name="httpMethod">Http method.</param>
+        /// <param name="relativePath">Relative path.</param>
+        /// <param name="parameterDescriptions">Collection of <see cref="ApiParameterDescription"/>.</param>
+        /// <param name="supportedRequestFormats">Collection of <see cref="ApiRequestFormat"/>.</param>
+        /// <param name="supportedResponseTypes">Collection of <see cref="ApiResponseType"/>.</param>
+        /// <returns>
+        /// Returns <see cref="ApiDescription"/>.
+        /// </returns>
+        internal static ApiDescription Create(
+            Type controllerType,
+            string actionName,
+            string groupName = null,
+            string httpMethod = null,
+            string relativePath = null,
+            IEnumerable<ApiParameterDescription> parameterDescriptions = null,
+            IEnumerable<ApiRequestFormat> supportedRequestFormats = null,
+            IEnumerable<ApiResponseType> supportedResponseTypes = null)
+        {
+            MethodInfo methodInfo;
+
+            try
+            {
+                methodInfo = controllerType.GetMethod(actionName);
+            }
+            catch (AmbiguousMatchException)
+            {
+                return null;
+            }
+
+            return Create(controllerType, methodInfo, groupName, httpMethod, relativePath, parameterDescriptions,
+                supportedRequestFormats, supportedResponseTypes);
+        }
+
+        /// <summary>
+        /// Create <see cref="ApiDescription"/>.
+        /// </summary>
         /// <typeparam name="TController">Type of Controller.</typeparam>
         /// <param name="actionNameSelector">Action name selector.</param>
         /// <param name="groupName">Group name.</param>
@@ -154,6 +182,42 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Factories
             return Create(
                 typeof(TController),
                 actionNameSelector(new TController()),
+                groupName,
+                httpMethod,
+                relativePath,
+                parameterDescriptions,
+                supportedRequestFormats,
+                supportedResponseTypes
+            );
+        }
+
+        /// <summary>
+        /// Create <see cref="ApiDescription"/>.
+        /// </summary>
+        /// <typeparam name="TController">Type of Controller.</typeparam>
+        /// <param name="methodInfo">Action <see cref="MethodInfo"/>.</param>
+        /// <param name="groupName">Group name.</param>
+        /// <param name="httpMethod">Http method.</param>
+        /// <param name="relativePath">Relative path.</param>
+        /// <param name="parameterDescriptions">Collection of <see cref="ApiParameterDescription"/>.</param>
+        /// <param name="supportedRequestFormats">Collection of <see cref="ApiRequestFormat"/>.</param>
+        /// <param name="supportedResponseTypes">Collection of <see cref="ApiResponseType"/>.</param>
+        /// <returns>
+        /// Returns <see cref="ApiDescription"/>.
+        /// </returns>
+        internal static ApiDescription Create<TController>(
+            MethodInfo methodInfo,
+            string groupName = null,
+            string httpMethod = null,
+            string relativePath = null,
+            IEnumerable<ApiParameterDescription> parameterDescriptions = null,
+            IEnumerable<ApiRequestFormat> supportedRequestFormats = null,
+            IEnumerable<ApiResponseType> supportedResponseTypes = null)
+            where TController : new()
+        {
+            return Create(
+                typeof(TController),
+                methodInfo,
                 groupName,
                 httpMethod,
                 relativePath,

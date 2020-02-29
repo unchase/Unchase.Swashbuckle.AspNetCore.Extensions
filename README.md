@@ -152,6 +152,8 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 }
 ```
 
+Validated actions must be annotated with the one of `HttpMethodAttribute` (`HttpGetAttribute`, `HttpPostAttribute`, `HttpDeleteAttribute`, `HttpPutAttribute`, `HttpPatchAttribute`) attributes.
+
 3. **Append action count into the SwaggetTag's descriptions in OpenApi document**:
 - In the _ConfigureServices_ method of _Startup.cs_, inside your `AddSwaggerGen` call, enable `AppendActionCountToTagSummaryDocumentFilter` document filter:
 

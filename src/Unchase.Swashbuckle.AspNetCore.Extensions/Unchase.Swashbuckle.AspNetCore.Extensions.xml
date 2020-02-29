@@ -78,6 +78,22 @@
             <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/> factory.
             </summary>
         </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Factories.ApiDescriptionFactory.Create(System.Type,System.Reflection.MethodInfo,System.String,System.String,System.String,System.Collections.Generic.IEnumerable{Microsoft.AspNetCore.Mvc.ApiExplorer.ApiParameterDescription},System.Collections.Generic.IEnumerable{Microsoft.AspNetCore.Mvc.ApiExplorer.ApiRequestFormat},System.Collections.Generic.IEnumerable{Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseType})">
+            <summary>
+            Create <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/>.
+            </summary>
+            <param name="controllerType">Type of Controller.</param>
+            <param name="methodInfo">Controller action <see cref="T:System.Reflection.MethodInfo"/>.</param>
+            <param name="groupName">Group name.</param>
+            <param name="httpMethod">Http method.</param>
+            <param name="relativePath">Relative path.</param>
+            <param name="parameterDescriptions">Collection of <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiParameterDescription"/>.</param>
+            <param name="supportedRequestFormats">Collection of <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiRequestFormat"/>.</param>
+            <param name="supportedResponseTypes">Collection of <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseType"/>.</param>
+            <returns>
+            Returns <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/>.
+            </returns>
+        </member>
         <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Factories.ApiDescriptionFactory.Create(System.Type,System.String,System.String,System.String,System.String,System.Collections.Generic.IEnumerable{Microsoft.AspNetCore.Mvc.ApiExplorer.ApiParameterDescription},System.Collections.Generic.IEnumerable{Microsoft.AspNetCore.Mvc.ApiExplorer.ApiRequestFormat},System.Collections.Generic.IEnumerable{Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseType})">
             <summary>
             Create <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/>.
@@ -100,6 +116,22 @@
             </summary>
             <typeparam name="TController">Type of Controller.</typeparam>
             <param name="actionNameSelector">Action name selector.</param>
+            <param name="groupName">Group name.</param>
+            <param name="httpMethod">Http method.</param>
+            <param name="relativePath">Relative path.</param>
+            <param name="parameterDescriptions">Collection of <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiParameterDescription"/>.</param>
+            <param name="supportedRequestFormats">Collection of <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiRequestFormat"/>.</param>
+            <param name="supportedResponseTypes">Collection of <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseType"/>.</param>
+            <returns>
+            Returns <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/>.
+            </returns>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Factories.ApiDescriptionFactory.Create``1(System.Reflection.MethodInfo,System.String,System.String,System.String,System.Collections.Generic.IEnumerable{Microsoft.AspNetCore.Mvc.ApiExplorer.ApiParameterDescription},System.Collections.Generic.IEnumerable{Microsoft.AspNetCore.Mvc.ApiExplorer.ApiRequestFormat},System.Collections.Generic.IEnumerable{Microsoft.AspNetCore.Mvc.ApiExplorer.ApiResponseType})">
+            <summary>
+            Create <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/>.
+            </summary>
+            <typeparam name="TController">Type of Controller.</typeparam>
+            <param name="methodInfo">Action <see cref="T:System.Reflection.MethodInfo"/>.</param>
             <param name="groupName">Group name.</param>
             <param name="httpMethod">Http method.</param>
             <param name="relativePath">Relative path.</param>

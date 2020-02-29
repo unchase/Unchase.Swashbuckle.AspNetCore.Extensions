@@ -54,7 +54,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             var paths = new Dictionary<MethodInfo, string>();
             foreach (var methodInfo in typeof(TController).GetMethods().Where(m => !m.IsSpecialName))
             {
-                var actionDescriptor = ApiDescriptionFactory.Create<TController>(c => methodInfo.Name, typeof(TController).GetCustomAttribute<RouteAttribute>().Template)?.ActionDescriptor;
+                var actionDescriptor = ApiDescriptionFactory.Create<TController>(methodInfo, typeof(TController).GetCustomAttribute<RouteAttribute>().Template)?.ActionDescriptor;
                 if (actionDescriptor != null)
                 {
                     paths.Add(((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)actionDescriptor).MethodInfo, actionDescriptor.AttributeRouteInfo.Template);
