@@ -213,7 +213,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Factories
             IEnumerable<ApiParameterDescription> parameterDescriptions = null,
             IEnumerable<ApiRequestFormat> supportedRequestFormats = null,
             IEnumerable<ApiResponseType> supportedResponseTypes = null)
-            where TController : new()
+            where TController : class
         {
             return Create(
                 typeof(TController),

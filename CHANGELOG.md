@@ -8,6 +8,10 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.2.3 `(2020-03-02)`
+
+- [x] Allow to use `RemovePathsAndComponentsWithoutAcceptedRolesForController` extension method without `new()` constraint
+
 ## v2.2.2 `(2020-02-29)`
 
 - [x] Fix bug with `AmbiguousMatchException`

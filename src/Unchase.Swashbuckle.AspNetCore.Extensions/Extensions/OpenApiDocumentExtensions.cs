@@ -49,7 +49,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
         /// Returns <see cref="OpenApiDocument"/>.
         /// </returns>
         public static OpenApiDocument RemovePathsAndComponentsWithoutAcceptedRolesForController<TController>(this OpenApiDocument openApiDoc,
-            IReadOnlyList<string> acceptedRoles) where TController : class, new()
+            IReadOnlyList<string> acceptedRoles) where TController : class
         {
             var paths = new Dictionary<MethodInfo, string>();
             foreach (var methodInfo in typeof(TController).GetMethods().Where(m => !m.IsSpecialName))
