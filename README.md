@@ -143,6 +143,9 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
             // remove Paths and Components from OpenApi documentation for specific controller action without accepted roles
             openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesFor<SomeController>(controller => nameof(controller.SomeAction), new List<string> {"AcceptedRole"});
 
+            // or
+            //openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesFor<SomeController>(nameof(SomeController.SomeAction), new List<string> { "AcceptedRole" });
+
 
             // remove Paths and Components from OpenApi documentation for all controller actions without accepted roles
             openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesForController<AnotherController>(new List<string> {"AcceptedRole"});

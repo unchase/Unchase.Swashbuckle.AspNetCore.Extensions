@@ -114,6 +114,10 @@ namespace WebApi3._1_Swashbuckle
                     // remove Paths and Components from OpenApi documentation for specific controller action without accepted roles
                     openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesFor<HidedController>(controller => nameof(controller.HidedAction), new List<string> {"AcceptedRole"});
 
+                    // or
+                    //openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesFor<HidedController>(nameof(HidedController.HidedAction), new List<string> { "AcceptedRole" });
+
+
                     // remove Paths and Components from OpenApi documentation for all controller actions without accepted roles
                     openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesForController<TodoController>(new List<string> {"AcceptedRole"});
 
