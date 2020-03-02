@@ -29,9 +29,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             var actionDescriptor = ApiDescriptionFactory.Create(actionNameSelector, typeof(TController).GetCustomAttribute<RouteAttribute>().Template)?.ActionDescriptor;
             if (actionDescriptor != null)
             {
-                var paths = new Dictionary<MethodInfo, string>
+                var paths = new Dictionary<(MethodInfo, Type), string>
                 {
-                    { ((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)actionDescriptor).MethodInfo, actionDescriptor.AttributeRouteInfo.Template }
+                    { (((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)actionDescriptor).MethodInfo, typeof(TController)), actionDescriptor.AttributeRouteInfo.Template }
                 };
 
                 HidePathsAndDefinitionsByRolesDocumentFilter.RemovePathsAndComponents(openApiDoc, paths, openApiDoc.Components.Schemas, acceptedRoles);
@@ -55,9 +55,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             var actionDescriptor = ApiDescriptionFactory.Create(typeof(TController), actionName, typeof(TController).GetCustomAttribute<RouteAttribute>().Template)?.ActionDescriptor;
             if (actionDescriptor != null)
             {
-                var paths = new Dictionary<MethodInfo, string>
+                var paths = new Dictionary<(MethodInfo, Type), string>
                 {
-                    { ((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)actionDescriptor).MethodInfo, actionDescriptor.AttributeRouteInfo.Template }
+                    { (((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)actionDescriptor).MethodInfo, typeof(TController)), actionDescriptor.AttributeRouteInfo.Template }
                 };
 
                 HidePathsAndDefinitionsByRolesDocumentFilter.RemovePathsAndComponents(openApiDoc, paths, openApiDoc.Components.Schemas, acceptedRoles);
@@ -77,13 +77,13 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
         public static OpenApiDocument RemovePathsAndComponentsWithoutAcceptedRolesForController<TController>(this OpenApiDocument openApiDoc,
             IReadOnlyList<string> acceptedRoles) where TController : class
         {
-            var paths = new Dictionary<MethodInfo, string>();
+            var paths = new Dictionary<(MethodInfo, Type), string>();
             foreach (var methodInfo in typeof(TController).GetMethods().Where(m => !m.IsSpecialName))
             {
                 var actionDescriptor = ApiDescriptionFactory.Create<TController>(methodInfo, typeof(TController).GetCustomAttribute<RouteAttribute>().Template)?.ActionDescriptor;
                 if (actionDescriptor != null)
                 {
-                    paths.Add(((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)actionDescriptor).MethodInfo, actionDescriptor.AttributeRouteInfo.Template);
+                    paths.Add((((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)actionDescriptor).MethodInfo, typeof(TController)), actionDescriptor.AttributeRouteInfo.Template);
                 }
             }
             HidePathsAndDefinitionsByRolesDocumentFilter.RemovePathsAndComponents(openApiDoc, paths, openApiDoc.Components.Schemas, acceptedRoles);

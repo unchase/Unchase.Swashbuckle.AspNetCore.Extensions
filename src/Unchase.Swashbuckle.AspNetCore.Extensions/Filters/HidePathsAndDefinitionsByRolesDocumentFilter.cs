@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
@@ -145,7 +146,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// <param name="paths">Dictionary of openApi paths with <see cref="MethodInfo"/> keys.</param>
         /// <param name="schemas">Dictionary with openApi schemas with scheme name keys.</param>
         /// <param name="acceptedRoles">Collection of accepted roles.</param>
-        internal static void RemovePathsAndComponents(OpenApiDocument openApiDoc, IDictionary<MethodInfo, string> paths, IDictionary<string, OpenApiSchema> schemas, IReadOnlyList<string> acceptedRoles)
+        internal static void RemovePathsAndComponents(
+            OpenApiDocument openApiDoc, 
+            IDictionary<(MethodInfo ActionMethodInfo, Type ControllerType), string> paths, 
+            IDictionary<string, OpenApiSchema> schemas, 
+            IReadOnlyList<string> acceptedRoles)
         {
             var keysForRemove = new List<string>();
             var requiredRefs = new List<string>();
@@ -154,10 +159,21 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
             foreach (var path in paths)
             {
-                var authorizeAttributes = path.Key.GetCustomAttributes<AuthorizeAttribute>(false);
+                var authorizeAttributes = path.Key.ActionMethodInfo.GetCustomAttributes<AuthorizeAttribute>(false);
                 foreach (var authorizeAttribute in authorizeAttributes)
                 {
                     var authorizeAttributeRoles = authorizeAttribute?.Roles?.Split(',').Select(r => r.Trim()).ToList();
+                    var intersect = authorizeAttributeRoles?.Intersect(acceptedRoles);
+                    if (intersect == null || !intersect.Any())
+                    {
+                        keysForRemove.Add($"/{path.Value}");
+                    }
+                }
+
+                var controllerAuthorizeAttributes = path.Key.ControllerType.GetCustomAttributes<AuthorizeAttribute>(false);
+                foreach (var controllerAuthorizeAttribute in controllerAuthorizeAttributes)
+                {
+                    var authorizeAttributeRoles = controllerAuthorizeAttribute?.Roles?.Split(',').Select(r => r.Trim()).ToList();
                     var intersect = authorizeAttributeRoles?.Intersect(acceptedRoles);
                     if (intersect == null || !intersect.Any())
                     {
@@ -276,10 +292,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             var apiDescriptions = context.ApiDescriptions;
             var schemas = context.SchemaRepository.Schemas;
 
-            var paths = new Dictionary<MethodInfo, string>();
+            var paths = new Dictionary<(MethodInfo, Type), string>();
             foreach (var actionDescriptor in apiDescriptions.Select(ad => ad.ActionDescriptor))
             {
-                paths.Add(((ControllerActionDescriptor)actionDescriptor).MethodInfo, actionDescriptor.AttributeRouteInfo.Template);
+                var t = ((ControllerActionDescriptor) actionDescriptor).ControllerTypeInfo.AsType();
+                paths.Add((((ControllerActionDescriptor)actionDescriptor).MethodInfo, ((ControllerActionDescriptor)actionDescriptor).ControllerTypeInfo.AsType()), actionDescriptor.AttributeRouteInfo.Template);
             }
 
             RemovePathsAndComponents(openApiDoc, paths, schemas, this._acceptedRoles.ToList());

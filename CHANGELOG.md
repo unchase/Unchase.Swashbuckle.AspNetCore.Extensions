@@ -8,6 +8,10 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.2.5 `(2020-03-02)`
+
+- [x] Fix bug: hide Paths and Components with `AuthorizeAttribute` applied to the Controller
+
 ## v2.2.4 `(2020-03-02)`
 
 - [x] Add `RemovePathsAndComponentsWithoutAcceptedRolesFor` overloaded extension method (with `actionName` parameter)

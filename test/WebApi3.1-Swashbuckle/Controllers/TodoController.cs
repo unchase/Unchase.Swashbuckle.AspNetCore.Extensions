@@ -14,6 +14,7 @@ namespace WebApi3._1_Swashbuckle.Controllers
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
+    //[Authorize(Roles = "NotAcceptedRole")]
     [ApiController]
     [SwaggerTag("Controller for todo")]
     public class TodoController : ControllerBase

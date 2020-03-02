@@ -20,6 +20,17 @@
             Returns <see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.
             </returns>
         </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.OpenApiDocumentExtensions.RemovePathsAndComponentsWithoutAcceptedRolesFor``1(Microsoft.OpenApi.Models.OpenApiDocument,System.String,System.Collections.Generic.IReadOnlyList{System.String})">
+            <summary>
+            Remove Paths and Components from OpenApi documentation for specific controller action without accepted roles.
+            </summary>
+            <param name="openApiDoc"><see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.</param>
+            <param name="actionName">Action name.</param>
+            <param name="acceptedRoles">Collection of accepted roles.</param>
+            <returns>
+            Returns <see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.
+            </returns>
+        </member>
         <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.OpenApiDocumentExtensions.RemovePathsAndComponentsWithoutAcceptedRolesForController``1(Microsoft.OpenApi.Models.OpenApiDocument,System.Collections.Generic.IReadOnlyList{System.String})">
             <summary>
             Remove Paths and Components from OpenApi documentation for specific controller without accepted roles.
@@ -195,7 +206,7 @@
             </summary>
             <param name="acceptedRoles"></param>
         </member>
-        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.HidePathsAndDefinitionsByRolesDocumentFilter.RemovePathsAndComponents(Microsoft.OpenApi.Models.OpenApiDocument,System.Collections.Generic.IDictionary{System.Reflection.MethodInfo,System.String},System.Collections.Generic.IDictionary{System.String,Microsoft.OpenApi.Models.OpenApiSchema},System.Collections.Generic.IReadOnlyList{System.String})">
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.HidePathsAndDefinitionsByRolesDocumentFilter.RemovePathsAndComponents(Microsoft.OpenApi.Models.OpenApiDocument,System.Collections.Generic.IDictionary{System.ValueTuple{System.Reflection.MethodInfo,System.Type},System.String},System.Collections.Generic.IDictionary{System.String,Microsoft.OpenApi.Models.OpenApiSchema},System.Collections.Generic.IReadOnlyList{System.String})">
             <summary>
             Remove Paths and Components from OpenApi documentation without accepted roles.
             </summary>
