@@ -47,9 +47,17 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             var sb = new StringBuilder();
             for (int i = 0; i < schema.Enum.Count; i++)
             {
-                var value = ((OpenApiInteger)schema.Enum[i]).Value;
-                var name = ((OpenApiString)((OpenApiArray)schema.Extensions["x-enumNames"])[i]).Value;
-                sb.Append($"{Environment.NewLine}{Environment.NewLine}{value} = {name}");
+                if (schema.Enum[i] is OpenApiInteger schemaEnumInt)
+                {
+                    var value = schemaEnumInt.Value;
+                    var name = ((OpenApiString)((OpenApiArray)schema.Extensions["x-enumNames"])[i]).Value;
+                    sb.Append($"{Environment.NewLine}{Environment.NewLine}{value} = {name}");
+                }
+                else if (schema.Enum[i] is OpenApiString schemaEnumString)
+                {
+                    var value = schemaEnumString.Value;
+                    sb.Append($"{Environment.NewLine}{Environment.NewLine}{value}");
+                }
 
                 // add description from DescriptionAttribute
                 if (includeDescriptionFromAttribute)

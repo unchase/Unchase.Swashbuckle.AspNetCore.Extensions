@@ -8,6 +8,10 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.2.6 `(2020-03-22)`
+
+- [x] Fix bug: add fix #6 to `options.AddEnumsWithValuesFixFilters(true);` when using `JsonStringEnumConverter()`
+
 ## v2.2.5 `(2020-03-02)`
 
 - [x] Fix bug: hide Paths and Components with `AuthorizeAttribute` applied to the Controller
