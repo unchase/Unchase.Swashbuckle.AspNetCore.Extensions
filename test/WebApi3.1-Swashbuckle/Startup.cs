@@ -9,9 +9,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text.Json.Serialization;
-using TodoApi.Models;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Filters;
+using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
 using WebApi3._1_Swashbuckle.Controllers;
 using WebApi3._1_Swashbuckle.Models;
 
@@ -21,13 +21,12 @@ namespace WebApi3._1_Swashbuckle
     public class Startup
     {
         // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
                 //.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
-            // Register the Swagger generator, defining 1 or more Swagger documents
+            // Register the Swagger generator
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
@@ -35,16 +34,33 @@ namespace WebApi3._1_Swashbuckle
                 #region AddEnumsWithValuesFixFilters
 
                 // if you want to add xml comments into the swagger documentation, first of all add:
-                var filePath = Path.Combine(AppContext.BaseDirectory, "WebApi3.1-Swashbuckle.xml");
-                options.IncludeXmlComments(filePath);
+                var xmlFilePath = Path.Combine(AppContext.BaseDirectory, "WebApi3.1-Swashbuckle.xml");
+                options.IncludeXmlComments(xmlFilePath);
 
                 // Add filters to fix enums
-                options.AddEnumsWithValuesFixFilters(true);
+                // use by default:
+                //options.AddEnumsWithValuesFixFilters();
 
-                // or custom use:
-                //options.SchemaFilter<XEnumNamesSchemaFilter>(true); // add schema filter to fix enums (add 'x-enumNames' for NSwag) in schema
-                //options.ParameterFilter<XEnumNamesParameterFilter>(true); // add parameter filter to fix enums (add 'x-enumNames' for NSwag) in schema parameters
-                //options.DocumentFilter<DisplayEnumsWithValuesDocumentFilter>(true); // add document filter to fix enums displaying in swagger document
+                // or configured:
+                options.AddEnumsWithValuesFixFilters(services, o =>
+                {
+                    // add schema filter to fix enums (add 'x-enumNames' for NSwag) in schema
+                    o.ApplySchemaFilter = true;
+
+                    // add parameter filter to fix enums (add 'x-enumNames' for NSwag) in schema parameters
+                    o.ApplyParameterFilter = true;
+
+                    // add document filter to fix enums displaying in swagger document
+                    o.ApplyDocumentFilter = true;
+
+                    // add descriptions from DescriptionAttribute or xml-comments to fix enums (add 'x-enumDescriptions' for schema extensions) for applied filters
+                    o.IncludeDescriptions = true;
+
+                    // get descriptions from xml-file comments on the specified path
+                    // should use "options.IncludeXmlComments(xmlFilePath);" before
+                    o.IncludeXmlCommentsFrom(xmlFilePath);
+                    // the same for another xml-files...
+                });
 
                 #endregion
 
@@ -76,11 +92,11 @@ namespace WebApi3._1_Swashbuckle
                 #region ChangeAllResponsesByHttpStatusCode
 
                 // change responses for specific HTTP status code ("200")
-                options.ChangeAllResponsesByHttpStatusCode(
-                    httpStatusCode: 200,
-                    responseDescription: "200 status code description",
-                    responseExampleOption: ResponseExampleOptions.AddNew, // add new response examples
-                    responseExample: new TodoItem { Tag = Tag.Workout, Id = 111, IsComplete = false, Name = "test" }); // some class for response examples
+                //options.ChangeAllResponsesByHttpStatusCode(
+                //    httpStatusCode: 200,
+                //    responseDescription: "200 status code description",
+                //    responseExampleOption: ResponseExampleOptions.AddNew, // add new response examples
+                //    responseExample: new TodoItem { Tag = Tag.Workout, Id = 111, IsComplete = false, Name = "test" }); // some class for response examples
 
                 // change responses for specific HTTP status code ("400" (HttpStatusCode.BadRequest))
                 options.ChangeAllResponsesByHttpStatusCode(

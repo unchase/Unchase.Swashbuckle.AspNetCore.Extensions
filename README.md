@@ -10,9 +10,16 @@
 
 ## Breaking Changes
 
-Since [v2.0.0](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/releases/tag/v2.0.0) supports [Swashbuckle.AspNetCore 5.0.0](https://www.nuget.org/packages/Swashbuckle.AspNetCore/) with **breaking changes**.
+* Since [v2.0.0](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/releases/tag/v2.0.0) supports [Swashbuckle.AspNetCore 5.0.0](https://www.nuget.org/packages/Swashbuckle.AspNetCore/) with **breaking changes**.
 
 For old versions see [README_OLD.md](README_OLD.md).
+
+* Since [v2.3.0](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/releases/tag/v2.3.0) there are [**breaking changes**](#breaking-changes-2.3.0) in `Startup.cs`:
+
+```csharp
+
+```
+
 
 ### Compatibility
 
@@ -81,6 +88,54 @@ app.UseSwaggerUI(c =>
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Filters;
 ```
+
+* <a name="breaking-changes-2.3.0"></a> Since [v2.3.0](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/releases/tag/v2.3.0):
+
+```csharp
+// This method gets called by the runtime. Use this method to add services to the container.
+public void ConfigureServices(IServiceCollection services)
+{
+    // Add framework services.
+    services.AddControllers();
+
+    // Register the Swagger generator
+    services.AddSwaggerGen(options =>
+    {
+        options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+
+        // if you want to add xml comments into the swagger documentation, first of all add:
+        var xmlFilePath = Path.Combine(AppContext.BaseDirectory, "WebApi3.1-Swashbuckle.xml");
+        options.IncludeXmlComments(xmlFilePath);
+
+        // Add filters to fix enums
+        // use by default:
+        //options.AddEnumsWithValuesFixFilters();
+
+        // or configured:
+        options.AddEnumsWithValuesFixFilters(services, o =>
+        {
+            // add schema filter to fix enums (add 'x-enumNames' for NSwag) in schema
+            o.ApplySchemaFilter = true;
+
+            // add parameter filter to fix enums (add 'x-enumNames' for NSwag) in schema parameters
+            o.ApplyParameterFilter = true;
+
+            // add document filter to fix enums displaying in swagger document
+            o.ApplyDocumentFilter = true;
+
+            // add descriptions from DescriptionAttribute or xml-comments to fix enums (add 'x-enumDescriptions' for schema extensions) for applied filters
+            o.IncludeDescriptions = true;
+
+            // get descriptions from xml-file comments on the specified path
+            // should use "options.IncludeXmlComments(xmlFilePath);" before
+            o.IncludeXmlCommentsFrom(xmlFilePath);
+            // the same for another xml-files...
+        });
+    });
+}
+```
+
+* For older versions:
 
 ```csharp
 // This method gets called by the runtime. Use this method to add services to the container.
@@ -354,8 +409,11 @@ public void ConfigureServices(IServiceCollection services)
 
     ```csharp
     /// <summary>Sample Person title.
+    ///
     /// 0 = None (None enum description)
+    ///
     /// 1 = Miss (Miss enum description)
+    ///
     /// 2 = Mr (Mr enum description)</summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "9.13.35.0 (Newtonsoft.Json v11.0.0.0)")]
     public enum Title

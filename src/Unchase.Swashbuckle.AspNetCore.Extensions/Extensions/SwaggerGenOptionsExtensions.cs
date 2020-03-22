@@ -1,8 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
 using System.Net;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Filters;
+using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
 {
@@ -26,7 +27,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
         /// Returns <see cref="SwaggerGenOptions"/>.
         /// </returns>
         public static SwaggerGenOptions ChangeAllResponsesByHttpStatusCode<T>(
-            this SwaggerGenOptions swaggerGenOptions, 
+            this SwaggerGenOptions swaggerGenOptions,
             int httpStatusCode,
             string responseDescription = null,
             ResponseExampleOptions responseExampleOption = ResponseExampleOptions.None,
@@ -62,15 +63,22 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
         /// Add filters to fix enums in OpenApi document.
         /// </summary>
         /// <param name="swaggerGenOptions"><see cref="SwaggerGenOptions"/>.</param>
-        /// <param name="includeDescriptionFromAttribute">If true - add extensions (descriptions) from <see cref="DescriptionAttribute"/>.</param>
-        /// <returns>
-        /// Returns <see cref="SwaggerGenOptions"/>.
-        /// </returns>
-        public static SwaggerGenOptions AddEnumsWithValuesFixFilters(this SwaggerGenOptions swaggerGenOptions, bool includeDescriptionFromAttribute = false)
+        /// <param name="services"><see cref="IServiceCollection"/>.</param>
+        /// <param name="configureOptions">An <see cref="Action{FixEnumsOptions}"/> to configure options for filters.</param>
+        /// <returns></returns>
+        public static SwaggerGenOptions AddEnumsWithValuesFixFilters(this SwaggerGenOptions swaggerGenOptions, IServiceCollection services = null, Action<FixEnumsOptions> configureOptions = null)
         {
-            swaggerGenOptions.SchemaFilter<XEnumNamesSchemaFilter>(includeDescriptionFromAttribute);
-            swaggerGenOptions.ParameterFilter<XEnumNamesParameterFilter>(includeDescriptionFromAttribute);
-            swaggerGenOptions.DocumentFilter<DisplayEnumsWithValuesDocumentFilter>(includeDescriptionFromAttribute);
+            // local function
+            void EmptyAction(FixEnumsOptions x) { }
+
+            if (configureOptions != null)
+            {
+                services?.Configure(configureOptions);
+            }
+
+            swaggerGenOptions.SchemaFilter<XEnumNamesSchemaFilter>(configureOptions ?? EmptyAction);
+            swaggerGenOptions.ParameterFilter<XEnumNamesParameterFilter>(configureOptions ?? EmptyAction);
+            swaggerGenOptions.DocumentFilter<DisplayEnumsWithValuesDocumentFilter>();
             return swaggerGenOptions;
         }
 

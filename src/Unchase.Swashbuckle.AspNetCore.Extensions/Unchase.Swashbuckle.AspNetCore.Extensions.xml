@@ -74,15 +74,14 @@
             Returns <see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions"/>.
             </returns>
         </member>
-        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.SwaggerGenOptionsExtensions.AddEnumsWithValuesFixFilters(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,System.Boolean)">
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.SwaggerGenOptionsExtensions.AddEnumsWithValuesFixFilters(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions})">
             <summary>
             Add filters to fix enums in OpenApi document.
             </summary>
             <param name="swaggerGenOptions"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions"/>.</param>
-            <param name="includeDescriptionFromAttribute">If true - add extensions (descriptions) from <see cref="T:System.ComponentModel.DescriptionAttribute"/>.</param>
-            <returns>
-            Returns <see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions"/>.
-            </returns>
+            <param name="services"><see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.</param>
+            <param name="configureOptions">An <see cref="T:System.Action`1"/> to configure options for filters.</param>
+            <returns></returns>
         </member>
         <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Factories.ApiDescriptionFactory">
             <summary>
@@ -195,6 +194,20 @@
             <param name="swaggerDoc"><see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.</param>
             <param name="context"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext"/>.</param>
         </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.DisplayEnumsWithValuesDocumentFilter.#ctor(Microsoft.Extensions.Options.IOptions{Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions},System.Action{Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions})">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="options"><see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions"/>.</param>
+            <param name="configureOptions">An <see cref="T:System.Action`1"/> to configure options for filter.</param>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.DisplayEnumsWithValuesDocumentFilter.Apply(Microsoft.OpenApi.Models.OpenApiDocument,Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext)">
+            <summary>
+            Apply the filter.
+            </summary>
+            <param name="openApiDoc"><see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.</param>
+            <param name="context"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext"/>.</param>
+        </member>
         <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.HidePathsAndDefinitionsByRolesDocumentFilter">
             <summary>
             Filter for removing Paths and Components from OpenApi documentation without accepted roles.
@@ -234,17 +247,26 @@
             <param name="swaggerDoc"><see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.</param>
             <param name="context"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext"/>.</param>
         </member>
-        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XEnumNamesParameterFilter.#ctor(System.Boolean)">
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XEnumNamesParameterFilter.#ctor(Microsoft.Extensions.Options.IOptions{Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions},System.Action{Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions})">
             <summary>
             Constructor.
             </summary>
-            <param name="includeXEnumDescriptions">If true - add "x-enumDescriptions" extensions from <see cref="T:System.ComponentModel.DescriptionAttribute"/>.</param>
+            <param name="options"><see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions"/>.</param>
+            <param name="configureOptions">An <see cref="T:System.Action`1"/> to configure options for filter.</param>
         </member>
-        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XEnumNamesSchemaFilter.#ctor(System.Boolean)">
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XEnumNamesParameterFilter.Apply(Microsoft.OpenApi.Models.OpenApiParameter,Swashbuckle.AspNetCore.SwaggerGen.ParameterFilterContext)">
+            <summary>
+            Apply the filter.
+            </summary>
+            <param name="parameter"><see cref="T:Microsoft.OpenApi.Models.OpenApiParameter"/>.</param>
+            <param name="context"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.ParameterFilterContext"/>.</param>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XEnumNamesSchemaFilter.#ctor(Microsoft.Extensions.Options.IOptions{Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions},System.Action{Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions})">
             <summary>
             Constructor.
             </summary>
-            <param name="includeXEnumDescriptions">If true - add "x-enumDescriptions" extensions from <see cref="T:System.ComponentModel.DescriptionAttribute"/>.</param>
+            <param name="options"><see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions"/>.</param>
+            <param name="configureOptions">An <see cref="T:System.Action`1"/> to configure options for filter.</param>
         </member>
         <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XEnumNamesSchemaFilter.Apply(Microsoft.OpenApi.Models.OpenApiSchema,Swashbuckle.AspNetCore.SwaggerGen.SchemaFilterContext)">
             <summary>
@@ -252,6 +274,60 @@
             </summary>
             <param name="schema"><see cref="T:Microsoft.OpenApi.Models.OpenApiSchema"/>.</param>
             <param name="context"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SchemaFilterContext"/>.</param>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions">
+            <summary>
+            Various configuration properties for fixing enums.
+            </summary>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions.IncludedXmlCommentsPaths">
+            <summary>
+            Included file paths with XML comments.
+            </summary>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions.IncludeDescriptions">
+            <summary>
+            Include descriptions from <see cref="T:System.ComponentModel.DescriptionAttribute"/> or xml comments. Default value is false.
+            </summary>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions.ApplySchemaFilter">
+            <summary>
+            Apply fix enum filter to OpenApi schema. Default value is true.
+            <para>
+            Equivalent to "options.SchemaFilter&lt;XEnumNamesSchemaFilter&gt;();"
+            </para>
+            </summary>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions.ApplyParameterFilter">
+            <summary>
+            Apply fix enum filter to OpenApi parameters. Default value is true.
+            <para>
+            Equivalent to "options.ParameterFilter&lt;XEnumNamesParameterFilter&gt;();"
+            </para>
+            </summary>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions.ApplyDocumentFilter">
+            <summary>
+            Apply fix enum filter to OpenApi document. Default value is true.
+            <para>
+            Equivalent to "options.DocumentFilter&lt;DisplayEnumsWithValuesDocumentFilter&gt;();"
+            </para>
+            </summary>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptionsExtensions">
+            <summary>
+            Extensions for <see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions"/>.
+            </summary>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptionsExtensions.IncludeXmlCommentsFrom(Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions,System.String)">
+            <summary>
+            Include XML comments from <paramref name="fullPath"/>.
+            </summary>
+            <param name="options"><see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions"/>.</param>
+            <param name="fullPath">Full file path with XML comments.</param>
+            <returns>
+            Returns <see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions"/>.
+            </returns>
         </member>
     </members>
 </doc>

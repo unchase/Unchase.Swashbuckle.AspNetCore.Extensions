@@ -1,35 +1,59 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
+using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 {
-    public class DisplayEnumsWithValuesDocumentFilter : IDocumentFilter
+    internal class DisplayEnumsWithValuesDocumentFilter : IDocumentFilter
     {
         #region Fields
 
+        private readonly bool _applyFiler;
         private readonly bool _includeDescriptionFromAttribute;
 
         #endregion
 
         #region Constructors
 
-        public DisplayEnumsWithValuesDocumentFilter(bool includeDescriptionFromAttribute = false)
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="options"><see cref="FixEnumsOptions"/>.</param>
+        /// <param name="configureOptions">An <see cref="Action{FixEnumsOptions}"/> to configure options for filter.</param>
+        public DisplayEnumsWithValuesDocumentFilter(IOptions<FixEnumsOptions> options, Action<FixEnumsOptions> configureOptions = null)
         {
-            _includeDescriptionFromAttribute = includeDescriptionFromAttribute;
+            if (options.Value != null)
+            {
+                configureOptions?.Invoke(options.Value);
+                this._includeDescriptionFromAttribute = options.Value.IncludeDescriptions;
+                this._applyFiler = options.Value.ApplyDocumentFilter;
+            }
         }
 
         #endregion
 
         #region Methods
 
+        /// <summary>
+        /// Apply the filter.
+        /// </summary>
+        /// <param name="openApiDoc"><see cref="OpenApiDocument"/>.</param>
+        /// <param name="context"><see cref="DocumentFilterContext"/>.</param>
         public void Apply(OpenApiDocument openApiDoc, DocumentFilterContext context)
         {
+            if (!this._applyFiler)
+                return;
+
             foreach (var schemaDictionaryItem in openApiDoc.Components.Schemas)
             {
                 var schema = schemaDictionaryItem.Value;
-                schema.Description += schema.AddEnumValuesDescription(this._includeDescriptionFromAttribute);
+                var description = schema.AddEnumValuesDescription(this._includeDescriptionFromAttribute);
+                if (description != null && schema.Description != null && !schema.Description.Contains(description))
+                    schema.Description += description;
             }
 
             if (openApiDoc.Paths.Count <= 0)
@@ -44,7 +68,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                 var componentReference = parameter.Schema.Reference.Id;
                 var schema = openApiDoc.Components.Schemas[componentReference];
 
-                parameter.Description += schema.AddEnumValuesDescription(this._includeDescriptionFromAttribute);
+                var description = schema.AddEnumValuesDescription(this._includeDescriptionFromAttribute);
+                if (description != null && parameter.Description != null && !parameter.Description.Contains(description))
+                    parameter.Description += description;
             }
 
             // add enum descriptions to request body

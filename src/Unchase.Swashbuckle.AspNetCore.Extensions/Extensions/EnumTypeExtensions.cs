@@ -4,6 +4,10 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
+using System.Xml.XPath;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
 {
@@ -25,15 +29,36 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             return string.Empty;
         }
 
-        internal static List<OpenApiString> GetEnumValuesDescription(Type enumType)
+        internal static List<OpenApiString> GetEnumValuesDescription(Type enumType, IEnumerable<XPathNavigator> xmlNavigators = null)
         {
             var enumsDescriptions = new List<OpenApiString>();
             foreach (var enumValue in Enum.GetValues(enumType))
             {
                 var enumDescription = GetDescriptionFromEnumOption(enumType, enumValue);
+                if (string.IsNullOrWhiteSpace(enumDescription))
+                {
+                    var memberInfo = enumType.GetMembers().FirstOrDefault(m => m.Name.Equals(enumValue.ToString(), StringComparison.InvariantCultureIgnoreCase));
+                    enumDescription = TryGetMemberComments(memberInfo, xmlNavigators);
+                }
                 enumsDescriptions.Add(new OpenApiString(enumDescription));
             }
             return enumsDescriptions;
+        }
+
+        private static string TryGetMemberComments(MemberInfo memberInfo, IEnumerable<XPathNavigator> xmlNavigators)
+        {
+            if (xmlNavigators == null)
+                return string.Empty;
+
+            foreach (var xmlNavigator in xmlNavigators)
+            {
+                var xpathNavigator1 = xmlNavigator.SelectSingleNode(
+                    $"/doc/members/member[@name='{XmlCommentsNodeNameHelper.GetNodeNameForMember(memberInfo)}']");
+                var xpathNavigator2 = xpathNavigator1?.SelectSingleNode("summary");
+                return xpathNavigator2 != null ? XmlCommentsTextHelper.Humanize(xpathNavigator2.InnerXml) : string.Empty;
+            }
+
+            return string.Empty;
         }
 
         internal static string AddEnumValuesDescription(this OpenApiSchema schema, bool includeDescriptionFromAttribute = false)
@@ -45,7 +70,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                 return null;
 
             var sb = new StringBuilder();
-            for (int i = 0; i < schema.Enum.Count; i++)
+            for (var i = 0; i < schema.Enum.Count; i++)
             {
                 if (schema.Enum[i] is OpenApiInteger schemaEnumInt)
                 {

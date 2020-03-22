@@ -8,6 +8,12 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.3.0 `(2020-03-23)`
+
+- [x] Add feature: add configured options to `AddEnumsWithValuesFixFilters`
+- [x] Fix bug: fix #7 - get descriptions from xml comments
+- [x] Fix small bugs 
+
 ## v2.2.6 `(2020-03-22)`
 
 - [x] Fix bug: add fix #6 to `options.AddEnumsWithValuesFixFilters(true);` when using `JsonStringEnumConverter()`
