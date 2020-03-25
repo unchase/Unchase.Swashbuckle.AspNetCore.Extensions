@@ -54,8 +54,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             {
                 foreach (var xmlNavigator in xmlNavigators)
                 {
+                    var nodeNameForMember = XmlCommentsNodeNameHelper.GetNodeNameForMember(memberInfo);
                     var xpathNavigator1 = xmlNavigator.SelectSingleNode(
-                        $"/doc/members/member[@name='{XmlCommentsNodeNameHelper.GetNodeNameForMember(memberInfo)}']");
+                        $"/doc/members/member[@name='{nodeNameForMember}']");
                     var xpathNavigator2 = xpathNavigator1?.SelectSingleNode("summary");
                     return xpathNavigator2 != null ? XmlCommentsTextHelper.Humanize(xpathNavigator2.InnerXml) : string.Empty;
                 }

@@ -8,7 +8,7 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
-## v2.3.1 `(2020-03-25)`
+## v2.3.2 `(2020-03-25)`
 
 - [x] Fix bug with `System.MissingMethodException`
 
