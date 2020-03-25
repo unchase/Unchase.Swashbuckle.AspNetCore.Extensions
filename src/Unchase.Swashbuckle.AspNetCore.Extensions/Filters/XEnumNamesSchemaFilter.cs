@@ -18,6 +18,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         #region Fields
 
         private readonly bool _includeXEnumDescriptions;
+        private readonly DescriptionSources _descriptionSources;
         private readonly bool _applyFiler;
         private readonly HashSet<XPathNavigator> _xmlNavigators = new HashSet<XPathNavigator>();
 
@@ -36,6 +37,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             {
                 configureOptions?.Invoke(options.Value);
                 this._includeXEnumDescriptions = options.Value.IncludeDescriptions;
+                this._descriptionSources = options.Value?.DescriptionSource ?? DescriptionSources.DescriptionAttributes;
                 this._applyFiler = options.Value.ApplySchemaFilter;
                 foreach (var filePath in options.Value.IncludedXmlCommentsPaths)
                 {
@@ -75,7 +77,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
                 if (this._includeXEnumDescriptions)
                 {
-                    enumsDescriptionsArray.AddRange(EnumTypeExtensions.GetEnumValuesDescription(context.Type, this._xmlNavigators));
+                    enumsDescriptionsArray.AddRange(EnumTypeExtensions.GetEnumValuesDescription(context.Type, this._descriptionSources, this._xmlNavigators));
                     if (!schema.Extensions.ContainsKey("x-enumDescriptions") && enumsDescriptionsArray.Any())
                     {
                         schema.Extensions.Add("x-enumDescriptions", enumsDescriptionsArray);
@@ -108,7 +110,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
                                     if (this._includeXEnumDescriptions)
                                     {
-                                        enumsDescriptionsArray.AddRange(EnumTypeExtensions.GetEnumValuesDescription(genericArgumentType, this._xmlNavigators));
+                                        enumsDescriptionsArray.AddRange(EnumTypeExtensions.GetEnumValuesDescription(genericArgumentType, this._descriptionSources, this._xmlNavigators));
                                         if (!schemaPropertyValue.Extensions.ContainsKey("x-enumDescriptions") && enumsDescriptionsArray.Any())
                                         {
                                             schemaPropertyValue.Extensions.Add("x-enumDescriptions", enumsDescriptionsArray);

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Options
 {
@@ -19,6 +20,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Options
         /// Include descriptions from <see cref="DescriptionAttribute"/> or xml comments. Default value is false.
         /// </summary>
         public bool IncludeDescriptions { get; set; } = false;
+
+        /// <summary>
+        /// Source to get descriptions. Default value is <see cref="DescriptionSources.DescriptionAttributes"/>.
+        /// </summary>
+        public DescriptionSources DescriptionSource { get; set; } = DescriptionSources.DescriptionAttributes;
 
         /// <summary>
         /// Apply fix enum filter to OpenApi schema. Default value is true.

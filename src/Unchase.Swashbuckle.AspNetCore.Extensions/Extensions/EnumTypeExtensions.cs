@@ -11,6 +11,27 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
 {
+    /// <summary>
+    /// Description sources.
+    /// </summary>
+    public enum DescriptionSources
+    {
+        /// <summary>
+        /// <see cref="DescriptionAttribute"/>.
+        /// </summary>
+        DescriptionAttributes = 0,
+
+        /// <summary>
+        /// Xml comments.
+        /// </summary>
+        XmlComments = 1,
+
+        /// <summary>
+        /// <see cref="DescriptionAttribute"/> then xml comments.
+        /// </summary>
+        DescriptionAttributesThenXmlComments = 2
+    }
+
     internal static class EnumTypeExtensions
     {
         private static string GetDescriptionFromEnumOption(Type enumOptionType, object enumOption)
@@ -29,18 +50,43 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             return string.Empty;
         }
 
-        internal static List<OpenApiString> GetEnumValuesDescription(Type enumType, IEnumerable<XPathNavigator> xmlNavigators = null)
+        internal static List<OpenApiString> GetEnumValuesDescription(Type enumType, DescriptionSources descriptionSource, IEnumerable<XPathNavigator> xmlNavigators = null)
         {
             var enumsDescriptions = new List<OpenApiString>();
             foreach (var enumValue in Enum.GetValues(enumType))
             {
-                var enumDescription = GetDescriptionFromEnumOption(enumType, enumValue);
-                if (string.IsNullOrWhiteSpace(enumDescription))
+                var enumDescription = string.Empty;
+                try
                 {
-                    var memberInfo = enumType.GetMembers().FirstOrDefault(m => m.Name.Equals(enumValue.ToString(), StringComparison.InvariantCultureIgnoreCase));
-                    enumDescription = TryGetMemberComments(memberInfo, xmlNavigators);
+                    switch (descriptionSource)
+                    {
+                        case DescriptionSources.DescriptionAttributes:
+                            enumDescription = GetDescriptionFromEnumOption(enumType, enumValue);
+                            break;
+                        case DescriptionSources.XmlComments:
+                            var memberInfo = enumType.GetMembers().FirstOrDefault(m =>
+                                m.Name.Equals(enumValue.ToString(), StringComparison.InvariantCultureIgnoreCase));
+                            enumDescription = TryGetMemberComments(memberInfo, xmlNavigators);
+                            break;
+                        case DescriptionSources.DescriptionAttributesThenXmlComments:
+                            enumDescription = GetDescriptionFromEnumOption(enumType, enumValue);
+                            if (string.IsNullOrWhiteSpace(enumDescription))
+                            {
+                                var memberInfo2 = enumType.GetMembers().FirstOrDefault(m =>
+                                    m.Name.Equals(enumValue.ToString(), StringComparison.InvariantCultureIgnoreCase));
+                                enumDescription = TryGetMemberComments(memberInfo2, xmlNavigators);
+                            }
+                            break;
+                    }
                 }
-                enumsDescriptions.Add(new OpenApiString(enumDescription));
+                catch
+                {
+
+                }
+                finally
+                {
+                    enumsDescriptions.Add(new OpenApiString(enumDescription));
+                }
             }
             return enumsDescriptions;
         }
@@ -50,20 +96,13 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             if (xmlNavigators == null)
                 return string.Empty;
 
-            try
+            foreach (var xmlNavigator in xmlNavigators)
             {
-                foreach (var xmlNavigator in xmlNavigators)
-                {
-                    var nodeNameForMember = XmlCommentsNodeNameHelper.GetNodeNameForMember(memberInfo);
-                    var xpathNavigator1 = xmlNavigator.SelectSingleNode(
-                        $"/doc/members/member[@name='{nodeNameForMember}']");
-                    var xpathNavigator2 = xpathNavigator1?.SelectSingleNode("summary");
-                    return xpathNavigator2 != null ? XmlCommentsTextHelper.Humanize(xpathNavigator2.InnerXml) : string.Empty;
-                }
-            }
-            catch
-            {
-                return string.Empty;
+                var nodeNameForMember = XmlCommentsNodeNameHelper.GetNodeNameForMember(memberInfo);
+                var xpathNavigator1 = xmlNavigator.SelectSingleNode(
+                    $"/doc/members/member[@name='{nodeNameForMember}']");
+                var xpathNavigator2 = xpathNavigator1?.SelectSingleNode("summary");
+                return xpathNavigator2 != null ? XmlCommentsTextHelper.Humanize(xpathNavigator2.InnerXml) : string.Empty;
             }
 
             return string.Empty;
@@ -102,7 +141,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                     if (xEnumDescriptions?.Count == schema.Enum.Count)
                     {
                         var description = ((OpenApiString)((OpenApiArray)schema.Extensions["x-enumDescriptions"])[i]).Value;
-                        sb.Append($" ({description})");
+                        if (!string.IsNullOrWhiteSpace(description))
+                            sb.Append($" ({description})");
                     }
                 }
             }

@@ -8,6 +8,11 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.3.3 `(2020-03-25)`
+
+- [x] Add option to choose descriptions source - `FixEnumOptions.DescriptionSource`
+- [x] Fix small bugs
+
 ## v2.3.2 `(2020-03-25)`
 
 - [x] Fix bug with `System.MissingMethodException`

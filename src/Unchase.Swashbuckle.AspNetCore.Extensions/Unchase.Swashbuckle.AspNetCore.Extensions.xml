@@ -4,6 +4,26 @@
         <name>Unchase.Swashbuckle.AspNetCore.Extensions</name>
     </assembly>
     <members>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.DescriptionSources">
+            <summary>
+            Description sources.
+            </summary>
+        </member>
+        <member name="F:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.DescriptionSources.DescriptionAttributes">
+            <summary>
+            <see cref="T:System.ComponentModel.DescriptionAttribute"/>.
+            </summary>
+        </member>
+        <member name="F:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.DescriptionSources.XmlComments">
+            <summary>
+            Xml comments.
+            </summary>
+        </member>
+        <member name="F:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.DescriptionSources.DescriptionAttributesThenXmlComments">
+            <summary>
+            <see cref="T:System.ComponentModel.DescriptionAttribute"/> then xml comments.
+            </summary>
+        </member>
         <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.OpenApiDocumentExtensions">
             <summary>
             Extension methods for <see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.
@@ -288,6 +308,11 @@
         <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions.IncludeDescriptions">
             <summary>
             Include descriptions from <see cref="T:System.ComponentModel.DescriptionAttribute"/> or xml comments. Default value is false.
+            </summary>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions.DescriptionSource">
+            <summary>
+            Source to get descriptions. Default value is <see cref="F:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.DescriptionSources.DescriptionAttributes"/>.
             </summary>
         </member>
         <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions.ApplySchemaFilter">
