@@ -8,6 +8,10 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.3.1 `(2020-03-25)`
+
+- [x] Fix bug with `System.MissingMethodException`
+
 ## v2.3.0 `(2020-03-23)`
 
 - [x] Add feature: add configured options to `AddEnumsWithValuesFixFilters`

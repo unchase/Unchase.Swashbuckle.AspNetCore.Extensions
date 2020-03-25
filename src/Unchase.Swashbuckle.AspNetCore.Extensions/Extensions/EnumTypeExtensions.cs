@@ -50,12 +50,19 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             if (xmlNavigators == null)
                 return string.Empty;
 
-            foreach (var xmlNavigator in xmlNavigators)
+            try
             {
-                var xpathNavigator1 = xmlNavigator.SelectSingleNode(
-                    $"/doc/members/member[@name='{XmlCommentsNodeNameHelper.GetNodeNameForMember(memberInfo)}']");
-                var xpathNavigator2 = xpathNavigator1?.SelectSingleNode("summary");
-                return xpathNavigator2 != null ? XmlCommentsTextHelper.Humanize(xpathNavigator2.InnerXml) : string.Empty;
+                foreach (var xmlNavigator in xmlNavigators)
+                {
+                    var xpathNavigator1 = xmlNavigator.SelectSingleNode(
+                        $"/doc/members/member[@name='{XmlCommentsNodeNameHelper.GetNodeNameForMember(memberInfo)}']");
+                    var xpathNavigator2 = xpathNavigator1?.SelectSingleNode("summary");
+                    return xpathNavigator2 != null ? XmlCommentsTextHelper.Humanize(xpathNavigator2.InnerXml) : string.Empty;
+                }
+            }
+            catch
+            {
+                return string.Empty;
             }
 
             return string.Empty;
