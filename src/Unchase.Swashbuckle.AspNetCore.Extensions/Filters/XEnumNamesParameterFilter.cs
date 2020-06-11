@@ -62,7 +62,10 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             if (!this._applyFiler)
                 return;
 
-            var typeInfo = context.ParameterInfo?.ParameterType ?? context.PropertyInfo.PropertyType;
+            var typeInfo = context.ParameterInfo?.ParameterType ?? context.PropertyInfo?.PropertyType;
+            if (typeInfo == null)
+                return;
+
             var enumsArray = new OpenApiArray();
             var enumsDescriptionsArray = new OpenApiArray();
             if (typeInfo.IsEnum)
