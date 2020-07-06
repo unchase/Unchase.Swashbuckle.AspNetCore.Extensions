@@ -216,6 +216,19 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                         }
                     }
 
+                if (operation.Value?.RequestBody != null)
+                {
+                    var operationRequestBody = operation.Value?.RequestBody;
+                    foreach (var operationRequestBodyContentSchema in operationRequestBody?.Content?.Select(rc => rc.Value?.Schema))
+                    {
+                        if (operationRequestBodyContentSchema?.Reference?.Id != null && !requiredRefs.Contains(operationRequestBodyContentSchema?.Reference?.Id))
+                        {
+                            requiredRefs.AddRange(GetRequiredDefinitions(schemas, operationRequestBodyContentSchema?.Reference));
+                            requiredRefs = requiredRefs.Distinct().ToList();
+                        }
+                    }
+                }
+
                 foreach (var parameter in openApiDoc.Paths?.Where(p => p.Value?.Parameters != null).SelectMany(p => p.Value?.Operations?.SelectMany(o => o.Value?.Parameters)))
                 {
                     if (parameter?.Schema?.Reference?.Id != null && !requiredRefs.Contains(parameter.Schema.Reference.Id))

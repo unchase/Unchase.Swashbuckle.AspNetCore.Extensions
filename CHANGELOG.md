@@ -8,6 +8,10 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.3.6 `(2020-07-06)`
+
+- [x] Fix bug with OpenAPI operation RequestBody in `HidePathsAndDefinitionsByRolesDocumentFilter`
+
 ## v2.3.5 `(2020-07-06)`
 
 - [x] Fix bug in `HidePathsAndDefinitionsByRolesDocumentFilter`
