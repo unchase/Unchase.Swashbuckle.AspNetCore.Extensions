@@ -92,6 +92,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                                     {
                                         if (itemsSchemaProperty.Value?.Reference?.Id != null)
                                         {
+                                            result.AddRange(GetRequiredDefinitions(schemas, itemsSchemaProperty.Value?.Reference));
                                             result.Add(itemsSchemaProperty.Value?.Reference?.Id);
                                         }
 
