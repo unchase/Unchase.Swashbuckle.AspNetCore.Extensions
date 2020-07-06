@@ -71,6 +71,10 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                                         }
                                     }
                                 }
+                                else if (responseSchemaPropertySchema != null)
+                                {
+                                    result.AddRange(GetRequiredDefinitions(schemas, schemaProperty.Value?.Reference));
+                                }
                             }
 
                             if (schemaProperty.Value?.Items?.Reference?.Id != null)

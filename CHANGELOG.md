@@ -8,6 +8,10 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.3.5 `(2020-07-06)`
+
+- [x] Fix bug in `HidePathsAndDefinitionsByRolesDocumentFilter`
+
 ## v2.3.4 `(2020-06-11)`
 
 - [x] Fix [bug #10](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/10)
