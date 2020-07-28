@@ -44,7 +44,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Factories
 
             var actionDescriptor = CreateActionDescriptor(methodInfo);
 
-            var routAttr = controllerType.GetCustomAttributes().OfType<RouteAttribute>().LastOrDefault();
+            var routAttr = controllerType.GetCustomAttributes(true).OfType<RouteAttribute>().LastOrDefault();
 
             if (string.IsNullOrWhiteSpace(actionDescriptor?.AttributeRouteInfo?.Template))
                 return null;
@@ -62,7 +62,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Factories
                     actionDescriptor.AttributeRouteInfo.Template.Replace($"[{routeValue.Key}]", routeValue.Value);
             }
 
-            httpMethod = httpMethod ?? methodInfo?.GetCustomAttributes().OfType<HttpMethodAttribute>().FirstOrDefault()?.HttpMethods?.FirstOrDefault();
+            httpMethod = httpMethod ?? methodInfo?.GetCustomAttributes(true).OfType<HttpMethodAttribute>().FirstOrDefault()?.HttpMethods?.FirstOrDefault();
 
             var apiDescription = new ApiDescription
             {

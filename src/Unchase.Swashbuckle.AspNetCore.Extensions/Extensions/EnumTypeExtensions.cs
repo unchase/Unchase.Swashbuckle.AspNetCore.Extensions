@@ -44,7 +44,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             if (!enumType.IsEnum)
                 return string.Empty;
             var memInfo = enumType.GetMember(enumField.ToString());
-            var attributes = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+            var attributes = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), true);
             if (attributes.Length > 0)
                 return (attributes[attributeNumber] as DescriptionAttribute)?.Description ?? string.Empty;
             return string.Empty;

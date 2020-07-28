@@ -169,7 +169,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
             foreach (var path in paths)
             {
-                var authorizeAttributes = path.Key.ActionMethodInfo.GetCustomAttributes<AuthorizeAttribute>(false);
+                var authorizeAttributes = path.Key.ActionMethodInfo.GetCustomAttributes<AuthorizeAttribute>(true);
                 foreach (var authorizeAttribute in authorizeAttributes)
                 {
                     var authorizeAttributeRoles = authorizeAttribute?.Roles?.Split(',').Select(r => r.Trim()).ToList();
@@ -180,7 +180,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                     }
                 }
 
-                var controllerAuthorizeAttributes = path.Key.ControllerType.GetCustomAttributes<AuthorizeAttribute>(false);
+                var controllerAuthorizeAttributes = path.Key.ControllerType.GetCustomAttributes<AuthorizeAttribute>(true);
                 foreach (var controllerAuthorizeAttribute in controllerAuthorizeAttributes)
                 {
                     var authorizeAttributeRoles = controllerAuthorizeAttribute?.Roles?.Split(',').Select(r => r.Trim()).ToList();
