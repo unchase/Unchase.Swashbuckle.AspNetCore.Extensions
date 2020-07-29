@@ -8,7 +8,12 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
-## v2.3.9 `(2020-07-11)`
+## v2.3.10 `(2020-07-29)`
+
+- [x] Fix [issue #13](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/13)
+- [x] Fix [issue #14](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/14)
+
+## v2.3.9 `(2020-07-28)`
 
 - [x] Update nuget dependencies for sample WebAPI
 - [x] Fix [issue #12](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/12)

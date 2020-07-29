@@ -103,6 +103,9 @@ public void ConfigureServices(IServiceCollection services)
     {
         options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
 
+        // use it if you want to hide Paths and Definitions from OpenApi documentation correctly
+        options.UseAllOfToExtendReferenceSchemas();
+
         // if you want to add xml comments into the swagger documentation, first of all add:
         var xmlFilePath = Path.Combine(AppContext.BaseDirectory, "WebApi3.1-Swashbuckle.xml");
         options.IncludeXmlComments(xmlFilePath);

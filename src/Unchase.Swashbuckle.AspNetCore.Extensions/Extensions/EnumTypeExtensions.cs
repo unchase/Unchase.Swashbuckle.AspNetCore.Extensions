@@ -102,7 +102,10 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                 var xpathNavigator1 = xmlNavigator.SelectSingleNode(
                     $"/doc/members/member[@name='{nodeNameForMember}']");
                 var xpathNavigator2 = xpathNavigator1?.SelectSingleNode("summary");
-                return xpathNavigator2 != null ? XmlCommentsTextHelper.Humanize(xpathNavigator2.InnerXml) : string.Empty;
+                if (xpathNavigator2 != null)
+                {
+                    return XmlCommentsTextHelper.Humanize(xpathNavigator2.InnerXml);
+                }
             }
 
             return string.Empty;

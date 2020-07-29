@@ -31,6 +31,9 @@ namespace WebApi3._1_Swashbuckle
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
 
+                // use it if you want to hide Paths and Definitions from OpenApi documentation correctly
+                options.UseAllOfToExtendReferenceSchemas();
+
                 #region AddEnumsWithValuesFixFilters
 
                 // if you want to add xml comments into the swagger documentation, first of all add:
