@@ -8,6 +8,10 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.3.11 `(2020-09-17)`
+
+- [x] Fix bug related with removal of required schemes from `AllOf` using `HidePathsAndDefinitionsByRolesDocumentFilter`
+
 ## v2.3.10 `(2020-07-29)`
 
 - [x] Fix [issue #13](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/13)

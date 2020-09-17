@@ -157,9 +157,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// <param name="schemas">Dictionary with openApi schemas with scheme name keys.</param>
         /// <param name="acceptedRoles">Collection of accepted roles.</param>
         internal static void RemovePathsAndComponents(
-            OpenApiDocument openApiDoc, 
-            IDictionary<(MethodInfo ActionMethodInfo, Type ControllerType), string> paths, 
-            IDictionary<string, OpenApiSchema> schemas, 
+            OpenApiDocument openApiDoc,
+            IDictionary<(MethodInfo ActionMethodInfo, Type ControllerType), string> paths,
+            IDictionary<string, OpenApiSchema> schemas,
             IReadOnlyList<string> acceptedRoles)
         {
             var keysForRemove = new List<string>();
@@ -214,6 +214,15 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
                         foreach (var responseContentSchema in response.Value?.Content?.Select(rc => rc.Value?.Schema))
                         {
+                            foreach (var responseContentSchemaAllOfItemSchema in responseContentSchema.AllOf.Where(s => s.Reference?.Id != null))
+                            {
+                                if (responseContentSchemaAllOfItemSchema?.Reference?.Id != null && !requiredRefs.Contains(responseContentSchemaAllOfItemSchema?.Reference?.Id))
+                                {
+                                    requiredRefs.AddRange(GetRequiredDefinitions(schemas, responseContentSchemaAllOfItemSchema?.Reference));
+                                    requiredRefs = requiredRefs.Distinct().ToList();
+                                }
+                            }
+
                             if (responseContentSchema?.Reference?.Id != null && !requiredRefs.Contains(responseContentSchema?.Reference?.Id))
                             {
                                 requiredRefs.AddRange(GetRequiredDefinitions(schemas, responseContentSchema?.Reference));
@@ -227,6 +236,15 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                     var operationRequestBody = operation.Value?.RequestBody;
                     foreach (var operationRequestBodyContentSchema in operationRequestBody?.Content?.Select(rc => rc.Value?.Schema))
                     {
+                        foreach (var operationRequestBodyContentSchemaAllOfItemSchema in operationRequestBodyContentSchema.AllOf.Where(s => s.Reference?.Id != null))
+                        {
+                            if (operationRequestBodyContentSchemaAllOfItemSchema?.Reference?.Id != null && !requiredRefs.Contains(operationRequestBodyContentSchemaAllOfItemSchema?.Reference?.Id))
+                            {
+                                requiredRefs.AddRange(GetRequiredDefinitions(schemas, operationRequestBodyContentSchemaAllOfItemSchema?.Reference));
+                                requiredRefs = requiredRefs.Distinct().ToList();
+                            }
+                        }
+
                         if (operationRequestBodyContentSchema?.Reference?.Id != null && !requiredRefs.Contains(operationRequestBodyContentSchema?.Reference?.Id))
                         {
                             requiredRefs.AddRange(GetRequiredDefinitions(schemas, operationRequestBodyContentSchema?.Reference));
@@ -245,6 +263,15 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
                     foreach (var parameterContentSchema in parameter?.Content?.Select(rc => rc.Value?.Schema))
                     {
+                        foreach (var parameterContentSchemaAllOfItemSchema in parameterContentSchema.AllOf.Where(s => s.Reference?.Id != null))
+                        {
+                            if (parameterContentSchemaAllOfItemSchema?.Reference?.Id != null && !requiredRefs.Contains(parameterContentSchemaAllOfItemSchema?.Reference?.Id))
+                            {
+                                requiredRefs.AddRange(GetRequiredDefinitions(schemas, parameterContentSchemaAllOfItemSchema?.Reference));
+                                requiredRefs = requiredRefs.Distinct().ToList();
+                            }
+                        }
+
                         if (parameterContentSchema?.Reference?.Id != null && !requiredRefs.Contains(parameterContentSchema?.Reference?.Id))
                         {
                             requiredRefs.AddRange(GetRequiredDefinitions(schemas, parameterContentSchema?.Reference));
