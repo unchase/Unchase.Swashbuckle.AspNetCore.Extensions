@@ -52,8 +52,17 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             {
                 var schema = schemaDictionaryItem.Value;
                 var description = schema.AddEnumValuesDescription(this._includeDescriptionFromAttribute);
-                if (description != null && schema.Description != null && !schema.Description.Contains(description))
-                    schema.Description += description;
+                if (description != null)
+                {
+                    if (schema.Description == null)
+                    {
+                        schema.Description = description;
+                    }
+                    else if (!schema.Description.Contains(description))
+                    {
+                        schema.Description += description;
+                    }
+                }
             }
 
             if (openApiDoc.Paths.Count <= 0)
@@ -69,8 +78,17 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                 var schema = openApiDoc.Components.Schemas[componentReference];
 
                 var description = schema.AddEnumValuesDescription(this._includeDescriptionFromAttribute);
-                if (description != null && parameter.Description != null && !parameter.Description.Contains(description))
-                    parameter.Description += description;
+                if (description != null)
+                {
+                    if (parameter.Description == null)
+                    {
+                        parameter.Description = description;
+                    }
+                    else if (!parameter.Description.Contains(description))
+                    {
+                        parameter.Description += description;
+                    }
+                }
             }
 
             // add enum descriptions to request body

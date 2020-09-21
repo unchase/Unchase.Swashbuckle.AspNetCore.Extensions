@@ -118,8 +118,17 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                                     }
 
                                     var description = propertySchema.AddEnumValuesDescription(this._includeXEnumDescriptions);
-                                    if (description != null && schemaPropertyValue.Description != null && !schemaPropertyValue.Description.Contains(description))
-                                        schemaPropertyValue.Description += description;
+                                    if (description != null)
+                                    {
+                                        if (schemaPropertyValue.Description == null)
+                                        {
+                                            schemaPropertyValue.Description = description;
+                                        }
+                                        else if (!schemaPropertyValue.Description.Contains(description))
+                                        {
+                                            schemaPropertyValue.Description += description;
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -134,8 +143,17 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                     var schemaPropertyValue = schemaProperty.Value;
                     var propertySchema = context.SchemaRepository.Schemas.FirstOrDefault(s => schemaPropertyValue.AllOf.FirstOrDefault(a => a.Reference.Id == s.Key) != null).Value;
                     var description = propertySchema?.AddEnumValuesDescription(this._includeXEnumDescriptions);
-                    if (description != null && schemaPropertyValue.Description != null && !schemaPropertyValue.Description.Contains(description))
-                        schemaPropertyValue.Description += description;
+                    if (description != null)
+                    {
+                        if (schemaPropertyValue.Description == null)
+                        {
+                            schemaPropertyValue.Description = description;
+                        }
+                        else if (!schemaPropertyValue.Description.Contains(description))
+                        {
+                            schemaPropertyValue.Description += description;
+                        }
+                    }
                 }
             }
         }
