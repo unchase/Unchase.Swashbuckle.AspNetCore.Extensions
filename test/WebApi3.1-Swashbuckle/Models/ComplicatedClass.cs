@@ -11,11 +11,22 @@ namespace WebApi3._1_Swashbuckle.Models
         /// <summary>
         /// Tag.
         /// </summary>
+        /// <remarks>
+        /// Tag remarks.
+        /// </remarks>
         public Tag Tag { get; set; }
 
         /// <summary>
         /// Inner class.
         /// </summary>
+        /// <remarks>
+        /// <para>
+        /// InnerClass remarks.
+        /// </para>
+        /// <para>
+        /// With para.
+        /// </para>
+        /// </remarks>
         public InnerClass InnerClass { get; set; }
     }
 

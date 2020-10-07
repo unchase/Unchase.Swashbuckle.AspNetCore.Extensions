@@ -129,6 +129,9 @@ public void ConfigureServices(IServiceCollection services)
             // add descriptions from DescriptionAttribute or xml-comments to fix enums (add 'x-enumDescriptions' for schema extensions) for applied filters
             o.IncludeDescriptions = true;
 
+            // add remarks for descriptions from xml-comments
+            o.IncludeXEnumRemarks = true;
+
             // get descriptions from DescriptionAttribute then from xml-comments
             o.DescriptionSource = DescriptionSources.DescriptionAttributesThenXmlComments;
 

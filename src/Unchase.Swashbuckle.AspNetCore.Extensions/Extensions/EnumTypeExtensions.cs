@@ -50,7 +50,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             return string.Empty;
         }
 
-        internal static List<OpenApiString> GetEnumValuesDescription(Type enumType, DescriptionSources descriptionSource, IEnumerable<XPathNavigator> xmlNavigators = null)
+        internal static List<OpenApiString> GetEnumValuesDescription(Type enumType, DescriptionSources descriptionSource, IEnumerable<XPathNavigator> xmlNavigators, bool includeRemarks = false)
         {
             var enumsDescriptions = new List<OpenApiString>();
             foreach (var enumValue in Enum.GetValues(enumType))
@@ -66,7 +66,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                         case DescriptionSources.XmlComments:
                             var memberInfo = enumType.GetMembers().FirstOrDefault(m =>
                                 m.Name.Equals(enumValue.ToString(), StringComparison.InvariantCultureIgnoreCase));
-                            enumDescription = TryGetMemberComments(memberInfo, xmlNavigators);
+                            enumDescription = TryGetMemberComments(memberInfo, xmlNavigators, includeRemarks);
                             break;
                         case DescriptionSources.DescriptionAttributesThenXmlComments:
                             enumDescription = GetDescriptionFromEnumOption(enumType, enumValue);
@@ -74,7 +74,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                             {
                                 var memberInfo2 = enumType.GetMembers().FirstOrDefault(m =>
                                     m.Name.Equals(enumValue.ToString(), StringComparison.InvariantCultureIgnoreCase));
-                                enumDescription = TryGetMemberComments(memberInfo2, xmlNavigators);
+                                enumDescription = TryGetMemberComments(memberInfo2, xmlNavigators, includeRemarks);
                             }
                             break;
                     }
@@ -85,30 +85,75 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                 }
                 finally
                 {
-                    enumsDescriptions.Add(new OpenApiString(enumDescription));
+                    if (!string.IsNullOrWhiteSpace(enumDescription))
+                        enumsDescriptions.Add(new OpenApiString(enumDescription));
                 }
             }
             return enumsDescriptions;
         }
 
-        private static string TryGetMemberComments(MemberInfo memberInfo, IEnumerable<XPathNavigator> xmlNavigators)
+        private static string TryGetMemberComments(MemberInfo memberInfo, IEnumerable<XPathNavigator> xmlNavigators, bool includeRemarks = false)
         {
+            var commentsBuilder = new StringBuilder();
             if (xmlNavigators == null)
                 return string.Empty;
 
             foreach (var xmlNavigator in xmlNavigators)
             {
-                var nodeNameForMember = XmlCommentsNodeNameHelper.GetNodeNameForMember(memberInfo);
-                var xpathNavigator1 = xmlNavigator.SelectSingleNode(
+                var nodeNameForMember = GetNodeNameForMember(memberInfo);
+                var xpathMemberNavigator = xmlNavigator.SelectSingleNode(
                     $"/doc/members/member[@name='{nodeNameForMember}']");
-                var xpathNavigator2 = xpathNavigator1?.SelectSingleNode("summary");
-                if (xpathNavigator2 != null)
+                var xpathSummaryNavigator = xpathMemberNavigator?.SelectSingleNode("summary");
+                if (xpathSummaryNavigator != null)
                 {
-                    return XmlCommentsTextHelper.Humanize(xpathNavigator2.InnerXml);
+                    commentsBuilder.Append(XmlCommentsTextHelper.Humanize(xpathSummaryNavigator.InnerXml));
+                    if (includeRemarks)
+                    {
+                        var xpathRemarksNavigator = xpathMemberNavigator?.SelectSingleNode("remarks");
+                        if (xpathRemarksNavigator != null && !string.IsNullOrWhiteSpace(xpathRemarksNavigator.InnerXml))
+                        {
+                            commentsBuilder.Append($" ({XmlCommentsTextHelper.Humanize(xpathRemarksNavigator.InnerXml)})");
+                        }
+                    }
+
+                    return commentsBuilder.ToString();
                 }
             }
 
             return string.Empty;
+        }
+
+        private static string GetNodeNameForMember(MemberInfo memberInfo)
+        {
+            var stringBuilder = new StringBuilder((memberInfo.MemberType & MemberTypes.Field) != 0 ? "F:" : "P:");
+            stringBuilder.Append(QualifiedNameFor(memberInfo.DeclaringType, false));
+            stringBuilder.Append("." + memberInfo.Name);
+            return stringBuilder.ToString();
+        }
+
+        private static string QualifiedNameFor(Type type, bool expandGenericArgs = false)
+        {
+            if (type.IsArray)
+                return QualifiedNameFor(type.GetElementType(), expandGenericArgs) + "[]";
+
+            var stringBuilder = new StringBuilder();
+            if (!string.IsNullOrEmpty(type.Namespace))
+                stringBuilder.Append(type.Namespace + ".");
+
+            if (type.IsNested)
+                stringBuilder.Append(type.DeclaringType?.Name + ".");
+
+            if (type.IsConstructedGenericType & expandGenericArgs)
+            {
+                var str = type.Name.Split('`').First();
+                stringBuilder.Append(str);
+                var values = type.GetGenericArguments().Select(t => !t.IsGenericParameter ? QualifiedNameFor(t, true) : string.Format("`{0}", t.GenericParameterPosition));
+                stringBuilder.Append("{" + string.Join(",", values) + "}");
+            }
+            else
+                stringBuilder.Append(type.Name);
+
+            return stringBuilder.ToString();
         }
 
         internal static string AddEnumValuesDescription(this OpenApiSchema schema, bool includeDescriptionFromAttribute = false)

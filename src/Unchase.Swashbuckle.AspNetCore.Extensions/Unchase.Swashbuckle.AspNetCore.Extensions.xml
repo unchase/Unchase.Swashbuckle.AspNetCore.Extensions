@@ -310,6 +310,11 @@
             Include descriptions from <see cref="T:System.ComponentModel.DescriptionAttribute"/> or xml comments. Default value is false.
             </summary>
         </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions.IncludeXEnumRemarks">
+            <summary>
+            Include remarks for descriptions from xml comments. Default value is false.
+            </summary>
+        </member>
         <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions.DescriptionSource">
             <summary>
             Source to get descriptions. Default value is <see cref="F:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.DescriptionSources.DescriptionAttributes"/>.

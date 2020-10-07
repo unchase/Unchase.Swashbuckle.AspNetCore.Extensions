@@ -42,7 +42,7 @@ namespace WebApi3._1_Swashbuckle
 
                 // Add filters to fix enums
                 // use by default:
-                //options.AddEnumsWithValuesFixFilters();
+                options.AddEnumsWithValuesFixFilters();
 
                 // or configured:
                 options.AddEnumsWithValuesFixFilters(services, o =>
@@ -58,6 +58,9 @@ namespace WebApi3._1_Swashbuckle
 
                     // add descriptions from DescriptionAttribute or xml-comments to fix enums (add 'x-enumDescriptions' for schema extensions) for applied filters
                     o.IncludeDescriptions = true;
+
+                    // add remarks for descriptions from xml-comments
+                    o.IncludeXEnumRemarks = true;
 
                     // get descriptions from DescriptionAttribute then from xml-comments
                     o.DescriptionSource = DescriptionSources.DescriptionAttributesThenXmlComments;

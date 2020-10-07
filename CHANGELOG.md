@@ -8,6 +8,11 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.3.13 `2020-10-07`
+
+- [x] Add `IncludeXEnumRemarks` option to include remarks for descriptions from xml-comments
+- [x] Fix small bugs 
+
 ## v2.3.12 `(2020-09-21)`
 
 - [x] Fix [issue #11](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/11)

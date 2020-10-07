@@ -22,6 +22,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Options
         public bool IncludeDescriptions { get; set; } = false;
 
         /// <summary>
+        /// Include remarks for descriptions from xml comments. Default value is false.
+        /// </summary>
+        public bool IncludeXEnumRemarks { get; set; } = false;
+
+        /// <summary>
         /// Source to get descriptions. Default value is <see cref="DescriptionSources.DescriptionAttributes"/>.
         /// </summary>
         public DescriptionSources DescriptionSource { get; set; } = DescriptionSources.DescriptionAttributes;
