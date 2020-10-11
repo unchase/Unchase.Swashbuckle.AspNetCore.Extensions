@@ -103,6 +103,28 @@
             <param name="configureOptions">An <see cref="T:System.Action`1"/> to configure options for filters.</param>
             <returns></returns>
         </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.SwaggerGenOptionsExtensions.IncludeXmlCommentsWithRemarks(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,System.Func{System.Xml.XPath.XPathDocument},System.Boolean)">
+            <summary>
+            Inject human-friendly descriptions for Operations, Parameters and Schemas based on XML Comment files (from summary and remarks).
+            </summary>
+            <param name="swaggerGenOptions"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions"/>.</param>
+            <param name="xmlDocFactory">A factory method that returns XML Comments as an XPathDocument.</param>
+            <param name="includeControllerXmlComments">
+            Flag to indicate if controller XML comments (i.e. summary) should be used to assign Tag descriptions.
+            Don't set this flag if you're customizing the default tag for operations via TagActionsBy.
+            </param>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.SwaggerGenOptionsExtensions.IncludeXmlCommentsWithRemarks(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,System.String,System.Boolean)">
+            <summary>
+            Inject human-friendly descriptions for Operations, Parameters and Schemas based on XML Comment files (from summary and remarks).
+            </summary>
+            <param name="swaggerGenOptions"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions"/>.</param>
+            <param name="filePath">An absolute path to the file that contains XML Comments.</param>
+            <param name="includeControllerXmlComments">
+            Flag to indicate if controller XML comments (i.e. summary) should be used to assign Tag descriptions.
+            Don't set this flag if you're customizing the default tag for operations via TagActionsBy.
+            </param>
+        </member>
         <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Factories.ApiDescriptionFactory">
             <summary>
             <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/> factory.
@@ -171,6 +193,42 @@
             <returns>
             Returns <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/>.
             </returns>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Factories.ModelMetadataFactory">
+            <summary>
+            <see cref="T:Microsoft.AspNetCore.Mvc.ModelBinding.ModelMetadata"/> factory.
+            </summary>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Factories.ModelMetadataFactory.CreateForType(System.Type)">
+            <summary>
+            Create <see cref="T:Microsoft.AspNetCore.Mvc.ModelBinding.ModelMetadata"/> for type.
+            </summary>
+            <param name="type">Type of method.</param>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Factories.ModelMetadataFactory.CreateForProperty(System.Type,System.String)">
+            <summary>
+            Create <see cref="T:Microsoft.AspNetCore.Mvc.ModelBinding.ModelMetadata"/> for property.
+            </summary>
+            <param name="containingType">Type of property method.</param>
+            <param name="propertyName">Name of property.</param>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Factories.ModelMetadataFactory.CreateForParameter(System.Reflection.ParameterInfo)">
+            <summary>
+            Create <see cref="T:Microsoft.AspNetCore.Mvc.ModelBinding.ModelMetadata"/> for parameter.
+            </summary>
+            <param name="parameter"><see cref="T:System.Reflection.ParameterInfo"/></param>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.AppendActionCountToTagSummaryDocumentFilter">
+            <summary>
+            Document filter for appending action count to Tag summary of controllers.
+            </summary>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.AppendActionCountToTagSummaryDocumentFilter.Apply(Microsoft.OpenApi.Models.OpenApiDocument,Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext)">
+            <summary>
+            Apply filter.
+            </summary>
+            <param name="openApiDoc"><see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/></param>
+            <param name="context"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext"/></param>
         </member>
         <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.ResponseExampleOptions">
             <summary>
@@ -291,6 +349,78 @@
         <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XEnumNamesSchemaFilter.Apply(Microsoft.OpenApi.Models.OpenApiSchema,Swashbuckle.AspNetCore.SwaggerGen.SchemaFilterContext)">
             <summary>
             Apply the filter.
+            </summary>
+            <param name="schema"><see cref="T:Microsoft.OpenApi.Models.OpenApiSchema"/>.</param>
+            <param name="context"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SchemaFilterContext"/>.</param>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksDocumentFilter">
+            <summary>
+            Inject human-friendly remarks to descriptions for Document's Tags based on XML Comment files.
+            </summary>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksDocumentFilter.#ctor(System.Xml.XPath.XPathDocument)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="xmlDoc"><see cref="T:System.Xml.XPath.XPathDocument"/></param>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksDocumentFilter.Apply(Microsoft.OpenApi.Models.OpenApiDocument,Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext)">
+            <summary>
+            Apply filter.
+            </summary>
+            <param name="swaggerDoc"><see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.</param>
+            <param name="context"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext"/>.</param>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksParameterFilter">
+            <summary>
+            Inject human-friendly remarks to descriptions for Parameters based on XML Comment files.
+            </summary>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksParameterFilter.#ctor(System.Xml.XPath.XPathDocument)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="xmlDoc"><see cref="T:System.Xml.XPath.XPathDocument"/></param>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksParameterFilter.Apply(Microsoft.OpenApi.Models.OpenApiParameter,Swashbuckle.AspNetCore.SwaggerGen.ParameterFilterContext)">
+            <summary>
+            Apply filter.
+            </summary>
+            <param name="parameter"><see cref="T:Microsoft.OpenApi.Models.OpenApiParameter"/>.</param>
+            <param name="context"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.ParameterFilterContext"/>.</param>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksRequestBodyFilter">
+            <summary>
+            Inject human-friendly remarks to descriptions for RequestBodies based on XML Comment files.
+            </summary>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksRequestBodyFilter.#ctor(System.Xml.XPath.XPathDocument)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="xmlDoc"><see cref="T:System.Xml.XPath.XPathDocument"/></param>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksRequestBodyFilter.Apply(Microsoft.OpenApi.Models.OpenApiRequestBody,Swashbuckle.AspNetCore.SwaggerGen.RequestBodyFilterContext)">
+            <summary>
+            Apply filter.
+            </summary>
+            <param name="requestBody"><see cref="T:Microsoft.OpenApi.Models.OpenApiRequestBody"/>.</param>
+            <param name="context"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.RequestBodyFilterContext"/>.</param>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksSchemaFilter">
+            <summary>
+            Inject human-friendly remarks to descriptions for Schemas based on XML Comment files.
+            </summary>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksSchemaFilter.#ctor(System.Xml.XPath.XPathDocument)">
+            <summary>
+            Constructor.
+            </summary>
+            <param name="xmlDoc"><see cref="T:System.Xml.XPath.XPathDocument"/></param>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksSchemaFilter.Apply(Microsoft.OpenApi.Models.OpenApiSchema,Swashbuckle.AspNetCore.SwaggerGen.SchemaFilterContext)">
+            <summary>
+            Apply filter.
             </summary>
             <param name="schema"><see cref="T:Microsoft.OpenApi.Models.OpenApiSchema"/>.</param>
             <param name="context"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SchemaFilterContext"/>.</param>

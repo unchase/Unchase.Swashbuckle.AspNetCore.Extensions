@@ -34,6 +34,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
 
     internal static class EnumTypeExtensions
     {
+        #region Methods
+
         private static string GetDescriptionFromEnumOption(Type enumOptionType, object enumOption)
         {
             return enumOptionType.GetFieldAttributeDescription(enumOption, 0);
@@ -196,5 +198,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             }
             return sb.ToString();
         }
+
+        #endregion
     }
 }

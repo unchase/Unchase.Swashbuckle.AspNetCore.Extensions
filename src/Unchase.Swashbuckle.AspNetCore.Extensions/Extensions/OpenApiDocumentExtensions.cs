@@ -14,6 +14,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
     /// </summary>
     public static class OpenApiDocumentExtensions
     {
+        #region Extension methods
+
         /// <summary>
         /// Remove Paths and Components from OpenApi documentation for specific controller action without accepted roles.
         /// </summary>
@@ -23,7 +25,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
         /// <returns>
         /// Returns <see cref="OpenApiDocument"/>.
         /// </returns>
-        public static OpenApiDocument RemovePathsAndComponentsWithoutAcceptedRolesFor<TController>(this OpenApiDocument openApiDoc, Func<TController, string> actionNameSelector,
+        public static OpenApiDocument RemovePathsAndComponentsWithoutAcceptedRolesFor<TController>(
+            this OpenApiDocument openApiDoc,
+            Func<TController, string> actionNameSelector,
             IReadOnlyList<string> acceptedRoles) where TController : class, new()
         {
             var actionDescriptor = ApiDescriptionFactory.Create(actionNameSelector, typeof(TController).GetCustomAttribute<RouteAttribute>().Template)?.ActionDescriptor;
@@ -49,7 +53,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
         /// <returns>
         /// Returns <see cref="OpenApiDocument"/>.
         /// </returns>
-        public static OpenApiDocument RemovePathsAndComponentsWithoutAcceptedRolesFor<TController>(this OpenApiDocument openApiDoc, string actionName,
+        public static OpenApiDocument RemovePathsAndComponentsWithoutAcceptedRolesFor<TController>(
+            this OpenApiDocument openApiDoc,
+            string actionName,
             IReadOnlyList<string> acceptedRoles) where TController : class
         {
             var actionDescriptor = ApiDescriptionFactory.Create(typeof(TController), actionName, typeof(TController).GetCustomAttribute<RouteAttribute>().Template)?.ActionDescriptor;
@@ -74,7 +80,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
         /// <returns>
         /// Returns <see cref="OpenApiDocument"/>.
         /// </returns>
-        public static OpenApiDocument RemovePathsAndComponentsWithoutAcceptedRolesForController<TController>(this OpenApiDocument openApiDoc,
+        public static OpenApiDocument RemovePathsAndComponentsWithoutAcceptedRolesForController<TController>(
+            this OpenApiDocument openApiDoc,
             IReadOnlyList<string> acceptedRoles) where TController : class
         {
             var paths = new Dictionary<(MethodInfo, Type), string>();
@@ -90,5 +97,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
 
             return openApiDoc;
         }
+
+        #endregion
     }
 }

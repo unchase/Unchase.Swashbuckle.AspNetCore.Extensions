@@ -5,7 +5,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace WebApi3._1_Swashbuckle.Controllers
 {
     /// <summary>
-    /// Second controller.
+    /// Second controller
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
@@ -18,8 +18,11 @@ namespace WebApi3._1_Swashbuckle.Controllers
     public class SecondController : ControllerBase
     {
         /// <summary>
-        /// Test action.
+        /// Test action
         /// </summary>
+        /// <remarks>
+        /// Test action remarks
+        /// </remarks>
         [HttpGet()]
         public IActionResult TestAction()
         {

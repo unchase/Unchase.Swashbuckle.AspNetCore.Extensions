@@ -15,6 +15,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Factories
     /// </summary>
     internal static class ApiDescriptionFactory
     {
+        #region Methods
+
         /// <summary>
         /// Create <see cref="ApiDescription"/>.
         /// </summary>
@@ -262,5 +264,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Factories
                 ParameterType = parameterInfo.ParameterType,
             };
         }
+
+        #endregion
     }
 }

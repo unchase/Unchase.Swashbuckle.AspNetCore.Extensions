@@ -10,7 +10,7 @@ using WebApi3._1_Swashbuckle.Models;
 namespace WebApi3._1_Swashbuckle.Controllers
 {
     /// <summary>
-    /// Todo controller.
+    /// Todo controller
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
@@ -22,8 +22,11 @@ namespace WebApi3._1_Swashbuckle.Controllers
         private static readonly ItodoContext _context = new TodoContext();
 
         /// <summary>
-        /// Hided action.
+        /// Hided action
         /// </summary>
+        /// <remarks>
+        /// Hided action remarks
+        /// </remarks>
         [HttpGet("hided")]
         [Authorize(Roles = "NotAcceptedRole")]
         public IActionResult HidedAction()
@@ -32,8 +35,11 @@ namespace WebApi3._1_Swashbuckle.Controllers
         }
 
         /// <summary>
-        /// Complicated action.
+        /// Complicated action
         /// </summary>
+        /// <remarks>
+        /// Complicated action remarks
+        /// </remarks>
         /// <returns>A complicated class.</returns>
         /// <response code="200">Returns a complicated class.</response>
         [HttpGet("complicated")]
@@ -56,8 +62,11 @@ namespace WebApi3._1_Swashbuckle.Controllers
         }
 
         /// <summary>
-        /// Deletes a specific TodoItem.
+        /// Deletes a specific TodoItem
         /// </summary>
+        /// <remarks>
+        /// Deletes a specific TodoItem remarks
+        /// </remarks>
         /// <param name="id"></param>
         [HttpDelete("{id}")]
         [Authorize(Roles = "AcceptedRole")]
@@ -76,7 +85,7 @@ namespace WebApi3._1_Swashbuckle.Controllers
         }
 
         /// <summary>
-        /// Creates a TodoItem.
+        /// Creates a TodoItem
         /// </summary>
         /// <remarks>
         /// Sample request:

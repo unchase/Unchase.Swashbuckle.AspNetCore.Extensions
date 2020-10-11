@@ -5,10 +5,18 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 {
+    /// <summary>
+    /// Document filter for appending action count to Tag summary of controllers.
+    /// </summary>
     public class AppendActionCountToTagSummaryDocumentFilter : IDocumentFilter
     {
         #region Methods
 
+        /// <summary>
+        /// Apply filter.
+        /// </summary>
+        /// <param name="openApiDoc"><see cref="OpenApiDocument"/></param>
+        /// <param name="context"><see cref="DocumentFilterContext"/></param>
         public void Apply(OpenApiDocument openApiDoc, DocumentFilterContext context)
         {
             if (openApiDoc.Tags == null)

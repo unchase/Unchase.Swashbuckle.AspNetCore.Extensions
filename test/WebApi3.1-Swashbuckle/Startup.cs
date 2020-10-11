@@ -36,9 +36,11 @@ namespace WebApi3._1_Swashbuckle
 
                 #region AddEnumsWithValuesFixFilters
 
-                // if you want to add xml comments into the swagger documentation, first of all add:
+                // if you want to add xml comments from summary and remarks into the swagger documentation, first of all add:
                 var xmlFilePath = Path.Combine(AppContext.BaseDirectory, "WebApi3.1-Swashbuckle.xml");
-                options.IncludeXmlComments(xmlFilePath);
+                options.IncludeXmlCommentsWithRemarks(xmlFilePath);
+                // or add without remarks
+                //options.IncludeXmlComments(xmlFilePath);
 
                 // Add filters to fix enums
                 // use by default:

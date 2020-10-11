@@ -3,27 +3,39 @@
 namespace WebApi3._1_Swashbuckle.Models
 {
     /// <summary>
-    /// Tag for TodoItem.
+    /// Tag for TodoItem
     /// </summary>
-    [Description("Tag enum")]
+    /// <remarks>
+    /// Tag for TodoItem remarks - enum
+    /// </remarks>
+    [Description("Tag enum - description")]
     public enum Tag
     {
         /// <summary>
-        /// None.
+        /// None
         /// </summary>
-        [Description("Default tag")]
+        /// <remarks>
+        /// None tag remarks
+        /// </remarks>
+        [Description("Default tag - description")]
         None = 0,
 
         /// <summary>
-        /// Task.
+        /// Task
         /// </summary>
-        [Description("Some task")]
+        /// <remarks>
+        /// Task tag remarks
+        /// </remarks>
+        [Description("Some task - description")]
         Task = 1,
 
         /// <summary>
-        /// Workout.
+        /// Workout
         /// </summary>
-        [Description("Periodical job")]
+        /// <remarks>
+        /// Workout tag remarks
+        /// </remarks>
+        [Description("Periodical job - description")]
         Workout = 2
     }
 }

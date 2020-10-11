@@ -37,50 +37,65 @@
         </member>
         <member name="T:WebApi3._1_Swashbuckle.Controllers.HidedController">
             <summary>
-            Hided controller.
+            Hided controller
             </summary>
         </member>
         <member name="M:WebApi3._1_Swashbuckle.Controllers.HidedController.HidedAction">
             <summary>
-            Hided action.
+            Hided action
             </summary>
+            <remarks>
+            Hided action remarks
+            </remarks>
         </member>
         <member name="T:WebApi3._1_Swashbuckle.Controllers.SecondController">
             <summary>
-            Second controller.
+            Second controller
             </summary>
         </member>
         <member name="M:WebApi3._1_Swashbuckle.Controllers.SecondController.TestAction">
             <summary>
-            Test action.
+            Test action
             </summary>
+            <remarks>
+            Test action remarks
+            </remarks>
         </member>
         <member name="T:WebApi3._1_Swashbuckle.Controllers.TodoController">
             <summary>
-            Todo controller.
+            Todo controller
             </summary>
         </member>
         <member name="M:WebApi3._1_Swashbuckle.Controllers.TodoController.HidedAction">
             <summary>
-            Hided action.
+            Hided action
             </summary>
+            <remarks>
+            Hided action remarks
+            </remarks>
         </member>
         <member name="M:WebApi3._1_Swashbuckle.Controllers.TodoController.ComplicatedAction">
             <summary>
-            Complicated action.
+            Complicated action
             </summary>
+            <remarks>
+            Complicated action remarks
+            </remarks>
             <returns>A complicated class.</returns>
             <response code="200">Returns a complicated class.</response>
         </member>
         <member name="M:WebApi3._1_Swashbuckle.Controllers.TodoController.Delete(System.Int64)">
             <summary>
-            Deletes a specific TodoItem.
+            Deletes a specific TodoItem
             </summary>
+            <remarks>
+            Deletes a specific TodoItem remarks
+            </remarks>
             <param name="id"></param>
         </member>
         <member name="M:WebApi3._1_Swashbuckle.Controllers.TodoController.Create(TodoApi.Models.TodoItem)">
              <summary>
-             Creates a TodoItem.
+             Creates a TodoItem
              </summary>
              <remarks>
              Sample request:
@@ -101,108 +116,171 @@
         </member>
         <member name="T:WebApi3._1_Swashbuckle.Models.ComplicatedClass">
             <summary>
-            Complicated class for testing enums.
+            Complicated class for testing enums
             </summary>
+            <remarks>
+            Complicated class remarks - class
+            </remarks>
         </member>
         <member name="P:WebApi3._1_Swashbuckle.Models.ComplicatedClass.Tag">
             <summary>
-            Tag.
+            Tag
             </summary>
+            <remarks>
+            Tag remarks - property
+            </remarks>
         </member>
         <member name="P:WebApi3._1_Swashbuckle.Models.ComplicatedClass.InnerClass">
             <summary>
-            Inner class.
+            Inner class
             </summary>
+            <remarks>
+            InnerClass remarks - property
+            </remarks>
         </member>
         <member name="T:WebApi3._1_Swashbuckle.Models.InnerClass">
             <summary>
-            Inner class.
+            Inner class
             </summary>
+            <remarks>
+            Inner class remarks - class
+            </remarks>
         </member>
         <member name="P:WebApi3._1_Swashbuckle.Models.InnerClass.InnerEnum">
             <summary>
-            List of inner enums.
+            List of inner enums
             </summary>
+            <remarks>
+            List of inner enums remarks - property
+            </remarks>
         </member>
         <member name="P:WebApi3._1_Swashbuckle.Models.InnerClass.SecondInnerClass">
             <summary>
-            Second inner class.
+            Second inner class
             </summary>
+            <remarks>
+            Second inner class remarks - property
+            </remarks>
         </member>
         <member name="T:WebApi3._1_Swashbuckle.Models.InnerEnum">
             <summary>
-            Inner enum.
+            Inner enum
             </summary>
+            <remarks>
+            Inner enum remarks - enum
+            </remarks>
         </member>
         <member name="F:WebApi3._1_Swashbuckle.Models.InnerEnum.Value">
             <summary>
-            Inner enum value.
+            Inner enum value
             </summary>
+            <remarks>
+            Inner enum value remarks
+            </remarks>
         </member>
         <member name="T:WebApi3._1_Swashbuckle.Models.SecondInnerClass`1">
             <summary>
-            Second inner class.
+            Second inner class
             </summary>
+            <remarks>
+            Second inner class remarks - class
+            </remarks>
         </member>
         <member name="P:WebApi3._1_Swashbuckle.Models.SecondInnerClass`1.InnerEnum">
             <summary>
-            Second inner enum.
+            Second inner enum
             </summary>
+            <remarks>
+            Second inner enum remarks - property
+            </remarks>
         </member>
         <member name="T:WebApi3._1_Swashbuckle.Models.SecondInnerEnum">
             <summary>
-            Second inner enum.
+            Second inner enum
             </summary>
+            <remarks>
+            Second inner enum remarks - enum
+            </remarks>
         </member>
         <member name="F:WebApi3._1_Swashbuckle.Models.SecondInnerEnum.Value">
             <summary>
-            Second inner enum value.
+            Second inner enum value
             </summary>
+            <remarks>
+            Second inner enum value remarks
+            </remarks>
         </member>
         <member name="T:WebApi3._1_Swashbuckle.Models.Tag">
             <summary>
-            Tag for TodoItem.
+            Tag for TodoItem
             </summary>
+            <remarks>
+            Tag for TodoItem remarks - enum
+            </remarks>
         </member>
         <member name="F:WebApi3._1_Swashbuckle.Models.Tag.None">
             <summary>
-            None.
+            None
             </summary>
+            <remarks>
+            None tag remarks
+            </remarks>
         </member>
         <member name="F:WebApi3._1_Swashbuckle.Models.Tag.Task">
             <summary>
-            Task.
+            Task
             </summary>
+            <remarks>
+            Task tag remarks
+            </remarks>
         </member>
         <member name="F:WebApi3._1_Swashbuckle.Models.Tag.Workout">
             <summary>
-            Workout.
+            Workout
             </summary>
+            <remarks>
+            Workout tag remarks
+            </remarks>
         </member>
         <member name="T:TodoApi.Models.TodoItem">
             <summary>
             Todo item.
             </summary>
+            <remarks>
+            Todo item remarks - class
+            </remarks>
         </member>
         <member name="P:TodoApi.Models.TodoItem.Id">
             <summary>
-            Id.
+            Id
             </summary>
+            <remarks>
+            Unique identifier - parameter
+            </remarks>
         </member>
         <member name="P:TodoApi.Models.TodoItem.Name">
             <summary>
-            Name.
+            Name
             </summary>
+            <remarks>
+            Name of todo item - parameter
+            </remarks>
         </member>
         <member name="P:TodoApi.Models.TodoItem.IsComplete">
             <summary>
-            Is complete.
+            Is complete
             </summary>
+            <remarks>
+            The todo item is completed - parameter
+            </remarks>
         </member>
         <member name="P:TodoApi.Models.TodoItem.Tag">
             <summary>
-            Tag.
+            Tag
             </summary>
+            <remarks>
+            Todo item tag - parameter
+            </remarks>
         </member>
     </members>
 </doc>

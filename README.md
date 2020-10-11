@@ -14,12 +14,7 @@
 
 For old versions see [README_OLD.md](README_OLD.md).
 
-* Since [v2.3.0](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/releases/tag/v2.3.0) there are [**breaking changes**](#breaking-changes-2.3.0) in `Startup.cs`:
-
-```csharp
-
-```
-
+* Since [v2.3.0](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/releases/tag/v2.3.0) there are [**breaking changes**](#breaking-changes-2.3.0) in `Startup.cs`
 
 ### Compatibility
 
@@ -46,7 +41,7 @@ dotnet add package Unchase.Swashbuckle.AspNetCore.Extensions --version {version}
 ```
 
 > Where {version} is the version of the package you want to install. 
-> For example, `dotnet add package Unchase.Swashbuckle.AspNetCore.Extensions --version 2.0.0`
+> For example, `dotnet add package Unchase.Swashbuckle.AspNetCore.Extensions --version 2.4.0`
 
 Then use whichever extensions (filters) you need.
 
@@ -106,9 +101,11 @@ public void ConfigureServices(IServiceCollection services)
         // use it if you want to hide Paths and Definitions from OpenApi documentation correctly
         options.UseAllOfToExtendReferenceSchemas();
 
-        // if you want to add xml comments into the swagger documentation, first of all add:
+        // if you want to add xml comments (with remarks) into the swagger documentation, first of all add:
         var xmlFilePath = Path.Combine(AppContext.BaseDirectory, "WebApi3.1-Swashbuckle.xml");
-        options.IncludeXmlComments(xmlFilePath);
+        options.IncludeXmlCommentsWithRemarks(xmlFilePath);
+        // or add without remarks
+        //options.IncludeXmlComments(xmlFilePath);
 
         // Add filters to fix enums
         // use by default:
@@ -322,6 +319,28 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
+6. **Add xml comments from summary and remarks into the swagger documentation**:
+
+- Since [v2.4.0](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/releases/tag/v2.4.0) in the _ConfigureServices_ method of _Startup.cs_, inside your `AddSwaggerGen` call, add `IncludeXmlCommentsWithRemarks` option instead of `IncludeXmlComments` option:
+
+```csharp
+// This method gets called by the runtime. Use this method to add services to the container.
+public void ConfigureServices(IServiceCollection services)
+{
+    ...
+
+    services.AddSwaggerGen(options =>
+    {
+        ...
+
+        // add xml comments from summary and remarks into the swagger documentation
+        options.IncludeXmlCommentsWithRemarks("<xml_File_Full_Path>");
+
+        ...
+    });
+}
+```
+
 ## Builds status
 
 |Status|Value|
@@ -485,6 +504,90 @@ public class SamplePersonController : ControllerBase
 For example:
 
 ![Change responses](assets/changeResponsesByHttpStatusCode.png)
+
+### Add xml comments from summary and remarks into the swagger documentation
+
+![Add xml comments from summary and remarks](assets/addXmlCommentsFromSummaryAndRemarks.png)
+
+For code:
+
+```csharp
+/// <summary>
+/// Inner class
+/// </summary>
+/// <remarks>
+/// Inner class remarks - class
+/// </remarks>
+public class InnerClass
+{
+    /// <summary>
+    /// List of inner enums
+    /// </summary>
+    /// <remarks>
+    /// List of inner enums remarks - property
+    /// </remarks>
+    public List<InnerEnum> InnerEnum { get; set; }
+
+    /// <summary>
+    /// Second inner class
+    /// </summary>
+    /// <remarks>
+    /// Second inner class remarks - property
+    /// </remarks>
+    public SecondInnerClass<SecondInnerEnum> SecondInnerClass { get; set; }
+}
+
+/// <summary>
+/// Inner enum
+/// </summary>
+/// <remarks>
+/// Inner enum remarks - enum
+/// </remarks>
+public enum InnerEnum
+{
+    /// <summary>
+    /// Inner enum value
+    /// </summary>
+    /// <remarks>
+    /// Inner enum value remarks
+    /// </remarks>
+    Value = 1
+}
+
+/// <summary>
+/// Second inner class
+/// </summary>
+/// <remarks>
+/// Second inner class remarks - class
+/// </remarks>
+public class SecondInnerClass<T> where T : Enum
+{
+    /// <summary>
+    /// Second inner enum
+    /// </summary>
+    /// <remarks>
+    /// Second inner enum remarks - property
+    /// </remarks>
+    public T InnerEnum { get; set; }
+}
+
+/// <summary>
+/// Second inner enum
+/// </summary>
+/// <remarks>
+/// Second inner enum remarks - enum
+/// </remarks>
+public enum SecondInnerEnum
+{
+    /// <summary>
+    /// Second inner enum value
+    /// </summary>
+    /// <remarks>
+    /// Second inner enum value remarks
+    /// </remarks>
+    Value = 0
+}
+```
 
 ## HowTos
 
