@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Xml.XPath;
 using Microsoft.Extensions.DependencyInjection;
@@ -95,20 +96,24 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
         /// Flag to indicate if controller XML comments (i.e. summary) should be used to assign Tag descriptions.
         /// Don't set this flag if you're customizing the default tag for operations via TagActionsBy.
         /// </param>
+        /// <param name="excludedTypes">Types for which remarks will be excluded.</param>
         public static SwaggerGenOptions IncludeXmlCommentsWithRemarks(
             this SwaggerGenOptions swaggerGenOptions,
             Func<XPathDocument> xmlDocFactory,
-            bool includeControllerXmlComments = false)
+            bool includeControllerXmlComments = false,
+            params Type[] excludedTypes)
         {
             swaggerGenOptions.IncludeXmlComments(xmlDocFactory, includeControllerXmlComments);
 
+            var distinctExcludedTypes = excludedTypes.Distinct().ToList();
+
             var xmlDoc = xmlDocFactory();
-            swaggerGenOptions.ParameterFilter<XmlCommentsWithRemarksParameterFilter>(xmlDoc);
-            swaggerGenOptions.RequestBodyFilter<XmlCommentsWithRemarksRequestBodyFilter>(xmlDoc);
-            swaggerGenOptions.SchemaFilter<XmlCommentsWithRemarksSchemaFilter>(xmlDoc);
+            swaggerGenOptions.ParameterFilter<XmlCommentsWithRemarksParameterFilter>(xmlDoc, distinctExcludedTypes);
+            swaggerGenOptions.RequestBodyFilter<XmlCommentsWithRemarksRequestBodyFilter>(xmlDoc, distinctExcludedTypes);
+            swaggerGenOptions.SchemaFilter<XmlCommentsWithRemarksSchemaFilter>(xmlDoc, distinctExcludedTypes);
 
             if (includeControllerXmlComments)
-                swaggerGenOptions.DocumentFilter<XmlCommentsWithRemarksDocumentFilter>(xmlDoc);
+                swaggerGenOptions.DocumentFilter<XmlCommentsWithRemarksDocumentFilter>(xmlDoc, distinctExcludedTypes);
 
             return swaggerGenOptions;
         }
@@ -122,12 +127,14 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
         /// Flag to indicate if controller XML comments (i.e. summary) should be used to assign Tag descriptions.
         /// Don't set this flag if you're customizing the default tag for operations via TagActionsBy.
         /// </param>
+        /// <param name="excludedTypes">Types for which remarks will be excluded.</param>
         public static SwaggerGenOptions IncludeXmlCommentsWithRemarks(
             this SwaggerGenOptions swaggerGenOptions,
             string filePath,
-            bool includeControllerXmlComments = false)
+            bool includeControllerXmlComments = false,
+            params Type[] excludedTypes)
         {
-            return swaggerGenOptions.IncludeXmlCommentsWithRemarks(() => new XPathDocument(filePath), includeControllerXmlComments);
+            return swaggerGenOptions.IncludeXmlCommentsWithRemarks(() => new XPathDocument(filePath), includeControllerXmlComments, excludedTypes);
         }
 
         #endregion

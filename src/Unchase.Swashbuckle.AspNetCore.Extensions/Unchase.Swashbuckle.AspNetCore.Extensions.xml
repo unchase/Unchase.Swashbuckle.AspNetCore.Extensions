@@ -103,7 +103,7 @@
             <param name="configureOptions">An <see cref="T:System.Action`1"/> to configure options for filters.</param>
             <returns></returns>
         </member>
-        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.SwaggerGenOptionsExtensions.IncludeXmlCommentsWithRemarks(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,System.Func{System.Xml.XPath.XPathDocument},System.Boolean)">
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.SwaggerGenOptionsExtensions.IncludeXmlCommentsWithRemarks(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,System.Func{System.Xml.XPath.XPathDocument},System.Boolean,System.Type[])">
             <summary>
             Inject human-friendly descriptions for Operations, Parameters and Schemas based on XML Comment files (from summary and remarks).
             </summary>
@@ -113,8 +113,9 @@
             Flag to indicate if controller XML comments (i.e. summary) should be used to assign Tag descriptions.
             Don't set this flag if you're customizing the default tag for operations via TagActionsBy.
             </param>
+            <param name="excludedTypes">Types for which remarks will be excluded.</param>
         </member>
-        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.SwaggerGenOptionsExtensions.IncludeXmlCommentsWithRemarks(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,System.String,System.Boolean)">
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.SwaggerGenOptionsExtensions.IncludeXmlCommentsWithRemarks(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,System.String,System.Boolean,System.Type[])">
             <summary>
             Inject human-friendly descriptions for Operations, Parameters and Schemas based on XML Comment files (from summary and remarks).
             </summary>
@@ -124,6 +125,7 @@
             Flag to indicate if controller XML comments (i.e. summary) should be used to assign Tag descriptions.
             Don't set this flag if you're customizing the default tag for operations via TagActionsBy.
             </param>
+            <param name="excludedTypes">Types for which remarks will be excluded.</param>
         </member>
         <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Factories.ApiDescriptionFactory">
             <summary>
@@ -358,11 +360,12 @@
             Inject human-friendly remarks to descriptions for Document's Tags based on XML Comment files.
             </summary>
         </member>
-        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksDocumentFilter.#ctor(System.Xml.XPath.XPathDocument)">
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksDocumentFilter.#ctor(System.Xml.XPath.XPathDocument,System.Type[])">
             <summary>
             Constructor.
             </summary>
             <param name="xmlDoc"><see cref="T:System.Xml.XPath.XPathDocument"/></param>
+            <param name="excludedTypes">Excluded types.</param>
         </member>
         <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksDocumentFilter.Apply(Microsoft.OpenApi.Models.OpenApiDocument,Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext)">
             <summary>
@@ -376,11 +379,12 @@
             Inject human-friendly remarks to descriptions for Parameters based on XML Comment files.
             </summary>
         </member>
-        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksParameterFilter.#ctor(System.Xml.XPath.XPathDocument)">
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksParameterFilter.#ctor(System.Xml.XPath.XPathDocument,System.Type[])">
             <summary>
             Constructor.
             </summary>
             <param name="xmlDoc"><see cref="T:System.Xml.XPath.XPathDocument"/></param>
+            <param name="excludedTypes">Excluded types.</param>
         </member>
         <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksParameterFilter.Apply(Microsoft.OpenApi.Models.OpenApiParameter,Swashbuckle.AspNetCore.SwaggerGen.ParameterFilterContext)">
             <summary>
@@ -394,11 +398,12 @@
             Inject human-friendly remarks to descriptions for RequestBodies based on XML Comment files.
             </summary>
         </member>
-        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksRequestBodyFilter.#ctor(System.Xml.XPath.XPathDocument)">
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksRequestBodyFilter.#ctor(System.Xml.XPath.XPathDocument,System.Type[])">
             <summary>
             Constructor.
             </summary>
             <param name="xmlDoc"><see cref="T:System.Xml.XPath.XPathDocument"/></param>
+            <param name="excludedTypes">Excluded types.</param>
         </member>
         <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksRequestBodyFilter.Apply(Microsoft.OpenApi.Models.OpenApiRequestBody,Swashbuckle.AspNetCore.SwaggerGen.RequestBodyFilterContext)">
             <summary>
@@ -412,11 +417,12 @@
             Inject human-friendly remarks to descriptions for Schemas based on XML Comment files.
             </summary>
         </member>
-        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksSchemaFilter.#ctor(System.Xml.XPath.XPathDocument)">
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksSchemaFilter.#ctor(System.Xml.XPath.XPathDocument,System.Type[])">
             <summary>
             Constructor.
             </summary>
             <param name="xmlDoc"><see cref="T:System.Xml.XPath.XPathDocument"/></param>
+            <param name="excludedTypes">Excluded types.</param>
         </member>
         <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.XmlCommentsWithRemarksSchemaFilter.Apply(Microsoft.OpenApi.Models.OpenApiSchema,Swashbuckle.AspNetCore.SwaggerGen.SchemaFilterContext)">
             <summary>

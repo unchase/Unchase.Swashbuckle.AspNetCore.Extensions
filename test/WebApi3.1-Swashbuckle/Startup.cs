@@ -37,8 +37,12 @@ namespace WebApi3._1_Swashbuckle
                 #region AddEnumsWithValuesFixFilters
 
                 // if you want to add xml comments from summary and remarks into the swagger documentation, first of all add:
+                // you can exclude remarks for concrete types
                 var xmlFilePath = Path.Combine(AppContext.BaseDirectory, "WebApi3.1-Swashbuckle.xml");
-                options.IncludeXmlCommentsWithRemarks(xmlFilePath);
+                options.IncludeXmlCommentsWithRemarks(xmlFilePath, false,
+                    typeof(ComplicatedClass),
+                    typeof(InnerEnum));
+
                 // or add without remarks
                 //options.IncludeXmlComments(xmlFilePath);
 

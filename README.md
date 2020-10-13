@@ -101,9 +101,13 @@ public void ConfigureServices(IServiceCollection services)
         // use it if you want to hide Paths and Definitions from OpenApi documentation correctly
         options.UseAllOfToExtendReferenceSchemas();
 
-        // if you want to add xml comments (with remarks) into the swagger documentation, first of all add:
+        // if you want to add xml comments from summary and remarks into the swagger documentation, first of all add:
+        // you can exclude remarks for concrete types
         var xmlFilePath = Path.Combine(AppContext.BaseDirectory, "WebApi3.1-Swashbuckle.xml");
-        options.IncludeXmlCommentsWithRemarks(xmlFilePath);
+        options.IncludeXmlCommentsWithRemarks(xmlFilePath, false,
+            typeof(ComplicatedClass),
+            typeof(InnerEnum));
+
         // or add without remarks
         //options.IncludeXmlComments(xmlFilePath);
 
@@ -335,6 +339,13 @@ public void ConfigureServices(IServiceCollection services)
 
         // add xml comments from summary and remarks into the swagger documentation
         options.IncludeXmlCommentsWithRemarks("<xml_File_Full_Path>");
+
+        // add xml comments from summary and remarks into the swagger documentation
+        // with excluding remarks for concrete types (since v2.4.1)
+        var xmlFilePath = Path.Combine(AppContext.BaseDirectory, "WebApi3.1-Swashbuckle.xml");
+        options.IncludeXmlCommentsWithRemarks(xmlFilePath, false,
+            typeof(ComplicatedClass),
+            typeof(InnerEnum));
 
         ...
     });

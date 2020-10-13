@@ -18,8 +18,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         private const string MemberXPath = "/doc/members/member[@name='{0}']";
         private const string SummaryTag = "summary";
         private const string RemarksTag = "remarks";
-
         private readonly XPathNavigator _xmlNavigator;
+        private readonly Type[] _excludedTypes;
 
         #endregion
 
@@ -29,9 +29,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// Constructor.
         /// </summary>
         /// <param name="xmlDoc"><see cref="XPathDocument"/></param>
-        public XmlCommentsWithRemarksDocumentFilter(XPathDocument xmlDoc)
+        /// <param name="excludedTypes">Excluded types.</param>
+        public XmlCommentsWithRemarksDocumentFilter(XPathDocument xmlDoc, params Type[] excludedTypes)
         {
             _xmlNavigator = xmlDoc.CreateNavigator();
+            _excludedTypes = excludedTypes;
         }
 
         #endregion
@@ -54,6 +56,12 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
             foreach (var nameAndType in controllerNamesAndTypes)
             {
+                if (_excludedTypes.ToList().Select(t => t.FullName)
+                    .Contains(nameAndType.Value.FullName))
+                {
+                    continue;
+                }
+
                 var memberName = XmlCommentsNodeNameHelper.GetMemberNameForType(nameAndType.Value);
                 var typeNode = _xmlNavigator.SelectSingleNode(string.Format(MemberXPath, memberName));
 

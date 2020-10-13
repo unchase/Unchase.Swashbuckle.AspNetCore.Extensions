@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Linq;
+using System.Reflection;
 using System.Xml.XPath;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -15,6 +17,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         private const string SummaryTag = "summary";
         private const string RemarksTag = "remarks";
         private readonly XPathNavigator _xmlNavigator;
+        private readonly Type[] _excludedTypes;
 
         #endregion
 
@@ -24,9 +27,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// Constructor.
         /// </summary>
         /// <param name="xmlDoc"><see cref="XPathDocument"/></param>
-        public XmlCommentsWithRemarksRequestBodyFilter(XPathDocument xmlDoc)
+        /// <param name="excludedTypes">Excluded types.</param>
+        public XmlCommentsWithRemarksRequestBodyFilter(XPathDocument xmlDoc, params Type[] excludedTypes)
         {
             _xmlNavigator = xmlDoc.CreateNavigator();
+            _excludedTypes = excludedTypes;
         }
 
         #endregion
@@ -54,6 +59,12 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
         private void ApplyPropertyTags(OpenApiRequestBody requestBody, PropertyInfo propertyInfo)
         {
+            if (propertyInfo.DeclaringType != null && _excludedTypes.ToList().Select(t => t.FullName)
+                .Contains(propertyInfo.DeclaringType?.FullName))
+            {
+                return;
+            }
+
             var propertyMemberName = XmlCommentsNodeNameHelper.GetMemberNameForFieldOrProperty(propertyInfo);
             var propertySummaryNode = _xmlNavigator.SelectSingleNode($"/doc/members/member[@name='{propertyMemberName}']/{SummaryTag}");
 

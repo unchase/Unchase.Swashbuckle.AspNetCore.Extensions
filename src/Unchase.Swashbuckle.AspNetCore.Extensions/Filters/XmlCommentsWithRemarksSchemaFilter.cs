@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Xml.XPath;
 using Microsoft.OpenApi.Models;
@@ -16,6 +17,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         private const string SummaryTag = "summary";
         private const string RemarksTag = "remarks";
         private readonly XPathNavigator _xmlNavigator;
+        private readonly Type[] _excludedTypes;
 
         #endregion
 
@@ -25,9 +27,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// Constructor.
         /// </summary>
         /// <param name="xmlDoc"><see cref="XPathDocument"/></param>
-        public XmlCommentsWithRemarksSchemaFilter(XPathDocument xmlDoc)
+        /// <param name="excludedTypes">Excluded types.</param>
+        public XmlCommentsWithRemarksSchemaFilter(XPathDocument xmlDoc, params Type[] excludedTypes)
         {
             _xmlNavigator = xmlDoc.CreateNavigator();
+            _excludedTypes = excludedTypes;
         }
 
         #endregion
@@ -55,9 +59,14 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
         private void ApplyTypeTags(OpenApiSchema schema, Type type)
         {
+            if (_excludedTypes.ToList().Select(t => t.FullName)
+                .Contains(type.FullName))
+            {
+                return;
+            }
+
             var typeMemberName = XmlCommentsNodeNameHelper.GetMemberNameForType(type);
             var typeSummaryNode = _xmlNavigator.SelectSingleNode($"/doc/members/member[@name='{typeMemberName}']/{SummaryTag}");
-
             if (typeSummaryNode != null)
             {
                 var typeRemarksNode = _xmlNavigator.SelectSingleNode($"/doc/members/member[@name='{typeMemberName}']/{RemarksTag}");
@@ -71,9 +80,14 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
         private void ApplyFieldOrPropertyTags(OpenApiSchema schema, MemberInfo fieldOrPropertyInfo)
         {
+            if (fieldOrPropertyInfo.DeclaringType != null && _excludedTypes.ToList().Select(t => t.FullName)
+                .Contains(fieldOrPropertyInfo.DeclaringType?.FullName))
+            {
+                return;
+            }
+
             var fieldOrPropertyMemberName = XmlCommentsNodeNameHelper.GetMemberNameForFieldOrProperty(fieldOrPropertyInfo);
             var fieldOrPropertyNode = _xmlNavigator.SelectSingleNode($"/doc/members/member[@name='{fieldOrPropertyMemberName}']");
-
             var summaryNode = fieldOrPropertyNode?.SelectSingleNode(SummaryTag);
             if (summaryNode != null)
             {
