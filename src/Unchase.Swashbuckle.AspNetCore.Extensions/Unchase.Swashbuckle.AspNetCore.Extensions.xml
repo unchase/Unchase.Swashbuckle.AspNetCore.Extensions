@@ -127,6 +127,16 @@
             </param>
             <param name="excludedTypes">Types for which remarks will be excluded.</param>
         </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.SwaggerGenOptionsExtensions.IncludeXmlCommentsFromInheritDocs(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,System.Boolean,System.Type[])">
+            <summary>
+            Inject human-friendly descriptions for Schemas and it's Parameters based on &lt;inheritdoc/&gt; XML Comments (from summary and remarks).
+            </summary>
+            <param name="swaggerGenOptions"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions"/>.</param>
+            <param name="includeRemarks">
+            Flag to indicate to include remarks from XML comments.
+            </param>
+            <param name="excludedTypes">Types for which remarks will be excluded.</param>
+        </member>
         <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Factories.ApiDescriptionFactory">
             <summary>
             <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/> factory.
@@ -314,6 +324,27 @@
             </summary>
             <param name="openApiDoc"><see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.</param>
             <param name="context"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext"/>.</param>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocSchemaFilter">
+            <summary>
+            Adds documentation that is provided by the &lt;inhertidoc /&gt; tag.
+            </summary>
+            <seealso cref="T:Swashbuckle.AspNetCore.SwaggerGen.ISchemaFilter" />
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocSchemaFilter.#ctor(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,System.Boolean,System.Type[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocSchemaFilter" /> class.
+            </summary>
+            <param name="options"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions"/>.</param>
+            <param name="includeRemarks">Include remarks from inheritdoc XML comments.</param>
+            <param name="excludedTypes">Excluded types.</param>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocSchemaFilter.Apply(Microsoft.OpenApi.Models.OpenApiSchema,Swashbuckle.AspNetCore.SwaggerGen.SchemaFilterContext)">
+            <summary>
+            Apply filter.
+            </summary>
+            <param name="schema"><see cref="T:Microsoft.OpenApi.Models.OpenApiSchema"/>.</param>
+            <param name="context"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SchemaFilterContext"/>.</param>
         </member>
         <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.TagOrderByNameDocumentFilter">
             <summary>

@@ -105,7 +105,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
         {
             swaggerGenOptions.IncludeXmlComments(xmlDocFactory, includeControllerXmlComments);
 
-            var distinctExcludedTypes = excludedTypes.Distinct().ToList();
+            var distinctExcludedTypes = excludedTypes?.Distinct().ToArray();
 
             var xmlDoc = xmlDocFactory();
             swaggerGenOptions.ParameterFilter<XmlCommentsWithRemarksParameterFilter>(xmlDoc, distinctExcludedTypes);
@@ -135,6 +135,24 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             params Type[] excludedTypes)
         {
             return swaggerGenOptions.IncludeXmlCommentsWithRemarks(() => new XPathDocument(filePath), includeControllerXmlComments, excludedTypes);
+        }
+
+        /// <summary>
+        /// Inject human-friendly descriptions for Schemas and it's Parameters based on &lt;inheritdoc/&gt; XML Comments (from summary and remarks).
+        /// </summary>
+        /// <param name="swaggerGenOptions"><see cref="SwaggerGenOptions"/>.</param>
+        /// <param name="includeRemarks">
+        /// Flag to indicate to include remarks from XML comments.
+        /// </param>
+        /// <param name="excludedTypes">Types for which remarks will be excluded.</param>
+        public static SwaggerGenOptions IncludeXmlCommentsFromInheritDocs(
+            this SwaggerGenOptions swaggerGenOptions,
+            bool includeRemarks = false,
+            params Type[] excludedTypes)
+        {
+            var distinctExcludedTypes = excludedTypes?.Distinct().ToArray();
+            swaggerGenOptions.SchemaFilter<InheritDocSchemaFilter>(swaggerGenOptions, includeRemarks, distinctExcludedTypes);
+            return swaggerGenOptions;
         }
 
         #endregion

@@ -10,7 +10,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
     /// <summary>
     /// Inject human-friendly remarks to descriptions for Schemas based on XML Comment files.
     /// </summary>
-    public class XmlCommentsWithRemarksSchemaFilter : ISchemaFilter
+    internal class XmlCommentsWithRemarksSchemaFilter : ISchemaFilter
     {
         #region Fields
 
@@ -59,8 +59,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
         private void ApplyTypeTags(OpenApiSchema schema, Type type)
         {
-            if (_excludedTypes.ToList().Select(t => t.FullName)
-                .Contains(type.FullName))
+            if (_excludedTypes.Any() && _excludedTypes.ToList().Contains(type))
             {
                 return;
             }
@@ -80,8 +79,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
         private void ApplyFieldOrPropertyTags(OpenApiSchema schema, MemberInfo fieldOrPropertyInfo)
         {
-            if (fieldOrPropertyInfo.DeclaringType != null && _excludedTypes.ToList().Select(t => t.FullName)
-                .Contains(fieldOrPropertyInfo.DeclaringType?.FullName))
+            if (fieldOrPropertyInfo.DeclaringType != null && _excludedTypes.Any() && _excludedTypes.ToList().Contains(fieldOrPropertyInfo.DeclaringType))
             {
                 return;
             }

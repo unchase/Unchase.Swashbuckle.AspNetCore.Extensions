@@ -10,7 +10,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
     /// <summary>
     /// Inject human-friendly remarks to descriptions for RequestBodies based on XML Comment files.
     /// </summary>
-    public class XmlCommentsWithRemarksRequestBodyFilter : IRequestBodyFilter
+    internal class XmlCommentsWithRemarksRequestBodyFilter : IRequestBodyFilter
     {
         #region Fields
 
@@ -59,8 +59,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
         private void ApplyPropertyTags(OpenApiRequestBody requestBody, PropertyInfo propertyInfo)
         {
-            if (propertyInfo.DeclaringType != null && _excludedTypes.ToList().Select(t => t.FullName)
-                .Contains(propertyInfo.DeclaringType?.FullName))
+            if (propertyInfo.DeclaringType != null && _excludedTypes.Any() && _excludedTypes.ToList().Contains(propertyInfo.DeclaringType))
             {
                 return;
             }

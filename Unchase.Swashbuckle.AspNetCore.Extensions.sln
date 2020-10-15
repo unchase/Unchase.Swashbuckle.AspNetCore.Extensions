@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "assets", "assets", "{145A03BF-E60E-41F6-BD89-457F940F6C9B}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		assets\addXmlCommentsFromInheritdoc.png = assets\addXmlCommentsFromInheritdoc.png
 		assets\addXmlCommentsFromSummaryAndRemarks.png = assets\addXmlCommentsFromSummaryAndRemarks.png
 		assets\appendActionCountIntoSwaggerTag.png = assets\appendActionCountIntoSwaggerTag.png
 		appveyor.yml = appveyor.yml

@@ -84,6 +84,16 @@
             <returns>A complicated class.</returns>
             <response code="200">Returns a complicated class.</response>
         </member>
+        <member name="M:WebApi3._1_Swashbuckle.Controllers.TodoController.InheritDocAction">
+            <summary>
+            InheritDoc action
+            </summary>
+            <remarks>
+            InheritDoc action remarks
+            </remarks>
+            <returns>A InheritDoc class.</returns>
+            <response code="200">Returns a InheritDoc class.</response>
+        </member>
         <member name="M:WebApi3._1_Swashbuckle.Controllers.TodoController.Delete(System.Int64)">
             <summary>
             Deletes a specific TodoItem
@@ -208,6 +218,71 @@
             </summary>
             <remarks>
             Second inner enum value remarks
+            </remarks>
+        </member>
+        <member name="T:WebApi3._1_Swashbuckle.Models.IInheritDocClass">
+            <summary>
+            InheritDocClass - inheritdoc
+            </summary>
+            <remarks>
+            InheritDocClass remarks - inheritdoc
+            </remarks>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Models.IInheritDocClass.Name">
+            <summary>
+            Name - inheritdoc
+            </summary>
+            <remarks>
+            Name remarks - inheritdoc
+            </remarks>
+        </member>
+        <member name="T:WebApi3._1_Swashbuckle.Models.IInheritDocCommon">
+            <summary>
+            IInheritDocCommon interface
+            </summary>
+            <remarks>
+            IInheritDocCommon interface remarks
+            </remarks>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Models.IInheritDocCommon.Common">
+            <summary>
+            Common - inheritdoc (inner)
+            </summary>
+            <remarks>
+            Common remarks - inheritdoc (inner)
+            </remarks>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Models.IInheritDocCommon.InheritEnum">
+            <summary>
+            InheritEnum - inheritdoc (inner)
+            </summary>
+        </member>
+        <member name="T:WebApi3._1_Swashbuckle.Models.InheritDocClass">
+            <inheritdoc cref="T:WebApi3._1_Swashbuckle.Models.IInheritDocClass"/>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Models.InheritDocClass.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Models.InheritDocClass.Common">
+            <inheritdoc/>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Models.InheritDocClass.InheritEnum">
+            <inheritdoc/>
+        </member>
+        <member name="T:WebApi3._1_Swashbuckle.Models.InheritEnum">
+            <summary>
+            Inherit enum - enum
+            </summary>
+            <remarks>
+            Inherit enum remarks - enum
+            </remarks>
+        </member>
+        <member name="F:WebApi3._1_Swashbuckle.Models.InheritEnum.Value">
+            <summary>
+            Inherit enum Value
+            </summary>
+            <remarks>
+            Inherit enum Value remarks
             </remarks>
         </member>
         <member name="T:WebApi3._1_Swashbuckle.Models.Tag">

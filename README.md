@@ -101,6 +101,10 @@ public void ConfigureServices(IServiceCollection services)
         // use it if you want to hide Paths and Definitions from OpenApi documentation correctly
         options.UseAllOfToExtendReferenceSchemas();
 
+        // if you want to add xml comments from inheritdocs (from summary and remarks) into the swagger documentation, add:
+        // you can exclude remarks for concrete types
+        options.IncludeXmlCommentsFromInheritDocs(includeRemarks: true, excludedTypes: typeof(string));
+
         // if you want to add xml comments from summary and remarks into the swagger documentation, first of all add:
         // you can exclude remarks for concrete types
         var xmlFilePath = Path.Combine(AppContext.BaseDirectory, "WebApi3.1-Swashbuckle.xml");
@@ -352,6 +356,29 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
+7. **Add xml comments from &lt;inheritdoc/&gt; (from summary and remarks) into the swagger documentation**:
+
+- Since [v2.5.0](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/releases/tag/v2.5.0) in the _ConfigureServices_ method of _Startup.cs_, inside your `AddSwaggerGen` call, add `IncludeXmlCommentsFromInheritDocs` option:
+
+```csharp
+// This method gets called by the runtime. Use this method to add services to the container.
+public void ConfigureServices(IServiceCollection services)
+{
+    ...
+
+    services.AddSwaggerGen(options =>
+    {
+        ...
+
+        // add xml comments from inheritdocs (from summary and remarks) into the swagger documentation, add:
+        // with excluding concrete types
+        options.IncludeXmlCommentsFromInheritDocs(includeRemarks: true, excludedTypes: typeof(string));
+
+        ...
+    });
+}
+```
+
 ## Builds status
 
 |Status|Value|
@@ -595,6 +622,83 @@ public enum SecondInnerEnum
     /// </summary>
     /// <remarks>
     /// Second inner enum value remarks
+    /// </remarks>
+    Value = 0
+}
+```
+
+### Add xml comments from &lt;inheritdoc/&gt; (from summary and remarks) into the swagger documentation
+
+![Add xml comments from ingeritdoc](assets/addXmlCommentsFromInheritdoc.png)
+
+For code:
+
+```csharp
+/// <inheritdoc cref="IInheritDocClass"/>
+public class InheritDocClass : IInheritDocClass
+{
+    /// <inheritdoc/>
+    public string Name { get; set; }
+
+    /// <inheritdoc/>
+    public string Common { get; set; }
+
+    /// <inheritdoc/>
+    public InheritEnum InheritEnum { get; set; }
+}
+
+/// <summary>
+/// InheritDocClass - inheritdoc
+/// </summary>
+/// <remarks>
+/// InheritDocClass remarks - inheritdoc
+/// </remarks>
+public interface IInheritDocClass : IInheritDocCommon
+{
+    /// <summary>
+    /// Name - inheritdoc
+    /// </summary>
+    /// <remarks>
+    /// Name remarks - inheritdoc
+    /// </remarks>
+    public string Name { get; set; }
+}
+
+/// <summary>
+/// IInheritDocCommon interface
+/// </summary>
+/// <remarks>
+/// IInheritDocCommon interface remarks
+/// </remarks>
+public interface IInheritDocCommon
+{
+    /// <summary>
+    /// Common - inheritdoc (inner)
+    /// </summary>
+    /// <remarks>
+    /// Common remarks - inheritdoc (inner)
+    /// </remarks>
+    public string Common { get; set; }
+
+    /// <summary>
+    /// InheritEnum - inheritdoc (inner)
+    /// </summary>
+    public InheritEnum InheritEnum { get; set; }
+}
+
+/// <summary>
+/// Inherit enum - enum
+/// </summary>
+/// <remarks>
+/// Inherit enum remarks - enum
+/// </remarks>
+public enum InheritEnum
+{
+    /// <summary>
+    /// Inherit enum Value
+    /// </summary>
+    /// <remarks>
+    /// Inherit enum Value remarks
     /// </remarks>
     Value = 0
 }

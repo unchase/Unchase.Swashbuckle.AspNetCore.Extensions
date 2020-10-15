@@ -19,7 +19,7 @@ namespace WebApi3._1_Swashbuckle.Controllers
     [SwaggerTag("Controller for todo")]
     public class TodoController : ControllerBase
     {
-        private static readonly ItodoContext _context = new TodoContext();
+        private static readonly ItodoContext Context = new TodoContext();
 
         /// <summary>
         /// Hided action
@@ -62,6 +62,27 @@ namespace WebApi3._1_Swashbuckle.Controllers
         }
 
         /// <summary>
+        /// InheritDoc action
+        /// </summary>
+        /// <remarks>
+        /// InheritDoc action remarks
+        /// </remarks>
+        /// <returns>A InheritDoc class.</returns>
+        /// <response code="200">Returns a InheritDoc class.</response>
+        [HttpGet("inheritdoc")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<InheritDocClass> InheritDocAction()
+        {
+            return Ok(new InheritDocClass
+            {
+                Name = "Name",
+                Common = "Common",
+                InheritEnum = InheritEnum.Value
+            });
+        }
+
+        /// <summary>
         /// Deletes a specific TodoItem
         /// </summary>
         /// <remarks>
@@ -72,14 +93,14 @@ namespace WebApi3._1_Swashbuckle.Controllers
         [Authorize(Roles = "AcceptedRole")]
         public IActionResult Delete(long id)
         {
-            var todo = _context.Find(id);
+            var todo = Context.Find(id);
 
             if (todo == null)
             {
                 return NotFound();
             }
 
-            _context.Remove(todo);
+            Context.Remove(todo);
 
             return NoContent();
         }
@@ -108,7 +129,7 @@ namespace WebApi3._1_Swashbuckle.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<TodoItem> Create(TodoItem item)
         {
-            _context.Add(item);
+            Context.Add(item);
 
             return new CreatedResult(string.Empty, item);
         }

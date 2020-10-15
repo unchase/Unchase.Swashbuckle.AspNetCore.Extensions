@@ -11,7 +11,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
     /// <summary>
     /// Inject human-friendly remarks to descriptions for Document's Tags based on XML Comment files.
     /// </summary>
-    public class XmlCommentsWithRemarksDocumentFilter : IDocumentFilter
+    internal class XmlCommentsWithRemarksDocumentFilter : IDocumentFilter
     {
         #region Fields
 
@@ -56,8 +56,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
             foreach (var nameAndType in controllerNamesAndTypes)
             {
-                if (_excludedTypes.ToList().Select(t => t.FullName)
-                    .Contains(nameAndType.Value.FullName))
+                if (_excludedTypes.Any() && _excludedTypes.ToList().Contains(nameAndType.Value))
                 {
                     continue;
                 }
