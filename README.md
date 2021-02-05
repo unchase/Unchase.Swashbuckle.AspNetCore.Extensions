@@ -21,6 +21,7 @@ For old versions see [README_OLD.md](README_OLD.md).
 |Swashbuckle Version|ASP.NET Core|Swagger / OpenAPI Spec.|This extension Version|
 |:------------------|:-----------|:----------------------|:---------------------|
 |[master](https://github.com/domaindrivendev/Swashbuckle.AspNetCore/tree/master/README.md)|>= 2.0.0|2.0, 3.0|[master](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/tree/master/README.md)|
+|[6.0.0](https://github.com/domaindrivendev/Swashbuckle.AspNetCore/tree/v5.0.0)|>= 2.0.0|2.0, 3.0|[v2.5.1](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/tree/v2.0.0/README.md)|
 |[5.0.0](https://github.com/domaindrivendev/Swashbuckle.AspNetCore/tree/v5.0.0)|>= 2.0.0|2.0, 3.0|[v2.0.0](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/tree/v2.0.0/README.md)|
 |[4.0.0](https://github.com/domaindrivendev/Swashbuckle.AspNetCore/tree/v4.0.0)|>= 2.0.0, < 3.0.0|2.0|[v1.1.4](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/tree/v1.1.4/README.md)|
 
