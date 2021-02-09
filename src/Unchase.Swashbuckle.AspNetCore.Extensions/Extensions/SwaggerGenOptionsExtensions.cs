@@ -138,6 +138,44 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
         }
 
         /// <summary>
+        /// Inject human-friendly descriptions for Operations, Parameters and Schemas based on XML Comment files (from summary and remarks).
+        /// </summary>
+        /// <param name="swaggerGenOptions"><see cref="SwaggerGenOptions"/>.</param>
+        /// <param name="xmlDocFactory">A factory method that returns XML Comments as an XPathDocument.</param>
+        /// <param name="includeControllerXmlComments">
+        /// Flag to indicate if controller XML comments (i.e. summary) should be used to assign Tag descriptions.
+        /// Don't set this flag if you're customizing the default tag for operations via TagActionsBy.
+        /// </param>
+        /// <param name="excludedTypesFunc">Func for excluding types.</param>
+        public static SwaggerGenOptions IncludeXmlCommentsWithRemarks(
+            this SwaggerGenOptions swaggerGenOptions,
+            Func<XPathDocument> xmlDocFactory,
+            bool includeControllerXmlComments = false,
+            Func<Type[]> excludedTypesFunc = default)
+        {
+            return swaggerGenOptions.IncludeXmlCommentsWithRemarks(xmlDocFactory, includeControllerXmlComments, excludedTypesFunc?.Invoke());
+        }
+
+        /// <summary>
+        /// Inject human-friendly descriptions for Operations, Parameters and Schemas based on XML Comment files (from summary and remarks).
+        /// </summary>
+        /// <param name="swaggerGenOptions"><see cref="SwaggerGenOptions"/>.</param>
+        /// <param name="filePath">An absolute path to the file that contains XML Comments.</param>
+        /// <param name="includeControllerXmlComments">
+        /// Flag to indicate if controller XML comments (i.e. summary) should be used to assign Tag descriptions.
+        /// Don't set this flag if you're customizing the default tag for operations via TagActionsBy.
+        /// </param>
+        /// <param name="excludedTypesFunc">Func for excluding types.</param>
+        public static SwaggerGenOptions IncludeXmlCommentsWithRemarks(
+            this SwaggerGenOptions swaggerGenOptions,
+            string filePath,
+            bool includeControllerXmlComments = false,
+            Func<Type[]> excludedTypesFunc = default)
+        {
+            return swaggerGenOptions.IncludeXmlCommentsWithRemarks(() => new XPathDocument(filePath), includeControllerXmlComments, excludedTypesFunc?.Invoke());
+        }
+
+        /// <summary>
         /// Inject human-friendly descriptions for Schemas and it's Parameters based on &lt;inheritdoc/&gt; XML Comments (from summary and remarks).
         /// </summary>
         /// <param name="swaggerGenOptions"><see cref="SwaggerGenOptions"/>.</param>

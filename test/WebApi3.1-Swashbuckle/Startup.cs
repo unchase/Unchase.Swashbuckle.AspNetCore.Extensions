@@ -8,8 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Runtime.InteropServices;
-using System.Text.Json.Serialization;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Filters;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
@@ -45,6 +43,8 @@ namespace WebApi3._1_Swashbuckle
                 options.IncludeXmlCommentsWithRemarks(filePath: xmlFilePath, includeControllerXmlComments: false,
                     typeof(ComplicatedClass),
                     typeof(InnerEnum));
+
+                // options.IncludeXmlCommentsWithRemarks(filePath: xmlFilePath, includeControllerXmlComments: false, () => new[] { typeof(InnerEnum) });
 
                 // or add without remarks
                 //options.IncludeXmlComments(xmlFilePath);

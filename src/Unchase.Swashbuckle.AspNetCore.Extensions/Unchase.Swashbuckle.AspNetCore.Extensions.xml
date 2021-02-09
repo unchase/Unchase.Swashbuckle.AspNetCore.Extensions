@@ -127,6 +127,30 @@
             </param>
             <param name="excludedTypes">Types for which remarks will be excluded.</param>
         </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.SwaggerGenOptionsExtensions.IncludeXmlCommentsWithRemarks(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,System.Func{System.Xml.XPath.XPathDocument},System.Boolean,System.Func{System.Type[]})">
+            <summary>
+            Inject human-friendly descriptions for Operations, Parameters and Schemas based on XML Comment files (from summary and remarks).
+            </summary>
+            <param name="swaggerGenOptions"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions"/>.</param>
+            <param name="xmlDocFactory">A factory method that returns XML Comments as an XPathDocument.</param>
+            <param name="includeControllerXmlComments">
+            Flag to indicate if controller XML comments (i.e. summary) should be used to assign Tag descriptions.
+            Don't set this flag if you're customizing the default tag for operations via TagActionsBy.
+            </param>
+            <param name="excludedTypesFunc">Func for excluding types.</param>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.SwaggerGenOptionsExtensions.IncludeXmlCommentsWithRemarks(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,System.String,System.Boolean,System.Func{System.Type[]})">
+            <summary>
+            Inject human-friendly descriptions for Operations, Parameters and Schemas based on XML Comment files (from summary and remarks).
+            </summary>
+            <param name="swaggerGenOptions"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions"/>.</param>
+            <param name="filePath">An absolute path to the file that contains XML Comments.</param>
+            <param name="includeControllerXmlComments">
+            Flag to indicate if controller XML comments (i.e. summary) should be used to assign Tag descriptions.
+            Don't set this flag if you're customizing the default tag for operations via TagActionsBy.
+            </param>
+            <param name="excludedTypesFunc">Func for excluding types.</param>
+        </member>
         <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.SwaggerGenOptionsExtensions.IncludeXmlCommentsFromInheritDocs(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,System.Boolean,System.Type[])">
             <summary>
             Inject human-friendly descriptions for Schemas and it's Parameters based on &lt;inheritdoc/&gt; XML Comments (from summary and remarks).
