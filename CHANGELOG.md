@@ -8,6 +8,21 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.6.0 `2021-02-09`
+
+- [x] Update nuget-dependencies: update Swashbuckle.AspNetCore to [v6.1.0](https://github.com/domaindrivendev/Swashbuckle.AspNetCore/releases/tag/v6.1.0)
+- [x] Fix `DisplayEnumsWithValuesDocumentFilter` for action enum parameters like:
+
+```csharp
+[HttpGet("MyFunction")]
+public IActionResult MyFunction(ParameterEnum parameter1)
+{
+    return NoContent();
+}
+```
+
+![DisplayEnumsWithValuesDocumentFilter with enum parameters](assets/displayEnumsWithValuesDocumentFilterEnumParameters.png)
+
 ## v2.5.2 `2021-02-09`
 
 - [x] Add more overloads for `IncludeXmlCommentsWithRemarks` extension method

@@ -71,22 +71,40 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             // add enum descriptions to input parameters of every operation
             foreach (var parameter in openApiDoc.Paths.Values.SelectMany(v => v.Operations).SelectMany(op => op.Value.Parameters))
             {
+                OpenApiSchema schema = null;
                 if (parameter.Schema.Reference == null)
-                    continue;
-
-                var componentReference = parameter.Schema.Reference.Id;
-                var schema = openApiDoc.Components.Schemas[componentReference];
-
-                var description = schema.AddEnumValuesDescription(this._includeDescriptionFromAttribute);
-                if (description != null)
                 {
-                    if (parameter.Description == null)
+                    if (parameter.Schema.AllOf.Count > 0)
                     {
-                        parameter.Description = description;
+                        schema = context.SchemaRepository.Schemas.FirstOrDefault(s => parameter.Schema.AllOf.FirstOrDefault(a => a.Reference.Id == s.Key) != null).Value;
                     }
-                    else if (!parameter.Description.Contains(description))
+                    else
                     {
-                        parameter.Description += description;
+                        continue;
+                    }
+                }
+                else
+                {
+                    var componentReference = parameter.Schema.Reference.Id;
+                    if (!string.IsNullOrWhiteSpace(componentReference))
+                    {
+                        schema = openApiDoc.Components.Schemas[componentReference];
+                    }
+                }
+
+                if (schema != null)
+                {
+                    var description = schema.AddEnumValuesDescription(this._includeDescriptionFromAttribute);
+                    if (description != null)
+                    {
+                        if (parameter.Description == null)
+                        {
+                            parameter.Description = description;
+                        }
+                        else if (!parameter.Description.Contains(description))
+                        {
+                            parameter.Description += description;
+                        }
                     }
                 }
             }
