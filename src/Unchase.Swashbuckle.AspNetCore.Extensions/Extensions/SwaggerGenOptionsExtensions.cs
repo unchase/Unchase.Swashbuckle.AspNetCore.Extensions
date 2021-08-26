@@ -106,7 +106,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
         {
             swaggerGenOptions.IncludeXmlComments(xmlDocFactory, includeControllerXmlComments);
 
-            var distinctExcludedTypes = excludedTypes?.Distinct().ToArray();
+            var distinctExcludedTypes = excludedTypes?.Distinct().ToArray() ?? new Type[] { };
 
             var xmlDoc = xmlDocFactory();
             swaggerGenOptions.ParameterFilter<XmlCommentsWithRemarksParameterFilter>(xmlDoc, distinctExcludedTypes);
@@ -214,7 +214,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                     })
                 .ToDictionary(x => x.Name, x => x.Cref);
 
-            var distinctExcludedTypes = excludedTypes?.Distinct().ToArray();
+            var distinctExcludedTypes = excludedTypes?.Distinct().ToArray() ?? new Type[] { };
             swaggerGenOptions.ParameterFilter<InheritDocParameterFilter>(documents, inheritedDocs, includeRemarks, distinctExcludedTypes);
             swaggerGenOptions.RequestBodyFilter<InheritDocRequestBodyFilter>(documents, inheritedDocs, includeRemarks, distinctExcludedTypes);
             swaggerGenOptions.SchemaFilter<InheritDocSchemaFilter>(documents, inheritedDocs, includeRemarks, distinctExcludedTypes);

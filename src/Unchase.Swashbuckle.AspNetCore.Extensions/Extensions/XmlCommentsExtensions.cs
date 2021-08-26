@@ -17,24 +17,38 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
 
         internal static Type GetTargetRecursive(this Type type, Dictionary<string, string> inheritedDocs, string cref)
         {
-            var target = GetTarget(type, cref);
+            var targets = GetTargets(type, cref);
 
-            if (target == null)
+            if (targets.Any() != true)
             {
                 return null;
             }
 
-            string targetMemberName = XmlCommentsNodeNameHelper.GetMemberNameForType(target);
-
-            if (inheritedDocs.ContainsKey(targetMemberName))
+            foreach (var target in targets)
             {
-                return GetTarget(target, inheritedDocs[targetMemberName]);
+                if (target == null)
+                {
+                    continue;
+                }
+
+                string targetMemberName = XmlCommentsNodeNameHelper.GetMemberNameForType(target);
+                if (!string.IsNullOrWhiteSpace(targetMemberName))
+                {
+                    if (inheritedDocs.ContainsKey(targetMemberName))
+                    {
+                        return GetTargetRecursive(target, inheritedDocs, inheritedDocs[targetMemberName]);
+                    }
+                    else
+                    {
+                        return target;
+                    }
+                }
             }
 
-            return target;
+            return null;
         }
 
-        private static Type GetTarget(Type type, string cref)
+        private static Type[] GetTargets(Type type, string cref)
         {
             var targets = type.GetInterfaces();
             if (type.BaseType != typeof(object))
@@ -49,34 +63,47 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
 
                 if (crefTarget != null)
                 {
-                    return crefTarget;
+                    return new[] { crefTarget };
                 }
             }
 
-            // We use the last since that will be our base class or the "nearest" implemented interface.
-            return targets.LastOrDefault();
+            return targets.ToArray();
         }
 
         internal static MemberInfo GetTargetRecursive(this MemberInfo memberInfo, Dictionary<string, string> inheritedDocs, string cref)
         {
-            var target = GetTarget(memberInfo, cref);
+            var targets = GetTargets(memberInfo, cref);
 
-            if (target == null)
+            if (targets.Any() != true)
             {
                 return null;
             }
 
-            string targetMemberName = XmlCommentsNodeNameHelper.GetMemberNameForFieldOrProperty(target);
-
-            if (inheritedDocs.ContainsKey(targetMemberName))
+            foreach (var target in targets)
             {
-                return GetTarget(target, inheritedDocs[targetMemberName]);
+                if (target == null)
+                {
+                    continue;
+                }
+
+                string targetMemberName = XmlCommentsNodeNameHelper.GetMemberNameForFieldOrProperty(target);
+                if (!string.IsNullOrWhiteSpace(targetMemberName))
+                {
+                    if (inheritedDocs.ContainsKey(targetMemberName))
+                    {
+                        return GetTargetRecursive(target, inheritedDocs, inheritedDocs[targetMemberName]);
+                    }
+                    else
+                    {
+                        return target;
+                    }
+                }
             }
 
-            return target;
+            return null;
         }
 
-        private static MemberInfo GetTarget(MemberInfo memberInfo, string cref)
+        private static MemberInfo[] GetTargets(MemberInfo memberInfo, string cref)
         {
             var type = memberInfo.DeclaringType ?? memberInfo.ReflectedType;
 
@@ -103,12 +130,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
 
                 if (crefTarget != null)
                 {
-                    return crefTarget;
+                    return new[] { crefTarget };
                 }
             }
 
-            // We use the last since that will be our base class or the "nearest" implemented interface.
-            return targets.LastOrDefault();
+            return targets.ToArray();
         }
 
         internal static void ApplyPropertyComments(

@@ -42,7 +42,7 @@ namespace WebApi3._1_Swashbuckle
 
                 // if you want to add xml comments from inheritdocs (from summary and remarks) into the swagger documentation, add:
                 // you can exclude remarks for concrete types
-                options.IncludeXmlCommentsFromInheritDocs(includeRemarks: true, excludedTypes: typeof(string));
+                options.IncludeXmlCommentsFromInheritDocs(includeRemarks: true);
 
                 // options.IncludeXmlCommentsWithRemarks(filePath: xmlFilePath, includeControllerXmlComments: false, () => new[] { typeof(InnerEnum) });
 

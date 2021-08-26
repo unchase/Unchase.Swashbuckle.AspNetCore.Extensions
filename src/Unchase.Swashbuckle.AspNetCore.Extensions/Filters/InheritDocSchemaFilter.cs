@@ -78,6 +78,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                 string cref = _inheritedDocs[memberName];
                 var target = context.Type.GetTargetRecursive(_inheritedDocs, cref);
 
+                if (target == null)
+                {
+                    return;
+                }
+
                 var targetXmlNode = XmlCommentsExtensions.GetMemberXmlNode(XmlCommentsNodeNameHelper.GetMemberNameForType(target), _documents);
                 var summaryNode = targetXmlNode?.SelectSingleNode(SummaryTag);
 
