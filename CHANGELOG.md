@@ -8,6 +8,10 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.6.3 `2021-08-26`
+
+- [x] Fix `IncludeXmlCommentsWithRemarks`
+
 ## v2.6.1 `2021-08-26`
 
 - [x] Update nuget-dependencies: update Swashbuckle.AspNetCore to [v6.1.5](https://github.com/domaindrivendev/Swashbuckle.AspNetCore/releases/tag/v6.1.5)

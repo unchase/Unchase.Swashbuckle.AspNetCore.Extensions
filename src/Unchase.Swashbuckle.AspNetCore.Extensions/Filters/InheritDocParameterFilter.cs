@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Xml.XPath;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -10,10 +9,10 @@ using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 {
     /// <summary>
-    /// Adds documentation that is provided by the &lt;inhertidoc /&gt; tag.
+    /// Adds documentation to parameters that is provided by the &lt;inhertidoc /&gt; tag.
     /// </summary>
-    /// <seealso cref="ISchemaFilter" />
-    internal class InheritDocSchemaFilter : ISchemaFilter
+    /// <seealso cref="IParameterFilter" />
+    internal class InheritDocParameterFilter : IParameterFilter
     {
         #region Fields
 
@@ -30,24 +29,24 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InheritDocSchemaFilter" /> class.
+        /// Initializes a new instance of the <see cref="InheritDocParameterFilter" /> class.
         /// </summary>
         /// <param name="inheritedDocs">Dictionary with inheritdoc in form of name-cref.</param>
         /// <param name="includeRemarks">Include remarks from inheritdoc XML comments.</param>
         /// <param name="documents">List of <see cref="XPathDocument"/>.</param>
-        public InheritDocSchemaFilter(List<XPathDocument> documents, Dictionary<string, string> inheritedDocs, bool includeRemarks = false)
+        public InheritDocParameterFilter(List<XPathDocument> documents, Dictionary<string, string> inheritedDocs, bool includeRemarks = false)
             : this(documents, inheritedDocs, includeRemarks, Array.Empty<Type>())
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InheritDocSchemaFilter" /> class.
+        /// Initializes a new instance of the <see cref="InheritDocParameterFilter" /> class.
         /// </summary>
         /// <param name="inheritedDocs">Dictionary with inheritdoc in form of name-cref.</param>
         /// <param name="includeRemarks">Include remarks from inheritdoc XML comments.</param>
-        /// <param name="excludedTypes">Excluded types.</param>
         /// <param name="documents">List of <see cref="XPathDocument"/>.</param>
-        public InheritDocSchemaFilter(List<XPathDocument> documents, Dictionary<string, string> inheritedDocs, bool includeRemarks = false, params Type[] excludedTypes)
+        /// <param name="excludedTypes">Excluded types.</param>
+        public InheritDocParameterFilter(List<XPathDocument> documents, Dictionary<string, string> inheritedDocs, bool includeRemarks = false, params Type[] excludedTypes)
         {
             _includeRemarks = includeRemarks;
             _excludedTypes = excludedTypes;
@@ -62,56 +61,46 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// <summary>
         /// Apply filter.
         /// </summary>
-        /// <param name="schema"><see cref="OpenApiSchema"/>.</param>
-        /// <param name="context"><see cref="SchemaFilterContext"/>.</param>
-        public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+        /// <param name="parameter"><see cref="OpenApiParameter"/>.</param>
+        /// <param name="context"><see cref="ParameterFilterContext"/>.</param>
+        public void Apply(OpenApiParameter parameter, ParameterFilterContext context)
         {
-            if (_excludedTypes.Any() && _excludedTypes.ToList().Contains(context.Type))
+            if (context.ApiParameterDescription.PropertyInfo() == null)
+            {
+                return;
+            }
+
+            if (_excludedTypes.Any() && _excludedTypes.ToList().Contains(context.ApiParameterDescription.PropertyInfo().DeclaringType))
             {
                 return;
             }
 
             // Try to apply a description for inherited types.
-            string memberName = XmlCommentsNodeNameHelper.GetMemberNameForType(context.Type);
-            if (string.IsNullOrEmpty(schema.Description) && _inheritedDocs.ContainsKey(memberName))
+            string parameterMemberName = XmlCommentsNodeNameHelper.GetMemberNameForFieldOrProperty(context.ApiParameterDescription.PropertyInfo());
+            if (string.IsNullOrEmpty(parameter.Description) && _inheritedDocs.ContainsKey(parameterMemberName))
             {
-                string cref = _inheritedDocs[memberName];
-                var target = context.Type.GetTargetRecursive(_inheritedDocs, cref);
+                string cref = _inheritedDocs[parameterMemberName];
+                var target = context.ApiParameterDescription.PropertyInfo().GetTargetRecursive(_inheritedDocs, cref);
 
-                var targetXmlNode = XmlCommentsExtensions.GetMemberXmlNode(XmlCommentsNodeNameHelper.GetMemberNameForType(target), _documents);
+                var targetXmlNode = XmlCommentsExtensions.GetMemberXmlNode(XmlCommentsNodeNameHelper.GetMemberNameForFieldOrProperty(target), _documents);
                 var summaryNode = targetXmlNode?.SelectSingleNode(SummaryTag);
 
                 if (summaryNode != null)
                 {
-                    schema.Description = XmlCommentsTextHelper.Humanize(summaryNode.InnerXml);
+                    parameter.Description = XmlCommentsTextHelper.Humanize(summaryNode.InnerXml);
 
                     if (_includeRemarks)
                     {
                         var remarksNode = targetXmlNode.SelectSingleNode(RemarksTag);
                         if (remarksNode != null && !string.IsNullOrWhiteSpace(remarksNode.InnerXml))
                         {
-                            schema.Description += $" ({XmlCommentsTextHelper.Humanize(remarksNode.InnerXml)})";
+                            parameter.Description += $" ({XmlCommentsTextHelper.Humanize(remarksNode.InnerXml)})";
                         }
                     }
                 }
             }
-
-            if (schema.Properties == null)
-            {
-                return;
-            }
-
-            // Add the summary and examples for the properties.
-            foreach (var entry in schema.Properties)
-            {
-                var memberInfo = ((TypeInfo)context.Type).DeclaredMembers.FirstOrDefault(p => p.Name.Equals(entry.Key, StringComparison.OrdinalIgnoreCase));
-                if (memberInfo != null)
-                {
-                    entry.Value.ApplyPropertyComments(memberInfo, _documents, _inheritedDocs, _includeRemarks, _excludedTypes);
-                }
-            }
         }
-        
+
         #endregion
     }
 }

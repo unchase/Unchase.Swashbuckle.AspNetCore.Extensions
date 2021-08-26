@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Xml.XPath;
@@ -188,8 +189,35 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             bool includeRemarks = false,
             params Type[] excludedTypes)
         {
+            var documents = swaggerGenOptions.SchemaFilterDescriptors.Where(x => x.Type == typeof(XmlCommentsSchemaFilter))
+                .Select(x => x.Arguments.Single())
+                .Cast<XPathDocument>()
+                .ToList();
+            var inheritedDocs = documents.SelectMany(
+                    doc =>
+                    {
+                        var inheritedElements = new List<(string Name, string Cref)>();
+                        foreach (XPathNavigator member in doc.CreateNavigator().Select("doc/members/member/inheritdoc"))
+                        {
+                            string cref = member.GetAttribute("cref", string.Empty);
+                            member.MoveToParent();
+                            string parentCref = member.GetAttribute("cref", string.Empty);
+                            if (!string.IsNullOrWhiteSpace(parentCref))
+                            {
+                                cref = parentCref;
+                            }
+
+                            inheritedElements.Add((member.GetAttribute("name", string.Empty), cref));
+                        }
+
+                        return inheritedElements;
+                    })
+                .ToDictionary(x => x.Name, x => x.Cref);
+
             var distinctExcludedTypes = excludedTypes?.Distinct().ToArray();
-            swaggerGenOptions.SchemaFilter<InheritDocSchemaFilter>(swaggerGenOptions, includeRemarks, distinctExcludedTypes);
+            swaggerGenOptions.ParameterFilter<InheritDocParameterFilter>(documents, inheritedDocs, includeRemarks, distinctExcludedTypes);
+            swaggerGenOptions.RequestBodyFilter<InheritDocRequestBodyFilter>(documents, inheritedDocs, includeRemarks, distinctExcludedTypes);
+            swaggerGenOptions.SchemaFilter<InheritDocSchemaFilter>(documents, inheritedDocs, includeRemarks, distinctExcludedTypes);
             return swaggerGenOptions;
         }
 

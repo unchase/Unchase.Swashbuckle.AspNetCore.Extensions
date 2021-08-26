@@ -33,16 +33,16 @@ namespace WebApi3._1_Swashbuckle
                 // use it if you want to hide Paths and Definitions from OpenApi documentation correctly
                 options.UseAllOfToExtendReferenceSchemas();
 
-                // if you want to add xml comments from inheritdocs (from summary and remarks) into the swagger documentation, add:
-                // you can exclude remarks for concrete types
-                options.IncludeXmlCommentsFromInheritDocs(includeRemarks: true, excludedTypes: typeof(string));
-
                 // if you want to add xml comments from summary and remarks into the swagger documentation, first of all add:
                 // you can exclude remarks for concrete types
                 var xmlFilePath = Path.Combine(AppContext.BaseDirectory, "WebApi3.1-Swashbuckle.xml");
                 options.IncludeXmlCommentsWithRemarks(filePath: xmlFilePath, includeControllerXmlComments: false,
                     typeof(ComplicatedClass),
                     typeof(InnerEnum));
+
+                // if you want to add xml comments from inheritdocs (from summary and remarks) into the swagger documentation, add:
+                // you can exclude remarks for concrete types
+                options.IncludeXmlCommentsFromInheritDocs(includeRemarks: true, excludedTypes: typeof(string));
 
                 // options.IncludeXmlCommentsWithRemarks(filePath: xmlFilePath, includeControllerXmlComments: false, () => new[] { typeof(InnerEnum) });
 

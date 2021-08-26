@@ -10,7 +10,7 @@ namespace TodoApi.Models
     /// <remarks>
     /// Todo item remarks - class
     /// </remarks>
-    public class TodoItem
+    public interface ITodoItem : ITodoItemName
     {
         /// <summary>
         /// Id
@@ -19,13 +19,29 @@ namespace TodoApi.Models
         /// Unique identifier - parameter
         /// </remarks>
         public long Id { get; set; }
+    }
 
+    /// <summary>
+    /// Interface with name.
+    /// </summary>
+    public interface ITodoItemName
+    {
         /// <summary>
         /// Name
         /// </summary>
         /// <remarks>
         /// Name of todo item - parameter
         /// </remarks>
+        public string Name { get; set; }
+    }
+
+    /// <inheritdoc/>
+    public class TodoItem : ITodoItem
+    {
+        /// <inheritdoc/>
+        public long Id { get; set; }
+
+        /// <inheritdoc/>
         [Required]
         public string Name { get; set; }
 

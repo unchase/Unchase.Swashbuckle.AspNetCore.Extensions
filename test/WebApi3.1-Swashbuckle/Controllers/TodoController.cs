@@ -88,7 +88,7 @@ namespace WebApi3._1_Swashbuckle.Controllers
         /// <remarks>
         /// Deletes a specific TodoItem remarks
         /// </remarks>
-        /// <param name="id"></param>
+        /// <param name="id">Identifier.</param>
         [HttpDelete("{id}")]
         [Authorize(Roles = "AcceptedRole")]
         public IActionResult Delete(long id)
@@ -128,6 +128,22 @@ namespace WebApi3._1_Swashbuckle.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<TodoItem> Create(TodoItem item)
+        {
+            Context.Add(item);
+
+            return new CreatedResult(string.Empty, item);
+        }
+
+        /// <summary>
+        /// Creates a TodoItem
+        /// </summary>
+        /// <returns>A newly created TodoItem.</returns>
+        /// <response code="201">Returns the newly created item.</response>
+        /// <response code="400">If the item is null.</response>
+        [HttpPost("create-from-query")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<TodoItem> CreateFromQuery([FromQuery] TodoItem item)
         {
             Context.Add(item);
 

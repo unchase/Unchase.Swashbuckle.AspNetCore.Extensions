@@ -6,7 +6,7 @@
         /// <inheritdoc/>
         public string Name { get; set; }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IInheritDocCommon.Common"/>
         public string Common { get; set; }
 
         /// <inheritdoc/>
