@@ -116,7 +116,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             // Add the summary and examples for the properties.
             foreach (var entry in schema.Properties)
             {
-                var memberInfo = ((TypeInfo)context.Type).DeclaredMembers.FirstOrDefault(p => p.Name.Equals(entry.Key, StringComparison.OrdinalIgnoreCase));
+                var members = ((TypeInfo)context.Type).GetMembers();
+                var memberInfo = members.FirstOrDefault(p => p.Name.Equals(entry.Key, StringComparison.OrdinalIgnoreCase));
                 if (memberInfo != null)
                 {
                     entry.Value.ApplyPropertyComments(memberInfo, _documents, _inheritedDocs, _includeRemarks, _excludedTypes);

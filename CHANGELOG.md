@@ -8,6 +8,10 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.6.8 `2021-08-26`
+
+- [x] Add `IncludeXmlCommentsWithRemarks` improvements
+
 ## v2.6.7 `2021-08-26`
 
 - [x] Add message template for `AppendActionCountToTagSummaryDocumentFilter`
