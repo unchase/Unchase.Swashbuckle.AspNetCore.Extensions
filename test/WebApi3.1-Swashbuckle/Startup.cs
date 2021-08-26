@@ -96,9 +96,9 @@ namespace WebApi3._1_Swashbuckle
                 // enable openApi Annotations
                 options.EnableAnnotations();
 
-                // add action count into the SwaggerTag's descriptions
+                // add action count (with message template) into the SwaggerTag's descriptions
                 // you can use it after "HidePathsAndDefinitionsByRolesDocumentFilter"
-                options.DocumentFilter<AppendActionCountToTagSummaryDocumentFilter>();
+                options.DocumentFilter<AppendActionCountToTagSummaryDocumentFilter>("(the count of actions: {0})");
 
                 #endregion
 

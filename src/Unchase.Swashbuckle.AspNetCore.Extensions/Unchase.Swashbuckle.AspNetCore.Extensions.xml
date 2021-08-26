@@ -259,6 +259,11 @@
             Document filter for appending action count to Tag summary of controllers.
             </summary>
         </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.AppendActionCountToTagSummaryDocumentFilter.#ctor(System.String)">
+            <summary>
+            Constructor.
+            </summary>
+        </member>
         <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.AppendActionCountToTagSummaryDocumentFilter.Apply(Microsoft.OpenApi.Models.OpenApiDocument,Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext)">
             <summary>
             Apply filter.

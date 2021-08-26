@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -10,6 +11,24 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
     /// </summary>
     public class AppendActionCountToTagSummaryDocumentFilter : IDocumentFilter
     {
+        private readonly string _messageTemplate;
+
+        #region Constructor
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public AppendActionCountToTagSummaryDocumentFilter(string messageTemplate = "(action count: {0})")
+        {
+            _messageTemplate = messageTemplate;
+            if (!_messageTemplate.Contains("{0}"))
+            {
+                throw new ArgumentException("The message template must contains '{0}'.", nameof(messageTemplate));
+            }
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>
@@ -43,7 +62,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                 foreach (var tag in openApiDoc.Tags)
                 {
                     if (tag.Name == tagActionCountKey)
-                        tag.Description += $" (action count: {tagActionCount[tagActionCountKey]})";
+                    {
+                        tag.Description += string.Format($" {_messageTemplate}", tagActionCount[tagActionCountKey]);
+                    }
                 }
             }
         }
