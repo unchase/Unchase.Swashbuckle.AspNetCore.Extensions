@@ -132,6 +132,72 @@
             <response code="201">Returns the newly created item.</response>
             <response code="400">If the item is null.</response>
         </member>
+        <member name="M:WebApi3._1_Swashbuckle.Controllers.TodoController.AddSomeCommand(WebApi3._1_Swashbuckle.Models.AddSomeCommand)">
+            <summary>
+            Add some command.
+            </summary>
+        </member>
+        <member name="T:WebApi3._1_Swashbuckle.Models.CommandType">
+            <summary>
+            CommandType
+            </summary>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Models.CommandType.Name">
+            <summary>
+            Name.
+            </summary>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Models.CommandType.Description">
+            <summary>
+            Description.
+            </summary>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Models.CommandType.ExternalId">
+            <summary>
+            External Id.
+            </summary>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Models.CommandType.IsReadOnly">
+            <summary>
+            Is Read Only.
+            </summary>
+            <remarks>
+            Is Read Only remarks.
+            </remarks>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Models.CommandType.IsActive">
+            <summary>
+            Is Active.
+            </summary>
+            <remarks>
+            Is Active remarks.
+            </remarks>
+        </member>
+        <member name="T:WebApi3._1_Swashbuckle.Models.AddSomeCommand">
+            <summary>
+            AddSomeCommand.
+            </summary>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Models.AddSomeCommand.Name">
+            <inheritdoc cref="P:WebApi3._1_Swashbuckle.Models.CommandType.Name"/>
+            <example>Example</example>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Models.AddSomeCommand.Description">
+            <inheritdoc cref="P:WebApi3._1_Swashbuckle.Models.CommandType.Description"/>
+            <example>Example</example>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Models.AddSomeCommand.ExternalId">
+            <inheritdoc cref="P:WebApi3._1_Swashbuckle.Models.CommandType.ExternalId"/>
+            <example>Example</example>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Models.AddSomeCommand.IsReadOnly">
+            <inheritdoc cref="P:WebApi3._1_Swashbuckle.Models.CommandType.IsReadOnly"/>
+            <example>false</example>
+        </member>
+        <member name="P:WebApi3._1_Swashbuckle.Models.AddSomeCommand.IsActive">
+            <inheritdoc cref="P:WebApi3._1_Swashbuckle.Models.CommandType.IsActive"/>
+            <example>true</example>
+        </member>
         <member name="T:WebApi3._1_Swashbuckle.Models.ComplicatedClass">
             <summary>
             Complicated class for testing enums

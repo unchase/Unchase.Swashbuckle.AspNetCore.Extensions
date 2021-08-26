@@ -73,19 +73,26 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
             // Try to apply a description for inherited types.
             string memberName = XmlCommentsNodeNameHelper.GetMemberNameForType(context.Type);
-            if (string.IsNullOrEmpty(schema.Description) && _inheritedDocs.ContainsKey(memberName))
+            if (string.IsNullOrWhiteSpace(schema.Description) && _inheritedDocs.ContainsKey(memberName))
             {
                 string cref = _inheritedDocs[memberName];
-                var target = context.Type.GetTargetRecursive(_inheritedDocs, cref);
-
-                if (target == null)
+                XPathNavigator targetXmlNode;
+                if (string.IsNullOrWhiteSpace(cref))
                 {
-                    return;
+                    var target = context.Type.GetTargetRecursive(_inheritedDocs, cref);
+                    if (target == null)
+                    {
+                        return;
+                    }
+
+                    targetXmlNode = XmlCommentsExtensions.GetMemberXmlNode(XmlCommentsNodeNameHelper.GetMemberNameForType(target), _documents);
+                }
+                else
+                {
+                    targetXmlNode = XmlCommentsExtensions.GetMemberXmlNode(cref, _documents);
                 }
 
-                var targetXmlNode = XmlCommentsExtensions.GetMemberXmlNode(XmlCommentsNodeNameHelper.GetMemberNameForType(target), _documents);
                 var summaryNode = targetXmlNode?.SelectSingleNode(SummaryTag);
-
                 if (summaryNode != null)
                 {
                     schema.Description = XmlCommentsTextHelper.Humanize(summaryNode.InnerXml);
@@ -101,7 +108,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                 }
             }
 
-            if (schema.Properties == null)
+            if (schema.Properties?.Any() != true)
             {
                 return;
             }

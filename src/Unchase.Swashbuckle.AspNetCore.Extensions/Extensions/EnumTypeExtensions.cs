@@ -139,7 +139,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                 return QualifiedNameFor(type.GetElementType(), expandGenericArgs) + "[]";
 
             var stringBuilder = new StringBuilder();
-            if (!string.IsNullOrEmpty(type.Namespace))
+            if (!string.IsNullOrWhiteSpace(type.Namespace))
                 stringBuilder.Append(type.Namespace + ".");
 
             if (type.IsNested)

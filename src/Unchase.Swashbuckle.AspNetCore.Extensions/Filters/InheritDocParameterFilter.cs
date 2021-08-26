@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Xml.XPath;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -82,19 +83,26 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
             // Try to apply a description for inherited types.
             string parameterMemberName = XmlCommentsNodeNameHelper.GetMemberNameForFieldOrProperty(context.ApiParameterDescription.PropertyInfo());
-            if (string.IsNullOrEmpty(parameter.Description) && _inheritedDocs.ContainsKey(parameterMemberName))
+            if (string.IsNullOrWhiteSpace(parameter.Description) && _inheritedDocs.ContainsKey(parameterMemberName))
             {
                 string cref = _inheritedDocs[parameterMemberName];
-                var target = context.ApiParameterDescription.PropertyInfo().GetTargetRecursive(_inheritedDocs, cref);
-
-                if (target == null)
+                XPathNavigator targetXmlNode;
+                if (string.IsNullOrWhiteSpace(cref))
                 {
-                    return;
+                    var target = context.ApiParameterDescription.PropertyInfo().GetTargetRecursive(_inheritedDocs, cref);
+                    if (target == null)
+                    {
+                        return;
+                    }
+
+                    targetXmlNode = XmlCommentsExtensions.GetMemberXmlNode(XmlCommentsNodeNameHelper.GetMemberNameForFieldOrProperty(target), _documents);
+                }
+                else
+                {
+                    targetXmlNode = XmlCommentsExtensions.GetMemberXmlNode(cref, _documents);
                 }
 
-                var targetXmlNode = XmlCommentsExtensions.GetMemberXmlNode(XmlCommentsNodeNameHelper.GetMemberNameForFieldOrProperty(target), _documents);
                 var summaryNode = targetXmlNode?.SelectSingleNode(SummaryTag);
-
                 if (summaryNode != null)
                 {
                     parameter.Description = XmlCommentsTextHelper.Humanize(summaryNode.InnerXml);
@@ -105,6 +113,32 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                         if (remarksNode != null && !string.IsNullOrWhiteSpace(remarksNode.InnerXml))
                         {
                             parameter.Description += $" ({XmlCommentsTextHelper.Humanize(remarksNode.InnerXml)})";
+                        }
+                    }
+                }
+            }
+
+            // TODO
+            var type = context.ApiParameterDescription.PropertyInfo()?.DeclaringType;
+            var typeName = type?.Name;
+            if (!string.IsNullOrWhiteSpace(typeName))
+            {
+                if (context.SchemaRepository.Schemas.ContainsKey(typeName))
+                {
+                    var schema = context.SchemaRepository.Schemas[typeName];
+                    if (schema?.Properties?.Any() != true)
+                    {
+                        return;
+                    }
+
+                    // Add the summary and examples for the properties.
+                    foreach (var entry in schema.Properties)
+                    {
+                        var memberInfo = ((TypeInfo)type).DeclaredMembers.FirstOrDefault(p =>
+                            p.Name.Equals(entry.Key, StringComparison.OrdinalIgnoreCase));
+                        if (memberInfo != null)
+                        {
+                            entry.Value.ApplyPropertyComments(memberInfo, _documents, _inheritedDocs, _includeRemarks, _excludedTypes);
                         }
                     }
                 }

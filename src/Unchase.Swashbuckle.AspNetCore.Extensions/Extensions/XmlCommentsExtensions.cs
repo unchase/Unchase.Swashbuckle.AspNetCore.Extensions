@@ -57,7 +57,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             }
 
             // Try to find the target, if one is declared.
-            if (!string.IsNullOrEmpty(cref))
+            if (!string.IsNullOrWhiteSpace(cref))
             {
                 var crefTarget = targets.SingleOrDefault(t => XmlCommentsNodeNameHelper.GetMemberNameForType(t) == cref);
 
@@ -124,7 +124,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                 .ToList();
 
             // Try to find the target, if one is declared.
-            if (!string.IsNullOrEmpty(cref))
+            if (!string.IsNullOrWhiteSpace(cref))
             {
                 var crefTarget = targets.SingleOrDefault(t => XmlCommentsNodeNameHelper.GetMemberNameForFieldOrProperty(t) == cref);
 
@@ -164,13 +164,21 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             }
 
             string cref = inheritedDocs[memberName];
-            var target = memberInfo.GetTargetRecursive(inheritedDocs, cref);
-            if (target == null)
+            XPathNavigator targetXmlNode;
+            if (string.IsNullOrWhiteSpace(cref))
             {
-                return;
-            }
+                var target = memberInfo.GetTargetRecursive(inheritedDocs, cref);
+                if (target == null)
+                {
+                    return;
+                }
 
-            var targetXmlNode = GetMemberXmlNode(XmlCommentsNodeNameHelper.GetMemberNameForFieldOrProperty(target), documents);
+                targetXmlNode = GetMemberXmlNode(XmlCommentsNodeNameHelper.GetMemberNameForFieldOrProperty(target), documents);
+            }
+            else
+            {
+                targetXmlNode = GetMemberXmlNode(cref, documents);
+            }
 
             if (targetXmlNode == null)
             {
@@ -178,7 +186,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             }
 
             var summaryNode = targetXmlNode.SelectSingleNode(SummaryTag);
-            if (summaryNode != null)
+            if (summaryNode != null && string.IsNullOrWhiteSpace(schema.Description))
             {
                 schema.Description = XmlCommentsTextHelper.Humanize(summaryNode.InnerXml);
 

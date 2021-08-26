@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Xml.XPath;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -72,14 +73,26 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
             // Try to apply a description for inherited types.
             string parameterMemberName = XmlCommentsNodeNameHelper.GetMemberNameForType(context.BodyParameterDescription.Type);
-            if (string.IsNullOrEmpty(requestBody.Description) && _inheritedDocs.ContainsKey(parameterMemberName))
+            if (string.IsNullOrWhiteSpace(requestBody.Description) && _inheritedDocs.ContainsKey(parameterMemberName))
             {
                 string cref = _inheritedDocs[parameterMemberName];
-                var target = context.BodyParameterDescription.Type.GetTargetRecursive(_inheritedDocs, cref);
+                XPathNavigator targetXmlNode;
+                if (string.IsNullOrWhiteSpace(cref))
+                {
+                    var target = context.BodyParameterDescription.Type.GetTargetRecursive(_inheritedDocs, cref);
+                    if (target == null)
+                    {
+                        return;
+                    }
 
-                var targetXmlNode = XmlCommentsExtensions.GetMemberXmlNode(XmlCommentsNodeNameHelper.GetMemberNameForType(target), _documents);
+                    targetXmlNode = XmlCommentsExtensions.GetMemberXmlNode(XmlCommentsNodeNameHelper.GetMemberNameForType(target), _documents);
+                }
+                else
+                {
+                    targetXmlNode = XmlCommentsExtensions.GetMemberXmlNode(cref, _documents);
+                }
+
                 var summaryNode = targetXmlNode?.SelectSingleNode(SummaryTag);
-
                 if (summaryNode != null)
                 {
                     requestBody.Description = XmlCommentsTextHelper.Humanize(summaryNode.InnerXml);
@@ -91,6 +104,26 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                         {
                             requestBody.Description += $" ({XmlCommentsTextHelper.Humanize(remarksNode.InnerXml)})";
                         }
+                    }
+                }
+            }
+
+            if (context.SchemaRepository.Schemas.ContainsKey(context.BodyParameterDescription.Type.Name))
+            {
+                var schema = context.SchemaRepository.Schemas[context.BodyParameterDescription.Type.Name];
+                if (schema?.Properties?.Any() != true)
+                {
+                    return;
+                }
+
+                // Add the summary and examples for the properties.
+                foreach (var entry in schema.Properties)
+                {
+                    var memberInfo = ((TypeInfo)context.BodyParameterDescription.Type).DeclaredMembers.FirstOrDefault(p =>
+                        p.Name.Equals(entry.Key, StringComparison.OrdinalIgnoreCase));
+                    if (memberInfo != null)
+                    {
+                        entry.Value.ApplyPropertyComments(memberInfo, _documents, _inheritedDocs, _includeRemarks, _excludedTypes);
                     }
                 }
             }

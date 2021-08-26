@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TodoApi.Models;
 using WebApi3._1_Swashbuckle.Contexts;
 using WebApi3._1_Swashbuckle.Models;
@@ -148,6 +149,15 @@ namespace WebApi3._1_Swashbuckle.Controllers
             Context.Add(item);
 
             return new CreatedResult(string.Empty, item);
+        }
+
+        /// <summary>
+        /// Add some command.
+        /// </summary>
+        [HttpPost("add-some-command")]
+        public IActionResult AddSomeCommand(AddSomeCommand command)
+        {
+            return Ok("Ok");
         }
     }
 }
