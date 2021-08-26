@@ -119,6 +119,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             bool includeRemarks = false, 
             params Type[] excludedTypes)
         {
+            if (memberInfo == null)
+            {
+                return;
+            }
+
             string memberName = XmlCommentsNodeNameHelper.GetMemberNameForFieldOrProperty(memberInfo);
 
             if (!inheritedDocs.ContainsKey(memberName))

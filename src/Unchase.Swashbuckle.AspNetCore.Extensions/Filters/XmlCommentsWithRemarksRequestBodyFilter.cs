@@ -59,6 +59,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
         private void ApplyPropertyTags(OpenApiRequestBody requestBody, PropertyInfo propertyInfo)
         {
+            if (propertyInfo == null)
+            {
+                return;
+            }
+
             if (propertyInfo.DeclaringType != null && _excludedTypes.Any() && _excludedTypes.ToList().Contains(propertyInfo.DeclaringType))
             {
                 return;

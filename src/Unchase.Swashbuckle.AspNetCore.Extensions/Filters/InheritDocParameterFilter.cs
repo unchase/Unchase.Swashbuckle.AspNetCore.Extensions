@@ -75,12 +75,22 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                 return;
             }
 
+            if (context.ApiParameterDescription.PropertyInfo() == null)
+            {
+                return;
+            }
+
             // Try to apply a description for inherited types.
             string parameterMemberName = XmlCommentsNodeNameHelper.GetMemberNameForFieldOrProperty(context.ApiParameterDescription.PropertyInfo());
             if (string.IsNullOrEmpty(parameter.Description) && _inheritedDocs.ContainsKey(parameterMemberName))
             {
                 string cref = _inheritedDocs[parameterMemberName];
                 var target = context.ApiParameterDescription.PropertyInfo().GetTargetRecursive(_inheritedDocs, cref);
+
+                if (target == null)
+                {
+                    return;
+                }
 
                 var targetXmlNode = XmlCommentsExtensions.GetMemberXmlNode(XmlCommentsNodeNameHelper.GetMemberNameForFieldOrProperty(target), _documents);
                 var summaryNode = targetXmlNode?.SelectSingleNode(SummaryTag);

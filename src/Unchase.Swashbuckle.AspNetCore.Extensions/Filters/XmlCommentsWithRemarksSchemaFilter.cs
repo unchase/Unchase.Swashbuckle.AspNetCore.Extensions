@@ -79,6 +79,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
         private void ApplyFieldOrPropertyTags(OpenApiSchema schema, MemberInfo fieldOrPropertyInfo)
         {
+            if (fieldOrPropertyInfo == null)
+            {
+                return;
+            }
+
             if (fieldOrPropertyInfo.DeclaringType != null && _excludedTypes.Any() && _excludedTypes.ToList().Contains(fieldOrPropertyInfo.DeclaringType))
             {
                 return;
