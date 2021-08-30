@@ -61,25 +61,38 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
         public void Apply(OpenApiRequestBody requestBody, RequestBodyFilterContext context)
         {
-            if (context.BodyParameterDescription.Type == null)
+            ApplyForType(requestBody, context, context.BodyParameterDescription?.Type);
+
+            if (context.FormParameterDescriptions?.Any() == true)
+            {
+                foreach (var formParameterDescription in context.FormParameterDescriptions)
+                {
+                    ApplyForType(requestBody, context, formParameterDescription?.Type);
+                }
+            }
+        }
+
+        private void ApplyForType(OpenApiRequestBody requestBody, RequestBodyFilterContext context, Type type)
+        {
+            if (type == null)
             {
                 return;
             }
 
-            if (_excludedTypes.Any() && _excludedTypes.ToList().Contains(context.BodyParameterDescription.Type))
+            if (_excludedTypes.Any() && _excludedTypes.ToList().Contains(type))
             {
                 return;
             }
 
             // Try to apply a description for inherited types.
-            string parameterMemberName = XmlCommentsNodeNameHelper.GetMemberNameForType(context.BodyParameterDescription.Type);
+            string parameterMemberName = XmlCommentsNodeNameHelper.GetMemberNameForType(type);
             if (string.IsNullOrWhiteSpace(requestBody.Description) && _inheritedDocs.ContainsKey(parameterMemberName))
             {
                 string cref = _inheritedDocs[parameterMemberName];
                 XPathNavigator targetXmlNode;
                 if (string.IsNullOrWhiteSpace(cref))
                 {
-                    var target = context.BodyParameterDescription.Type.GetTargetRecursive(_inheritedDocs, cref);
+                    var target = type.GetTargetRecursive(_inheritedDocs, cref);
                     if (target == null)
                     {
                         return;
@@ -108,9 +121,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                 }
             }
 
-            if (context.SchemaRepository.Schemas.ContainsKey(context.BodyParameterDescription.Type.Name))
+            if (context.SchemaRepository.Schemas.ContainsKey(type.Name))
             {
-                var schema = context.SchemaRepository.Schemas[context.BodyParameterDescription.Type.Name];
+                var schema = context.SchemaRepository.Schemas[type.Name];
                 if (schema?.Properties?.Any() != true)
                 {
                     return;
@@ -119,7 +132,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                 // Add the summary and examples for the properties.
                 foreach (var entry in schema.Properties)
                 {
-                    var members = ((TypeInfo)context.BodyParameterDescription.Type).GetMembers();
+                    var members = ((TypeInfo)type).GetMembers();
                     var memberInfo = members.FirstOrDefault(p =>
                         p.Name.Equals(entry.Key, StringComparison.OrdinalIgnoreCase));
                     if (memberInfo != null)

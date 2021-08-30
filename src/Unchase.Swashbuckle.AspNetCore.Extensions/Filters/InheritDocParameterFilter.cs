@@ -66,7 +66,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// <param name="context"><see cref="ParameterFilterContext"/>.</param>
         public void Apply(OpenApiParameter parameter, ParameterFilterContext context)
         {
-            if (context.ApiParameterDescription.PropertyInfo() == null)
+            if (context.ApiParameterDescription?.PropertyInfo() == null)
             {
                 return;
             }

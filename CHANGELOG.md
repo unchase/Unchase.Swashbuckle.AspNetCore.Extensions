@@ -8,6 +8,10 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.6.9 `2021-08-30`
+
+- [x] Fix NRE in `InheritDocRequestBodyFilter` and `InheritDocParameterFilter`
+
 ## v2.6.8 `2021-08-26`
 
 - [x] Add `IncludeXmlCommentsWithRemarks` improvements
