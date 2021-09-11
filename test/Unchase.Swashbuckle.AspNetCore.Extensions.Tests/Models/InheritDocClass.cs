@@ -1,4 +1,4 @@
-﻿namespace WebApi3._1_Swashbuckle.Models
+﻿namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models
 {
     /// <inheritdoc cref="IInheritDocClass"/>
     public class InheritDocClass : IInheritDocClass

@@ -1,0 +1,464 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Unchase.Swashbuckle.AspNetCore.Extensions.Tests</name>
+    </assembly>
+    <members>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Contexts.ItodoContext">
+            <summary>
+            Context for todo items.
+            </summary>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Contexts.ItodoContext.TodoItems">
+            <summary>
+            List of todo items.
+            </summary>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Contexts.ItodoContext.Find(System.Int64)">
+            <summary>
+            Find todo item by id.
+            </summary>
+            <param name="id">Id.</param>
+            <returns>
+            Returns founded todo item.
+            </returns>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Contexts.ItodoContext.Remove(Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.TodoItem)">
+            <summary>
+            Remove todo item.
+            </summary>
+            <param name="item"><see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.TodoItem"/>.</param>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Contexts.ItodoContext.Add(Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.TodoItem)">
+            <summary>
+            Add todo item.
+            </summary>
+            <param name="item"><see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.TodoItem"/>.</param>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Contexts.TodoContext">
+            <inheritdoc cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Contexts.ItodoContext"/>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Contexts.TodoContext.TodoItems">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Contexts.TodoContext.Add(Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.TodoItem)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Contexts.TodoContext.Find(System.Int64)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Contexts.TodoContext.Remove(Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.TodoItem)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers.HidedController">
+            <summary>
+            Hided controller
+            </summary>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers.HidedController.HidedAction">
+            <summary>
+            Hided action
+            </summary>
+            <remarks>
+            Hided action remarks
+            </remarks>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers.SecondController">
+            <summary>
+            Second controller
+            </summary>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers.SecondController.TestAction">
+            <summary>
+            Test action
+            </summary>
+            <remarks>
+            Test action remarks
+            </remarks>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers.TodoController">
+            <summary>
+            Todo controller
+            </summary>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers.TodoController.HidedAction">
+            <summary>
+            Hided action
+            </summary>
+            <remarks>
+            Hided action remarks
+            </remarks>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers.TodoController.ComplicatedAction">
+            <summary>
+            Complicated action
+            </summary>
+            <remarks>
+            Complicated action remarks
+            </remarks>
+            <returns>A complicated class.</returns>
+            <response code="200">Returns a complicated class.</response>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers.TodoController.InheritDocAction">
+            <summary>
+            InheritDoc action
+            </summary>
+            <remarks>
+            InheritDoc action remarks
+            </remarks>
+            <returns>A InheritDoc class.</returns>
+            <response code="200">Returns a InheritDoc class.</response>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers.TodoController.Delete(System.Int64)">
+            <summary>
+            Deletes a specific TodoItem
+            </summary>
+            <remarks>
+            Deletes a specific TodoItem remarks
+            </remarks>
+            <param name="id">Identifier.</param>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers.TodoController.Create(Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.TodoItem)">
+             <summary>
+             Creates a TodoItem
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 POST /Todo
+                 {
+                    "id": 1,
+                    "name": "Item1",
+                    "isComplete": true,
+                    "tag": 0
+                 }
+            
+             </remarks>
+             <param name="item">TodoItem.</param>
+             <returns>A newly created TodoItem.</returns>
+             <response code="201">Returns the newly created item.</response>
+             <response code="400">If the item is null.</response>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers.TodoController.CreateFromQuery(Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.TodoItem)">
+            <summary>
+            Creates a TodoItem
+            </summary>
+            <returns>A newly created TodoItem.</returns>
+            <response code="201">Returns the newly created item.</response>
+            <response code="400">If the item is null.</response>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers.TodoController.AddSomeCommand(Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.AddSomeCommand)">
+            <summary>
+            Add some command.
+            </summary>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.CommandType">
+            <summary>
+            CommandType
+            </summary>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.CommandType.Name">
+            <summary>
+            Name.
+            </summary>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.CommandType.Description">
+            <summary>
+            Description.
+            </summary>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.CommandType.ExternalId">
+            <summary>
+            External Id.
+            </summary>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.CommandType.IsReadOnly">
+            <summary>
+            Is Read Only.
+            </summary>
+            <remarks>
+            Is Read Only remarks.
+            </remarks>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.CommandType.IsActive">
+            <summary>
+            Is Active.
+            </summary>
+            <remarks>
+            Is Active remarks.
+            </remarks>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.AddSomeCommand">
+            <summary>
+            AddSomeCommand.
+            </summary>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.AddSomeCommand.Name">
+            <inheritdoc cref="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.CommandType.Name"/>
+            <example>Example</example>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.AddSomeCommand.Description">
+            <inheritdoc cref="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.CommandType.Description"/>
+            <example>Example</example>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.AddSomeCommand.ExternalId">
+            <inheritdoc cref="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.CommandType.ExternalId"/>
+            <example>Example</example>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.AddSomeCommand.IsReadOnly">
+            <inheritdoc cref="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.CommandType.IsReadOnly"/>
+            <example>false</example>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.AddSomeCommand.IsActive">
+            <inheritdoc cref="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.CommandType.IsActive"/>
+            <example>true</example>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.ComplicatedClass">
+            <summary>
+            Complicated class for testing enums
+            </summary>
+            <remarks>
+            Complicated class remarks - class
+            </remarks>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.ComplicatedClass.Tag">
+            <summary>
+            Tag
+            </summary>
+            <remarks>
+            Tag remarks - property
+            </remarks>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.ComplicatedClass.InnerClass">
+            <summary>
+            Inner class
+            </summary>
+            <remarks>
+            InnerClass remarks - property
+            </remarks>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InnerClass">
+            <summary>
+            Inner class
+            </summary>
+            <remarks>
+            Inner class remarks - class
+            </remarks>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InnerClass.InnerEnum">
+            <summary>
+            List of inner enums
+            </summary>
+            <remarks>
+            List of inner enums remarks - property
+            </remarks>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InnerClass.SecondInnerClass">
+            <summary>
+            Second inner class
+            </summary>
+            <remarks>
+            Second inner class remarks - property
+            </remarks>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InnerEnum">
+            <summary>
+            Inner enum
+            </summary>
+            <remarks>
+            Inner enum remarks - enum
+            </remarks>
+        </member>
+        <member name="F:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InnerEnum.Value">
+            <summary>
+            Inner enum value
+            </summary>
+            <remarks>
+            Inner enum value remarks
+            </remarks>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.SecondInnerClass`1">
+            <summary>
+            Second inner class
+            </summary>
+            <remarks>
+            Second inner class remarks - class
+            </remarks>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.SecondInnerClass`1.InnerEnum">
+            <summary>
+            Second inner enum
+            </summary>
+            <remarks>
+            Second inner enum remarks - property
+            </remarks>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.SecondInnerEnum">
+            <summary>
+            Second inner enum
+            </summary>
+            <remarks>
+            Second inner enum remarks - enum
+            </remarks>
+        </member>
+        <member name="F:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.SecondInnerEnum.Value">
+            <summary>
+            Second inner enum value
+            </summary>
+            <remarks>
+            Second inner enum value remarks
+            </remarks>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.IInheritDocClass">
+            <summary>
+            InheritDocClass - inheritdoc
+            </summary>
+            <remarks>
+            InheritDocClass remarks - inheritdoc
+            </remarks>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.IInheritDocClass.Name">
+            <summary>
+            Name - inheritdoc
+            </summary>
+            <remarks>
+            Name remarks - inheritdoc
+            </remarks>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.IInheritDocCommon">
+            <summary>
+            IInheritDocCommon interface
+            </summary>
+            <remarks>
+            IInheritDocCommon interface remarks
+            </remarks>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.IInheritDocCommon.Common">
+            <summary>
+            Common - inheritdoc (inner)
+            </summary>
+            <remarks>
+            Common remarks - inheritdoc (inner)
+            </remarks>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.IInheritDocCommon.InheritEnum">
+            <summary>
+            InheritEnum - inheritdoc (inner)
+            </summary>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InheritDocClass">
+            <inheritdoc cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.IInheritDocClass"/>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InheritDocClass.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InheritDocClass.Common">
+            <inheritdoc cref="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.IInheritDocCommon.Common"/>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InheritDocClass.InheritEnum">
+            <inheritdoc/>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InheritEnum">
+            <summary>
+            Inherit enum - enum
+            </summary>
+            <remarks>
+            Inherit enum remarks - enum
+            </remarks>
+        </member>
+        <member name="F:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InheritEnum.Value">
+            <summary>
+            Inherit enum Value
+            </summary>
+            <remarks>
+            Inherit enum Value remarks
+            </remarks>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.Tag">
+            <summary>
+            Tag for TodoItem
+            </summary>
+            <remarks>
+            Tag for TodoItem remarks - enum
+            </remarks>
+        </member>
+        <member name="F:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.Tag.None">
+            <summary>
+            None
+            </summary>
+            <remarks>
+            None tag remarks
+            </remarks>
+        </member>
+        <member name="F:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.Tag.Task">
+            <summary>
+            Task
+            </summary>
+            <remarks>
+            Task tag remarks
+            </remarks>
+        </member>
+        <member name="F:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.Tag.Workout">
+            <summary>
+            Workout
+            </summary>
+            <remarks>
+            Workout tag remarks
+            </remarks>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.ITodoItem">
+            <summary>
+            Todo item.
+            </summary>
+            <remarks>
+            Todo item remarks - class
+            </remarks>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.ITodoItem.Id">
+            <summary>
+            Id
+            </summary>
+            <remarks>
+            Unique identifier - parameter
+            </remarks>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.ITodoItemName">
+            <summary>
+            Interface with name.
+            </summary>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.ITodoItemName.Name">
+            <summary>
+            Name
+            </summary>
+            <remarks>
+            Name of todo item - parameter
+            </remarks>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.TodoItem">
+            <inheritdoc/>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.TodoItem.Id">
+            <inheritdoc/>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.TodoItem.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.TodoItem.IsComplete">
+            <summary>
+            Is complete
+            </summary>
+            <remarks>
+            The todo item is completed - parameter
+            </remarks>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.TodoItem.Tag">
+            <summary>
+            Tag
+            </summary>
+            <remarks>
+            Todo item tag - parameter
+            </remarks>
+        </member>
+    </members>
+</doc>

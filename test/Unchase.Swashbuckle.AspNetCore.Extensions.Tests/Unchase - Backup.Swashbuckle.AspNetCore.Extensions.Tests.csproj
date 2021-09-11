@@ -10,11 +10,6 @@
     <DocumentationFile>Unchase.Swashbuckle.AspNetCore.Extensions.Tests.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>Unchase.Swashbuckle.AspNetCore.Extensions.Tests.xml</DocumentationFile>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.2.1" />

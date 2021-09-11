@@ -1,29 +1,37 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using Microsoft.AspNetCore.Http;
+using Microsoft.OpenApi.Models;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Filters;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models;
 
-namespace WebApi3._1_Swashbuckle
+namespace WebApi5_Swashbuckle
 {
 #pragma warning disable CS1591
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddControllers();
-                //.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
             // Register the Swagger generator
             services.AddSwaggerGen(options =>
@@ -40,7 +48,7 @@ namespace WebApi3._1_Swashbuckle
                     typeof(ComplicatedClass),
                     typeof(InnerEnum));
 
-                xmlFilePath = Path.Combine(AppContext.BaseDirectory, "WebApi3.1-Swashbuckle.xml");
+                xmlFilePath = Path.Combine(AppContext.BaseDirectory, "WebApi5-Swashbuckle.xml");
                 options.IncludeXmlCommentsWithRemarks(filePath: xmlFilePath, includeControllerXmlComments: false,
                     typeof(ComplicatedClass),
                     typeof(InnerEnum));
@@ -155,14 +163,14 @@ namespace WebApi3._1_Swashbuckle
                 c.PreSerializeFilters.Add((openApiDoc, httpRequest) =>
                 {
                     // remove Paths and Components from OpenApi documentation for specific controller action without accepted roles
-                    openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesFor<HidedController>(controller => nameof(controller.HidedAction), new List<string> {"AcceptedRole"});
+                    openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesFor<HidedController>(controller => nameof(controller.HidedAction), new List<string> { "AcceptedRole" });
 
                     // or
                     //openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesFor<HidedController>(nameof(HidedController.HidedAction), new List<string> { "AcceptedRole" });
 
 
                     // remove Paths and Components from OpenApi documentation for all controller actions without accepted roles
-                    openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesForController<TodoController>(new List<string> {"AcceptedRole"});
+                    openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesForController<TodoController>(new List<string> { "AcceptedRole" });
 
                     // or you can get accepted roles by httpRequest like this:
                     //openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesForController<TodoController>(GetAcceptedRolesByRemoteIp(httpRequest.HttpContext.Connection.RemoteIpAddress));

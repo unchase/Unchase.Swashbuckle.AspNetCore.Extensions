@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using WebApi3._1_Swashbuckle.Models;
 
-namespace TodoApi.Models
+namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models
 {
     /// <summary>
     /// Todo item.
@@ -18,7 +17,7 @@ namespace TodoApi.Models
         /// <remarks>
         /// Unique identifier - parameter
         /// </remarks>
-        public long Id { get; set; }
+        long Id { get; set; }
     }
 
     /// <summary>
@@ -32,7 +31,7 @@ namespace TodoApi.Models
         /// <remarks>
         /// Name of todo item - parameter
         /// </remarks>
-        public string Name { get; set; }
+        string Name { get; set; }
     }
 
     /// <inheritdoc/>

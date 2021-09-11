@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace WebApi3._1_Swashbuckle.Controllers
+namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers
 {
     /// <summary>
     /// Hided controller

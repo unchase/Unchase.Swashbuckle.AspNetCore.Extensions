@@ -1,4 +1,4 @@
-﻿namespace WebApi3._1_Swashbuckle.Models
+﻿namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models
 {
     /// <summary>
     /// IInheritDocCommon interface
@@ -14,11 +14,11 @@
         /// <remarks>
         /// Common remarks - inheritdoc (inner)
         /// </remarks>
-        public string Common { get; set; }
+        string Common { get; set; }
 
         /// <summary>
         /// InheritEnum - inheritdoc (inner)
         /// </summary>
-        public InheritEnum InheritEnum { get; set; }
+        InheritEnum InheritEnum { get; set; }
     }
 }

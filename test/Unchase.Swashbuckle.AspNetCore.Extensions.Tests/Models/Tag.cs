@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace WebApi3._1_Swashbuckle.Models
+namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models
 {
     /// <summary>
     /// Tag for TodoItem

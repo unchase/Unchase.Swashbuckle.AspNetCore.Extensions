@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebApi5-Swashbuckle</name>
+    </assembly>
+    <members>
+        <member name="T:WebApi5_Swashbuckle.Controllers.RecordsController">
+            <summary>
+            Records controller
+            </summary>
+        </member>
+        <member name="M:WebApi5_Swashbuckle.Controllers.RecordsController.GetRecordResponseAction">
+            <summary>
+            Get record response action
+            </summary>
+            <remarks>
+            Get record response action remarks
+            </remarks>
+        </member>
+        <member name="T:WebApi5_Swashbuckle.Models.RecordResponse">
+            <summary>
+            Record response.
+            </summary>
+            <remarks>
+            Just record response.
+            </remarks>
+            <param name="Code">The code.</param>
+            <param name="Name">The name.</param>
+        </member>
+        <member name="M:WebApi5_Swashbuckle.Models.RecordResponse.#ctor(System.Int32,System.String)">
+            <summary>
+            Record response.
+            </summary>
+            <remarks>
+            Just record response.
+            </remarks>
+            <param name="Code">The code.</param>
+            <param name="Name">The name.</param>
+        </member>
+    </members>
+</doc>

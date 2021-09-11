@@ -3,12 +3,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using TodoApi.Models;
-using WebApi3._1_Swashbuckle.Contexts;
-using WebApi3._1_Swashbuckle.Models;
+using Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Contexts;
+using Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models;
 
-namespace WebApi3._1_Swashbuckle.Controllers
+namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers
 {
     /// <summary>
     /// Todo controller

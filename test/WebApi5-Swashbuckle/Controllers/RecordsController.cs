@@ -1,32 +1,34 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using WebApi5_Swashbuckle.Models;
 
-namespace WebApi3._1_Swashbuckle.Controllers
+namespace WebApi5_Swashbuckle.Controllers
 {
     /// <summary>
-    /// Second controller
+    /// Records controller
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    [SwaggerTag("Second controller")]
+    [SwaggerTag("Records controller")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(420)]
-    public class SecondController : ControllerBase
+    public class RecordsController : ControllerBase
     {
         /// <summary>
-        /// Test action
+        /// Get record response action
         /// </summary>
         /// <remarks>
-        /// Test action remarks
+        /// Get record response action remarks
         /// </remarks>
-        [HttpGet()]
-        public IActionResult TestAction()
+        [HttpGet("get-record-response")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<RecordResponse> GetRecordResponseAction()
         {
-            return NoContent();
+            return Ok(new RecordResponse(5, "name1"));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace WebApi3._1_Swashbuckle.Models
+﻿namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models
 {
     /// <summary>
     /// InheritDocClass - inheritdoc
@@ -14,6 +14,6 @@
         /// <remarks>
         /// Name remarks - inheritdoc
         /// </remarks>
-        public string Name { get; set; }
+        string Name { get; set; }
     }
 }

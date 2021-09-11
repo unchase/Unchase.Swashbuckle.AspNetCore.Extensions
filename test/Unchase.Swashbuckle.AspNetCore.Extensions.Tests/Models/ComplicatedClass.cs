@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WebApi3._1_Swashbuckle.Models
+namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models
 {
     /// <summary>
     /// Complicated class for testing enums
