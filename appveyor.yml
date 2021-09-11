@@ -22,9 +22,9 @@ before_build:
 build_script:
 - ps: '& .\Build.ps1'
 test:
-  categories:
-    - Main
-    - Sinks
+  assemblies:
+    only:
+      - '**\*Swashbuckle.dll'
 artifacts:
 - path: artifacts/Unchase.*.nupkg
 deploy:
