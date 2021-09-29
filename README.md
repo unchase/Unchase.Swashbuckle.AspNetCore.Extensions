@@ -125,16 +125,22 @@ public void ConfigureServices(IServiceCollection services)
         // or configured:
         options.AddEnumsWithValuesFixFilters(services, o =>
         {
-            // add schema filter to fix enums (add 'x-enumNames' for NSwag) in schema
+            // add schema filter to fix enums (add 'x-enumNames' for NSwag or its alias from XEnumNamesAlias) in schema
             o.ApplySchemaFilter = true;
 
-            // add parameter filter to fix enums (add 'x-enumNames' for NSwag) in schema parameters
+            // alias for replacing 'x-enumNames' in swagger document
+            o.XEnumNamesAlias = "x-enum-varnames";
+
+            // alias for replacing 'x-enumDescriptions' in swagger document
+            o.XEnumDescriptionsAlias = "x-enum-descriptions";
+
+            // add parameter filter to fix enums (add 'x-enumNames' for NSwag or its alias from XEnumNamesAlias) in schema parameters
             o.ApplyParameterFilter = true;
 
             // add document filter to fix enums displaying in swagger document
             o.ApplyDocumentFilter = true;
 
-            // add descriptions from DescriptionAttribute or xml-comments to fix enums (add 'x-enumDescriptions' for schema extensions) for applied filters
+            // add descriptions from DescriptionAttribute or xml-comments to fix enums (add 'x-enumDescriptions' or its alias from XEnumDescriptionsAlias for schema extensions) for applied filters
             o.IncludeDescriptions = true;
 
             // add remarks for descriptions from xml-comments

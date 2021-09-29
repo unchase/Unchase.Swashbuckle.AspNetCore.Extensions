@@ -14,6 +14,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
         private readonly bool _applyFiler;
         private readonly bool _includeDescriptionFromAttribute;
+        private readonly string _xEnumNamesAlias;
+        private readonly string _xEnumDescriptionsAlias;
 
         #endregion
 
@@ -29,8 +31,10 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             if (options.Value != null)
             {
                 configureOptions?.Invoke(options.Value);
-                this._includeDescriptionFromAttribute = options.Value.IncludeDescriptions;
-                this._applyFiler = options.Value.ApplyDocumentFilter;
+                _includeDescriptionFromAttribute = options.Value.IncludeDescriptions;
+                _applyFiler = options.Value.ApplyDocumentFilter;
+                _xEnumNamesAlias = options.Value.XEnumNamesAlias;
+                _xEnumDescriptionsAlias = options.Value.XEnumDescriptionsAlias;
             }
         }
 
@@ -45,13 +49,13 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// <param name="context"><see cref="DocumentFilterContext"/>.</param>
         public void Apply(OpenApiDocument openApiDoc, DocumentFilterContext context)
         {
-            if (!this._applyFiler)
+            if (!_applyFiler)
                 return;
 
             foreach (var schemaDictionaryItem in openApiDoc.Components.Schemas)
             {
                 var schema = schemaDictionaryItem.Value;
-                var description = schema.AddEnumValuesDescription(this._includeDescriptionFromAttribute);
+                var description = schema.AddEnumValuesDescription(_xEnumNamesAlias, _xEnumDescriptionsAlias, _includeDescriptionFromAttribute);
                 if (description != null)
                 {
                     if (schema.Description == null)
@@ -94,7 +98,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
                 if (schema != null)
                 {
-                    var description = schema.AddEnumValuesDescription(this._includeDescriptionFromAttribute);
+                    var description = schema.AddEnumValuesDescription(_xEnumNamesAlias, _xEnumDescriptionsAlias, _includeDescriptionFromAttribute);
                     if (description != null)
                     {
                         if (parameter.Description == null)

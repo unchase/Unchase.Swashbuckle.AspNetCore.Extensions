@@ -71,10 +71,16 @@ namespace WebApi5_Swashbuckle
                 // or configured:
                 options.AddEnumsWithValuesFixFilters(services, o =>
                 {
-                    // add schema filter to fix enums (add 'x-enumNames' for NSwag) in schema
+                    // add schema filter to fix enums (add 'x-enumNames' for NSwag or its alias from XEnumNamesAlias) in schema
                     o.ApplySchemaFilter = true;
 
-                    // add parameter filter to fix enums (add 'x-enumNames' for NSwag) in schema parameters
+                    // alias for replacing 'x-enumNames' in swagger document
+                    o.XEnumNamesAlias = "x-enum-varnames";
+
+                    // alias for replacing 'x-enumDescriptions' in swagger document
+                    o.XEnumDescriptionsAlias = "x-enum-descriptions";
+
+                    // add parameter filter to fix enums (add 'x-enumNames' for NSwag or its alias from XEnumNamesAlias) in schema parameters
                     o.ApplyParameterFilter = true;
 
                     // add document filter to fix enums displaying in swagger document

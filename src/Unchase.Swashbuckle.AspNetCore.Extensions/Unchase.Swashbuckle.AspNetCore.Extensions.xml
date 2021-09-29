@@ -602,6 +602,16 @@
             </para>
             </summary>
         </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions.XEnumNamesAlias">
+            <summary>
+            Alias for replacing "x-enumNames" in swagger documentation.
+            </summary>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions.XEnumDescriptionsAlias">
+            <summary>
+            Alias for replacing "x-enumDescriptions" in swagger documentation.
+            </summary>
+        </member>
         <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptionsExtensions">
             <summary>
             Extensions for <see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions"/>.

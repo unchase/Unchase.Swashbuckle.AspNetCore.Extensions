@@ -158,12 +158,12 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             return stringBuilder.ToString();
         }
 
-        internal static string AddEnumValuesDescription(this OpenApiSchema schema, bool includeDescriptionFromAttribute = false)
+        internal static string AddEnumValuesDescription(this OpenApiSchema schema, string xEnumNamesAlias, string xEnumDescriptionsAlias, bool includeDescriptionFromAttribute = false)
         {
             if (schema.Enum == null || schema.Enum.Count == 0)
                 return null;
 
-            if (!schema.Extensions.ContainsKey("x-enumNames") || ((OpenApiArray)schema.Extensions["x-enumNames"]).Count != schema.Enum.Count)
+            if (!schema.Extensions.ContainsKey(xEnumNamesAlias) || ((OpenApiArray)schema.Extensions[xEnumNamesAlias]).Count != schema.Enum.Count)
                 return null;
 
             var sb = new StringBuilder();
@@ -172,7 +172,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                 if (schema.Enum[i] is OpenApiInteger schemaEnumInt)
                 {
                     var value = schemaEnumInt.Value;
-                    var name = ((OpenApiString)((OpenApiArray)schema.Extensions["x-enumNames"])[i]).Value;
+                    var name = ((OpenApiString)((OpenApiArray)schema.Extensions[xEnumNamesAlias])[i]).Value;
                     sb.Append($"{Environment.NewLine}{Environment.NewLine}{value} = {name}");
                 }
                 else if (schema.Enum[i] is OpenApiString schemaEnumString)
@@ -184,13 +184,13 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                 // add description from DescriptionAttribute
                 if (includeDescriptionFromAttribute)
                 {
-                    if (!schema.Extensions.ContainsKey("x-enumDescriptions"))
+                    if (!schema.Extensions.ContainsKey(xEnumDescriptionsAlias))
                         continue;
 
-                    var xEnumDescriptions = (OpenApiArray)schema.Extensions["x-enumDescriptions"];
+                    var xEnumDescriptions = (OpenApiArray)schema.Extensions[xEnumDescriptionsAlias];
                     if (xEnumDescriptions?.Count == schema.Enum.Count)
                     {
-                        var description = ((OpenApiString)((OpenApiArray)schema.Extensions["x-enumDescriptions"])[i]).Value;
+                        var description = ((OpenApiString)((OpenApiArray)schema.Extensions[xEnumDescriptionsAlias])[i]).Value;
                         if (!string.IsNullOrWhiteSpace(description))
                             sb.Append($" ({description})");
                     }

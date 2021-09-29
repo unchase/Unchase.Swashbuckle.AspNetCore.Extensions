@@ -55,6 +55,16 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Options
         /// </summary>
         public bool ApplyDocumentFilter { get; set; } = true;
 
+        /// <summary>
+        /// Alias for replacing "x-enumNames" in swagger documentation.
+        /// </summary>
+        public string XEnumNamesAlias { get; set; } = "x-enumNames";
+
+        /// <summary>
+        /// Alias for replacing "x-enumDescriptions" in swagger documentation.
+        /// </summary>
+        public string XEnumDescriptionsAlias { get; set; } = "x-enumDescriptions";
+
         #endregion
     }
 }

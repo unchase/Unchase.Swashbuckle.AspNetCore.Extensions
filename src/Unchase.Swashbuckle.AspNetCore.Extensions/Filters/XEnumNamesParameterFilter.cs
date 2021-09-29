@@ -18,6 +18,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
         private readonly bool _includeXEnumDescriptions;
         private readonly bool _includeXEnumRemarks;
+        private readonly string _xEnumNamesAlias;
+        private readonly string _xEnumDescriptionsAlias;
         private readonly DescriptionSources _descriptionSources;
         private readonly bool _applyFiler;
         private readonly HashSet<XPathNavigator> _xmlNavigators = new HashSet<XPathNavigator>();
@@ -36,15 +38,17 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             if (options.Value != null)
             {
                 configureOptions?.Invoke(options.Value);
-                this._includeXEnumDescriptions = options.Value?.IncludeDescriptions ?? false;
-                this._includeXEnumRemarks = options.Value?.IncludeXEnumRemarks ?? false;
-                this._descriptionSources = options.Value?.DescriptionSource ?? DescriptionSources.DescriptionAttributes;
-                this._applyFiler = options.Value?.ApplyParameterFilter ?? false;
+                _includeXEnumDescriptions = options.Value?.IncludeDescriptions ?? false;
+                _includeXEnumRemarks = options.Value?.IncludeXEnumRemarks ?? false;
+                _descriptionSources = options.Value.DescriptionSource;
+                _applyFiler = options.Value?.ApplyParameterFilter ?? false;
+                _xEnumNamesAlias = options.Value?.XEnumNamesAlias;
+                _xEnumDescriptionsAlias = options.Value?.XEnumDescriptionsAlias;
                 foreach (var filePath in options.Value?.IncludedXmlCommentsPaths)
                 {
                     if (File.Exists(filePath))
                     {
-                        this._xmlNavigators.Add(new XPathDocument(filePath).CreateNavigator());
+                        _xmlNavigators.Add(new XPathDocument(filePath).CreateNavigator());
                     }
                 }
             }
@@ -61,7 +65,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// <param name="context"><see cref="ParameterFilterContext"/>.</param>
         public void Apply(OpenApiParameter parameter, ParameterFilterContext context)
         {
-            if (!this._applyFiler)
+            if (!_applyFiler)
                 return;
 
             var typeInfo = context.ParameterInfo?.ParameterType ?? context.PropertyInfo?.PropertyType;
@@ -74,21 +78,21 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             {
                 var names = Enum.GetNames(typeInfo).Select(name => new OpenApiString(name));
                 enumsArray.AddRange(names);
-                if (!parameter.Extensions.ContainsKey("x-enumNames") && enumsArray.Any())
+                if (!parameter.Extensions.ContainsKey(_xEnumNamesAlias) && enumsArray.Any())
                 {
-                    parameter.Extensions.Add("x-enumNames", enumsArray);
+                    parameter.Extensions.Add(_xEnumNamesAlias, enumsArray);
                 }
 
-                if (this._includeXEnumDescriptions)
+                if (_includeXEnumDescriptions)
                 {
-                    enumsDescriptionsArray.AddRange(EnumTypeExtensions.GetEnumValuesDescription(typeInfo, this._descriptionSources, this._xmlNavigators, this._includeXEnumRemarks));
-                    if (!parameter.Extensions.ContainsKey("x-enumDescriptions") && enumsDescriptionsArray.Any())
+                    enumsDescriptionsArray.AddRange(EnumTypeExtensions.GetEnumValuesDescription(typeInfo, _descriptionSources, _xmlNavigators, _includeXEnumRemarks));
+                    if (!parameter.Extensions.ContainsKey(_xEnumDescriptionsAlias) && enumsDescriptionsArray.Any())
                     {
-                        parameter.Extensions.Add("x-enumDescriptions", enumsDescriptionsArray);
+                        parameter.Extensions.Add(_xEnumDescriptionsAlias, enumsDescriptionsArray);
                     }
                 }
             }
-            else if (typeInfo.IsGenericType && !parameter.Extensions.ContainsKey("x-enumNames"))
+            else if (typeInfo.IsGenericType && !parameter.Extensions.ContainsKey(_xEnumNamesAlias))
             {
                 foreach (var genericArgumentType in typeInfo.GetGenericArguments())
                 {
@@ -96,17 +100,17 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                     {
                         var names = Enum.GetNames(genericArgumentType).Select(name => new OpenApiString(name));
                         enumsArray.AddRange(names);
-                        if (!parameter.Extensions.ContainsKey("x-enumNames") && enumsArray.Any())
+                        if (!parameter.Extensions.ContainsKey(_xEnumNamesAlias) && enumsArray.Any())
                         {
-                            parameter.Extensions.Add("x-enumNames", enumsArray);
+                            parameter.Extensions.Add(_xEnumNamesAlias, enumsArray);
                         }
 
-                        if (this._includeXEnumDescriptions)
+                        if (_includeXEnumDescriptions)
                         {
-                            enumsDescriptionsArray.AddRange(EnumTypeExtensions.GetEnumValuesDescription(genericArgumentType, this._descriptionSources, this._xmlNavigators, this._includeXEnumRemarks));
-                            if (!parameter.Extensions.ContainsKey("x-enumDescriptions") && enumsDescriptionsArray.Any())
+                            enumsDescriptionsArray.AddRange(EnumTypeExtensions.GetEnumValuesDescription(genericArgumentType, _descriptionSources, _xmlNavigators, _includeXEnumRemarks));
+                            if (!parameter.Extensions.ContainsKey(_xEnumDescriptionsAlias) && enumsDescriptionsArray.Any())
                             {
-                                parameter.Extensions.Add("x-enumDescriptions", enumsDescriptionsArray);
+                                parameter.Extensions.Add(_xEnumDescriptionsAlias, enumsDescriptionsArray);
                             }
                         }
                     }
