@@ -73,7 +73,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                 return;
 
             // add enum descriptions to input parameters of every operation
-            foreach (var parameter in openApiDoc.Paths.Values.SelectMany(v => v.Operations).SelectMany(op => op.Value.Parameters))
+            foreach (var parameter in openApiDoc.Paths.Values.SelectMany(v => v.Operations).SelectMany(op => op.Value.Parameters).Where(p => p.Schema != null))
             {
                 OpenApiSchema schema = null;
                 if (parameter.Schema.Reference == null)
