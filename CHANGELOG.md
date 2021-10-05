@@ -8,6 +8,10 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.6.12 `2021-10-05`
+
+- [x] Fix [#17](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/17): check schema for null in `DisplayEnumsWithValuesDocumentFilter`
+
 ## v2.6.11 `2021-09-29`
 
 - [x] Fix [#18](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/18): add aliases for "x-enumNames" and "x-enumDescriptions"

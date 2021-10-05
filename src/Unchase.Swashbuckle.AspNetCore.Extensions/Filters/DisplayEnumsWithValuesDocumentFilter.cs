@@ -76,9 +76,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             foreach (var parameter in openApiDoc.Paths.Values.SelectMany(v => v.Operations).SelectMany(op => op.Value.Parameters))
             {
                 OpenApiSchema schema = null;
-                if (parameter.Schema.Reference == null)
+                if (parameter.Schema?.Reference == null)
                 {
-                    if (parameter.Schema.AllOf.Count > 0)
+                    if (parameter.Schema?.AllOf?.Count > 0)
                     {
                         schema = context.SchemaRepository.Schemas.FirstOrDefault(s => parameter.Schema.AllOf.FirstOrDefault(a => a.Reference.Id == s.Key) != null).Value;
                     }
@@ -89,7 +89,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                 }
                 else
                 {
-                    var componentReference = parameter.Schema.Reference.Id;
+                    var componentReference = parameter.Schema?.Reference?.Id;
                     if (!string.IsNullOrWhiteSpace(componentReference))
                     {
                         schema = openApiDoc.Components.Schemas[componentReference];
