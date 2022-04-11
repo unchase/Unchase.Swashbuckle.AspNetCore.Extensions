@@ -158,7 +158,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             return stringBuilder.ToString();
         }
 
-        internal static string AddEnumValuesDescription(this OpenApiSchema schema, string xEnumNamesAlias, string xEnumDescriptionsAlias, bool includeDescriptionFromAttribute = false)
+        internal static string AddEnumValuesDescription(this OpenApiSchema schema, string xEnumNamesAlias, string xEnumDescriptionsAlias, bool includeDescriptionFromAttribute = false, string newLine = "\n")
         {
             if (schema.Enum == null || schema.Enum.Count == 0)
                 return null;
@@ -173,12 +173,12 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                 {
                     var value = schemaEnumInt.Value;
                     var name = ((OpenApiString)((OpenApiArray)schema.Extensions[xEnumNamesAlias])[i]).Value;
-                    sb.Append($"{Environment.NewLine}{Environment.NewLine}{value} = {name}");
+                    sb.Append($"{newLine}{newLine}{value} = {name}");
                 }
                 else if (schema.Enum[i] is OpenApiString schemaEnumString)
                 {
                     var value = schemaEnumString.Value;
-                    sb.Append($"{Environment.NewLine}{Environment.NewLine}{value}");
+                    sb.Append($"{newLine}{newLine}{value}");
                 }
 
                 // add description from DescriptionAttribute
