@@ -27,6 +27,7 @@ builder.Services.AddSwaggerGen(options =>
         typeof(ComplicatedClass),
         typeof(InnerEnum));
 
+    var xmlFilePath1 = xmlFilePath;
     xmlFilePath = Path.Combine(AppContext.BaseDirectory, "WebApi7-Swashbuckle.xml");
     options.IncludeXmlCommentsWithRemarks(filePath: xmlFilePath, includeControllerXmlComments: false,
         typeof(ComplicatedClass),
@@ -81,6 +82,7 @@ builder.Services.AddSwaggerGen(options =>
         // get descriptions from xml-file comments on the specified path
         // should use "options.IncludeXmlComments(xmlFilePath);" before
         o.IncludeXmlCommentsFrom(xmlFilePath);
+        o.IncludeXmlCommentsFrom(xmlFilePath1);
         // the same for another xml-files...
     });
 

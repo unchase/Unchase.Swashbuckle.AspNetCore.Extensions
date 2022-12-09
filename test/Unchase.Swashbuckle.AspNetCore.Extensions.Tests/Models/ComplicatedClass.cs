@@ -20,6 +20,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models
         public Tag Tag { get; set; }
 
         /// <summary>
+        /// Some enum without xml-comments for one of values.
+        /// </summary>
+        public EnumWithoutXmlComments Enum { get; set; }
+
+        /// <summary>
         /// Inner class
         /// </summary>
         /// <remarks>

@@ -20,7 +20,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers
     {
         private static readonly ItodoContext Context = new TodoContext();
 
-        /// <summary>
+        /*/// <summary>
         /// Hided action
         /// </summary>
         /// <remarks>
@@ -31,7 +31,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers
         public IActionResult HidedAction()
         {
             return NoContent();
-        }
+        }*/
 
         /// <summary>
         /// Complicated action
@@ -49,6 +49,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers
             return Ok(new ComplicatedClass
             {
                 Tag = Tag.Task,
+                Enum = EnumWithoutXmlComments.Third,
                 InnerClass = new InnerClass
                 {
                     InnerEnum = new List<InnerEnum> { InnerEnum.Value },
@@ -60,7 +61,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers
             });
         }
 
-        /// <summary>
+        /*/// <summary>
         /// InheritDoc action
         /// </summary>
         /// <remarks>
@@ -156,6 +157,6 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers
         public IActionResult AddSomeCommand(AddSomeCommand command)
         {
             return Ok("Ok");
-        }
+        }*/
     }
 }

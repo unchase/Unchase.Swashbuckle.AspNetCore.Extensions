@@ -104,7 +104,13 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                 finally
                 {
                     if (!string.IsNullOrWhiteSpace(enumDescription))
+                    {
                         enumsDescriptions.Add(new OpenApiString(enumDescription));
+                    }
+                    else
+                    {
+                        enumsDescriptions.Add(new OpenApiString(string.Empty));
+                    }
                 }
             }
 
