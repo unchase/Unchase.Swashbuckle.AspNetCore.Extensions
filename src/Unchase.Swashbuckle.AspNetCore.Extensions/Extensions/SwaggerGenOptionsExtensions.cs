@@ -212,7 +212,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
 
                         return inheritedElements;
                     })
-                .ToDictionary(x => x.Name, x => x.Cref);
+                .GroupBy(x => x.Name)
+                .ToDictionary(x => x.Key, x => x.First().Cref);
 
             var distinctExcludedTypes = excludedTypes?.Distinct().ToArray() ?? new Type[] { };
             swaggerGenOptions.ParameterFilter<InheritDocParameterFilter>(documents, inheritedDocs, includeRemarks, distinctExcludedTypes);

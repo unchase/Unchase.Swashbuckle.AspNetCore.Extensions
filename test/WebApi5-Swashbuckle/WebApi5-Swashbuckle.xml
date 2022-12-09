@@ -37,5 +37,11 @@
             <param name="Code">The code.</param>
             <param name="Name">The name.</param>
         </member>
+        <member name="P:WebApi5_Swashbuckle.Models.RecordResponse.Code">
+            <summary>The code.</summary>
+        </member>
+        <member name="P:WebApi5_Swashbuckle.Models.RecordResponse.Name">
+            <summary>The name.</summary>
+        </member>
     </members>
 </doc>

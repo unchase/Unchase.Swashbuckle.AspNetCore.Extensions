@@ -8,6 +8,10 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.7.0 `2022-12-09`
+
+- [x] Fix [#28](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/28): selecting distinct members when including inherited XML comments
+
 ## v2.6.12 `2021-10-05`
 
 - [x] Fix [#17](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/17): check schema for null in `DisplayEnumsWithValuesDocumentFilter`
