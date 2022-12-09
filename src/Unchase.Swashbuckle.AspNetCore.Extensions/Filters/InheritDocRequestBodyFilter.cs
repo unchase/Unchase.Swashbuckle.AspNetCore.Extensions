@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Xml.XPath;
+
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
@@ -13,7 +13,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
     /// Adds documentation to requests body that is provided by the &lt;inhertidoc /&gt; tag.
     /// </summary>
     /// <seealso cref="IRequestBodyFilter" />
-    internal class InheritDocRequestBodyFilter : IRequestBodyFilter
+    internal class InheritDocRequestBodyFilter :
+        IRequestBodyFilter
     {
         #region Fields
 
@@ -35,7 +36,10 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// <param name="inheritedDocs">Dictionary with inheritdoc in form of name-cref.</param>
         /// <param name="includeRemarks">Include remarks from inheritdoc XML comments.</param>
         /// <param name="documents">List of <see cref="XPathDocument"/>.</param>
-        public InheritDocRequestBodyFilter(List<XPathDocument> documents, Dictionary<string, string> inheritedDocs, bool includeRemarks = false)
+        public InheritDocRequestBodyFilter(
+            List<XPathDocument> documents,
+            Dictionary<string, string> inheritedDocs,
+            bool includeRemarks = false)
             : this(documents, inheritedDocs, includeRemarks, Array.Empty<Type>())
         {
         }
@@ -47,7 +51,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// <param name="includeRemarks">Include remarks from inheritdoc XML comments.</param>
         /// <param name="documents">List of <see cref="XPathDocument"/>.</param>
         /// <param name="excludedTypes">Excluded types.</param>
-        public InheritDocRequestBodyFilter(List<XPathDocument> documents, Dictionary<string, string> inheritedDocs, bool includeRemarks = false, params Type[] excludedTypes)
+        public InheritDocRequestBodyFilter(
+            List<XPathDocument> documents,
+            Dictionary<string, string> inheritedDocs,
+            bool includeRemarks = false,
+            params Type[] excludedTypes)
         {
             _includeRemarks = includeRemarks;
             _excludedTypes = excludedTypes;
@@ -59,7 +67,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
         #region Methods
 
-        public void Apply(OpenApiRequestBody requestBody, RequestBodyFilterContext context)
+        public void Apply(
+            OpenApiRequestBody requestBody,
+            RequestBodyFilterContext context)
         {
             ApplyForType(requestBody, context, context.BodyParameterDescription?.Type);
 
@@ -72,7 +82,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             }
         }
 
-        private void ApplyForType(OpenApiRequestBody requestBody, RequestBodyFilterContext context, Type type)
+        private void ApplyForType(
+            OpenApiRequestBody requestBody,
+            RequestBodyFilterContext context, Type type)
         {
             if (type == null)
             {
@@ -132,7 +144,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                 // Add the summary and examples for the properties.
                 foreach (var entry in schema.Properties)
                 {
-                    var members = ((TypeInfo)type).GetMembers();
+                    var members = type.GetMembers();
                     var memberInfo = members.FirstOrDefault(p =>
                         p.Name.Equals(entry.Key, StringComparison.OrdinalIgnoreCase));
                     if (memberInfo != null)
@@ -142,7 +154,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                 }
             }
         }
-        
+
         #endregion
     }
 }

@@ -72,6 +72,10 @@ namespace WebApi3._1_Swashbuckle
                     // alias for replacing 'x-enumDescriptions' in swagger document
                     o.XEnumDescriptionsAlias = "x-enum-descriptions";
 
+                    // new line for enum values descriptions
+                    // o.NewLine = Environment.NewLine;
+                    o.NewLine = "\n";
+
                     // add parameter filter to fix enums (add 'x-enumNames' for NSwag or its alias from XEnumNamesAlias) in schema parameters
                     o.ApplyParameterFilter = true;
 

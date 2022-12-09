@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.XPath;
+
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -11,7 +12,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
     /// <summary>
     /// Inject human-friendly remarks to descriptions for Document's Tags based on XML Comment files.
     /// </summary>
-    internal class XmlCommentsWithRemarksDocumentFilter : IDocumentFilter
+    internal class XmlCommentsWithRemarksDocumentFilter :
+        IDocumentFilter
     {
         #region Fields
 
@@ -30,7 +32,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// </summary>
         /// <param name="xmlDoc"><see cref="XPathDocument"/></param>
         /// <param name="excludedTypes">Excluded types.</param>
-        public XmlCommentsWithRemarksDocumentFilter(XPathDocument xmlDoc, params Type[] excludedTypes)
+        public XmlCommentsWithRemarksDocumentFilter(
+            XPathDocument xmlDoc,
+            params Type[] excludedTypes)
         {
             _xmlNavigator = xmlDoc.CreateNavigator();
             _excludedTypes = excludedTypes;
@@ -45,7 +49,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// </summary>
         /// <param name="swaggerDoc"><see cref="OpenApiDocument"/>.</param>
         /// <param name="context"><see cref="DocumentFilterContext"/>.</param>
-        public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+        public void Apply(
+            OpenApiDocument swaggerDoc,
+            DocumentFilterContext context)
         {
             // Collect (unique) controller names and types in a dictionary
             var controllerNamesAndTypes = context.ApiDescriptions
@@ -71,8 +77,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                     if (remarksNode != null && !string.IsNullOrWhiteSpace(remarksNode.InnerXml))
                     {
                         var tag = swaggerDoc.Tags.FirstOrDefault(t => t.Name.Equals(nameAndType.Key));
-                        if (tag != null
-                            && !tag.Description.Contains(XmlCommentsTextHelper.Humanize(remarksNode.InnerXml)))
+                        if (tag != null && !tag.Description.Contains(XmlCommentsTextHelper.Humanize(remarksNode.InnerXml)))
                         {
                             swaggerDoc.Tags.First(t => t.Name.Equals(nameAndType.Key)).Description +=
                                 $" ({XmlCommentsTextHelper.Humanize(remarksNode.InnerXml)})";

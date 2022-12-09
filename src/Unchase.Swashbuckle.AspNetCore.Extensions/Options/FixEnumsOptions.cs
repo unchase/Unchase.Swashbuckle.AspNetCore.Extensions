@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Options
@@ -64,6 +66,14 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Options
         /// Alias for replacing "x-enumDescriptions" in swagger documentation.
         /// </summary>
         public string XEnumDescriptionsAlias { get; set; } = "x-enumDescriptions";
+
+        /// <summary>
+        /// New line for enum values descriptions.
+        /// </summary>
+        /// <remarks>
+        /// For example, <see cref="Environment.NewLine"/> or "\n".
+        /// </remarks>
+        public string NewLine { get; set; } = "\n";
 
         #endregion
     }

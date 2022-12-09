@@ -13,7 +13,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
     /// Adds documentation that is provided by the &lt;inhertidoc /&gt; tag.
     /// </summary>
     /// <seealso cref="ISchemaFilter" />
-    internal class InheritDocSchemaFilter : ISchemaFilter
+    internal class InheritDocSchemaFilter :
+        ISchemaFilter
     {
         #region Fields
 
@@ -35,7 +36,10 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// <param name="inheritedDocs">Dictionary with inheritdoc in form of name-cref.</param>
         /// <param name="includeRemarks">Include remarks from inheritdoc XML comments.</param>
         /// <param name="documents">List of <see cref="XPathDocument"/>.</param>
-        public InheritDocSchemaFilter(List<XPathDocument> documents, Dictionary<string, string> inheritedDocs, bool includeRemarks = false)
+        public InheritDocSchemaFilter(
+            List<XPathDocument> documents,
+            Dictionary<string, string> inheritedDocs,
+            bool includeRemarks = false)
             : this(documents, inheritedDocs, includeRemarks, Array.Empty<Type>())
         {
         }
@@ -47,7 +51,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// <param name="includeRemarks">Include remarks from inheritdoc XML comments.</param>
         /// <param name="excludedTypes">Excluded types.</param>
         /// <param name="documents">List of <see cref="XPathDocument"/>.</param>
-        public InheritDocSchemaFilter(List<XPathDocument> documents, Dictionary<string, string> inheritedDocs, bool includeRemarks = false, params Type[] excludedTypes)
+        public InheritDocSchemaFilter(
+            List<XPathDocument> documents,
+            Dictionary<string, string> inheritedDocs,
+            bool includeRemarks = false,
+            params Type[] excludedTypes)
         {
             _includeRemarks = includeRemarks;
             _excludedTypes = excludedTypes;
@@ -64,7 +72,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// </summary>
         /// <param name="schema"><see cref="OpenApiSchema"/>.</param>
         /// <param name="context"><see cref="SchemaFilterContext"/>.</param>
-        public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+        public void Apply(
+            OpenApiSchema schema,
+            SchemaFilterContext context)
         {
             if (_excludedTypes.Any() && _excludedTypes.ToList().Contains(context.Type))
             {
@@ -116,7 +126,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             // Add the summary and examples for the properties.
             foreach (var entry in schema.Properties)
             {
-                var members = ((TypeInfo)context.Type).GetMembers();
+                var members = context.Type.GetMembers();
                 var memberInfo = members.FirstOrDefault(p => p.Name.Equals(entry.Key, StringComparison.OrdinalIgnoreCase));
                 if (memberInfo != null)
                 {
@@ -124,7 +134,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                 }
             }
         }
-        
+
         #endregion
     }
 }

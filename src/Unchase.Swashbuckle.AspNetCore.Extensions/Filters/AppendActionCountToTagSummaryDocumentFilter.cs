@@ -39,7 +39,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         public void Apply(OpenApiDocument openApiDoc, DocumentFilterContext context)
         {
             if (openApiDoc.Tags == null)
+            {
                 return;
+            }
 
             var tagActionCount = new Dictionary<string, int>();
             foreach (var path in openApiDoc.Paths)
@@ -50,9 +52,13 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                     foreach (var tag in o.Tags)
                     {
                         if (!tagActionCount.ContainsKey(tag.Name))
+                        {
                             tagActionCount.Add(tag.Name, 1);
+                        }
                         else
+                        {
                             tagActionCount[tag.Name]++;
+                        }
                     }
                 });
             }

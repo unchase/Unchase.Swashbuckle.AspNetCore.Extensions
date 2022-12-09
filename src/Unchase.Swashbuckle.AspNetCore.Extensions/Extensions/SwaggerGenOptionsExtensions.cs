@@ -114,7 +114,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             swaggerGenOptions.SchemaFilter<XmlCommentsWithRemarksSchemaFilter>(xmlDoc, distinctExcludedTypes);
 
             if (includeControllerXmlComments)
+            {
                 swaggerGenOptions.DocumentFilter<XmlCommentsWithRemarksDocumentFilter>(xmlDoc, distinctExcludedTypes);
+            }
 
             return swaggerGenOptions;
         }
@@ -193,6 +195,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                 .Select(x => x.Arguments.Single())
                 .Cast<XPathDocument>()
                 .ToList();
+
             var inheritedDocs = documents.SelectMany(
                     doc =>
                     {

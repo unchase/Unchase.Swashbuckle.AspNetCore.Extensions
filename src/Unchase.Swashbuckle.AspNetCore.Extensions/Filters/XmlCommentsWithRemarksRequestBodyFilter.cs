@@ -10,7 +10,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
     /// <summary>
     /// Inject human-friendly remarks to descriptions for RequestBodies based on XML Comment files.
     /// </summary>
-    internal class XmlCommentsWithRemarksRequestBodyFilter : IRequestBodyFilter
+    internal class XmlCommentsWithRemarksRequestBodyFilter :
+        IRequestBodyFilter
     {
         #region Fields
 
@@ -28,7 +29,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// </summary>
         /// <param name="xmlDoc"><see cref="XPathDocument"/></param>
         /// <param name="excludedTypes">Excluded types.</param>
-        public XmlCommentsWithRemarksRequestBodyFilter(XPathDocument xmlDoc, params Type[] excludedTypes)
+        public XmlCommentsWithRemarksRequestBodyFilter(
+            XPathDocument xmlDoc,
+            params Type[] excludedTypes)
         {
             _xmlNavigator = xmlDoc.CreateNavigator();
             _excludedTypes = excludedTypes;
@@ -43,11 +46,16 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// </summary>
         /// <param name="requestBody"><see cref="OpenApiRequestBody"/>.</param>
         /// <param name="context"><see cref="RequestBodyFilterContext"/>.</param>
-        public void Apply(OpenApiRequestBody requestBody, RequestBodyFilterContext context)
+        public void Apply(
+            OpenApiRequestBody requestBody,
+            RequestBodyFilterContext context)
         {
             var bodyParameterDescription = context.BodyParameterDescription;
 
-            if (bodyParameterDescription == null) return;
+            if (bodyParameterDescription == null)
+            {
+                return;
+            }
 
             var propertyInfo = bodyParameterDescription.PropertyInfo();
             if (propertyInfo != null)

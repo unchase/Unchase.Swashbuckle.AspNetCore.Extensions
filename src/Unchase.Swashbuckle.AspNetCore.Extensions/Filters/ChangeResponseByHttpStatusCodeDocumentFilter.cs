@@ -30,7 +30,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
     /// Document filter for changing responses by specific http status codes in OpenApi document.
     /// </summary>
     /// <typeparam name="T">Type of response example.</typeparam>
-    internal class ChangeResponseByHttpStatusCodeDocumentFilter<T> : IDocumentFilter where T : class
+    internal class ChangeResponseByHttpStatusCodeDocumentFilter<T> :
+        IDocumentFilter
+        where T : class
     {
         #region Fileds
 
@@ -53,12 +55,16 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// <param name="responseDescription">Response description.</param>
         /// <param name="responseExampleOption"><see cref="ResponseExampleOptions"/>.</param>
         /// <param name="responseExample">New example for response.</param>
-        public ChangeResponseByHttpStatusCodeDocumentFilter(int httpStatusCode, string responseDescription, ResponseExampleOptions responseExampleOption, T responseExample)
+        public ChangeResponseByHttpStatusCodeDocumentFilter(
+            int httpStatusCode,
+            string responseDescription,
+            ResponseExampleOptions responseExampleOption,
+            T responseExample)
         {
-            this._httpStatusCode = httpStatusCode;
-            this._responseDescription = responseDescription;
-            this._responseExampleOption = responseExampleOption;
-            this._responseExample = responseExample;
+            _httpStatusCode = httpStatusCode;
+            _responseDescription = responseDescription;
+            _responseExampleOption = responseExampleOption;
+            _responseExample = responseExample;
         }
 
         #endregion
@@ -70,30 +76,34 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// </summary>
         /// <param name="swaggerDoc"><see cref="OpenApiDocument"/>.</param>
         /// <param name="context"><see cref="DocumentFilterContext"/>.</param>
-        public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+        public void Apply(
+            OpenApiDocument swaggerDoc,
+            DocumentFilterContext context)
         {
             if (context.SchemaRepository.Schemas.ContainsKey(typeof(T).Name))
             {
                 var schema = context.SchemaRepository.Schemas[typeof(T).Name];
                 foreach (var response in swaggerDoc.Paths.SelectMany(p => p.Value.Operations.SelectMany(o => o.Value.Responses)))
                 {
-                    if (response.Key == this._httpStatusCode.ToString())
+                    if (response.Key == _httpStatusCode.ToString())
                     {
-                        if (!string.IsNullOrWhiteSpace(this._responseDescription))
-                            response.Value.Description = this._responseDescription;
+                        if (!string.IsNullOrWhiteSpace(_responseDescription))
+                        {
+                            response.Value.Description = _responseDescription;
+                        }
 
                         if (response.Value.Content.ContainsKey("application/json"))
                         {
                             var jsonContent = response.Value.Content["application/json"];
-                            switch (this._responseExampleOption)
+                            switch (_responseExampleOption)
                             {
                                 case ResponseExampleOptions.Clear:
                                     response.Value.Content.Remove("application/json");
                                     break;
                                 case ResponseExampleOptions.AddNew:
-                                    if (this._responseExample != null)
+                                    if (_responseExample != null)
                                     {
-                                        var jsonExample = new OpenApiString(System.Text.Json.JsonSerializer.Serialize(this._responseExample,
+                                        var jsonExample = new OpenApiString(System.Text.Json.JsonSerializer.Serialize(_responseExample,
                                             new System.Text.Json.JsonSerializerOptions
                                             {
                                                 WriteIndented = true,
@@ -102,6 +112,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
                                         jsonContent.Example = jsonExample;
                                     }
+
                                     jsonContent.Schema = new OpenApiSchema
                                     {
                                         Reference = new OpenApiReference
@@ -118,12 +129,12 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                         }
                         else
                         {
-                            switch (this._responseExampleOption)
+                            switch (_responseExampleOption)
                             {
                                 case ResponseExampleOptions.AddNew:
-                                    if (this._responseExample != null)
+                                    if (_responseExample != null)
                                     {
-                                        var jsonExample = new OpenApiString(System.Text.Json.JsonSerializer.Serialize(this._responseExample,
+                                        var jsonExample = new OpenApiString(System.Text.Json.JsonSerializer.Serialize(_responseExample,
                                             new System.Text.Json.JsonSerializerOptions
                                             {
                                                 WriteIndented = true,
@@ -148,7 +159,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                                 default:
                                     break;
                             }
-                            
+
                         }
                     }
                 }

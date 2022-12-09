@@ -10,6 +10,7 @@ These are the changes to each version that has been released on the [nuget](http
 
 ## v2.7.0 `2022-12-09`
 
+- [x] Fix [#21](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/21): Line Break is OS dependent (\r\n vs \n)
 - [x] Fix [#28](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/28): selecting distinct members when including inherited XML comments
 
 ## v2.6.12 `2021-10-05`

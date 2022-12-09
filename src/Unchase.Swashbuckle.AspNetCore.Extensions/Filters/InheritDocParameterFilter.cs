@@ -13,7 +13,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
     /// Adds documentation to parameters that is provided by the &lt;inhertidoc /&gt; tag.
     /// </summary>
     /// <seealso cref="IParameterFilter" />
-    internal class InheritDocParameterFilter : IParameterFilter
+    internal class InheritDocParameterFilter :
+        IParameterFilter
     {
         #region Fields
 
@@ -35,7 +36,10 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// <param name="inheritedDocs">Dictionary with inheritdoc in form of name-cref.</param>
         /// <param name="includeRemarks">Include remarks from inheritdoc XML comments.</param>
         /// <param name="documents">List of <see cref="XPathDocument"/>.</param>
-        public InheritDocParameterFilter(List<XPathDocument> documents, Dictionary<string, string> inheritedDocs, bool includeRemarks = false)
+        public InheritDocParameterFilter(
+            List<XPathDocument> documents,
+            Dictionary<string, string> inheritedDocs,
+            bool includeRemarks = false)
             : this(documents, inheritedDocs, includeRemarks, Array.Empty<Type>())
         {
         }
@@ -47,7 +51,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// <param name="includeRemarks">Include remarks from inheritdoc XML comments.</param>
         /// <param name="documents">List of <see cref="XPathDocument"/>.</param>
         /// <param name="excludedTypes">Excluded types.</param>
-        public InheritDocParameterFilter(List<XPathDocument> documents, Dictionary<string, string> inheritedDocs, bool includeRemarks = false, params Type[] excludedTypes)
+        public InheritDocParameterFilter(
+            List<XPathDocument> documents,
+            Dictionary<string, string> inheritedDocs,
+            bool includeRemarks = false,
+            params Type[] excludedTypes)
         {
             _includeRemarks = includeRemarks;
             _excludedTypes = excludedTypes;
@@ -64,7 +72,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// </summary>
         /// <param name="parameter"><see cref="OpenApiParameter"/>.</param>
         /// <param name="context"><see cref="ParameterFilterContext"/>.</param>
-        public void Apply(OpenApiParameter parameter, ParameterFilterContext context)
+        public void Apply(
+            OpenApiParameter parameter,
+            ParameterFilterContext context)
         {
             if (context.ApiParameterDescription?.PropertyInfo() == null)
             {

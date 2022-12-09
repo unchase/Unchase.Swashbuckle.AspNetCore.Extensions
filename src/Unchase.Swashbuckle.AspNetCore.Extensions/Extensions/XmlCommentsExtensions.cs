@@ -19,7 +19,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
         {
             var targets = GetTargets(type, cref);
 
-            if (targets.Any() != true)
+            if (!targets.Any())
             {
                 return null;
             }
@@ -74,7 +74,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
         {
             var targets = GetTargets(memberInfo, cref);
 
-            if (targets.Any() != true)
+            if (!targets.Any())
             {
                 return null;
             }
@@ -138,11 +138,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
         }
 
         internal static void ApplyPropertyComments(
-            this OpenApiSchema schema, 
-            MemberInfo memberInfo, 
-            List<XPathDocument> documents, 
-            Dictionary<string, string> inheritedDocs, 
-            bool includeRemarks = false, 
+            this OpenApiSchema schema,
+            MemberInfo memberInfo,
+            List<XPathDocument> documents,
+            Dictionary<string, string> inheritedDocs,
+            bool includeRemarks = false,
             params Type[] excludedTypes)
         {
             if (memberInfo == null)

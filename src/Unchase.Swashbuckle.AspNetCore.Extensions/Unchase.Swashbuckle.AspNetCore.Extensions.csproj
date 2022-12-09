@@ -5,7 +5,7 @@
     <Company>Unchase</Company>
     <Authors>Unchase</Authors>
     <Description>Some additional useful extensions for Swashbuckle.AspNetCore.</Description>
-    <Copyright>Copyright 2019 Unchase</Copyright>
+    <Copyright>Copyright 2019-2022 Unchase</Copyright>
     <PackageLicenseUrl></PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions</PackageProjectUrl>
     <RepositoryUrl>https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions</RepositoryUrl>
@@ -14,9 +14,9 @@
     <NeutralLanguage></NeutralLanguage>
     <LangVersion>7.3</LangVersion>
     <PackageIconUrl>https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/blob/master/assets/icon.png?raw=true</PackageIconUrl>
-    <Version>2.6.12</Version>
-    <AssemblyVersion>2.6.12.0</AssemblyVersion>
-    <FileVersion>2.6.12.0</FileVersion>
+    <Version>2.7.0</Version>
+    <AssemblyVersion>2.7.0.0</AssemblyVersion>
+    <FileVersion>2.7.0.0</FileVersion>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <DocumentationFile>Unchase.Swashbuckle.AspNetCore.Extensions.xml</DocumentationFile>
   </PropertyGroup>

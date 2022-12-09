@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml.XPath;
+
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -21,6 +22,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         private readonly bool _includeXEnumRemarks;
         private readonly string _xEnumNamesAlias;
         private readonly string _xEnumDescriptionsAlias;
+        private readonly string _newLine;
         private readonly DescriptionSources _descriptionSources;
         private readonly bool _applyFiler;
         private readonly HashSet<XPathNavigator> _xmlNavigators = new HashSet<XPathNavigator>();
@@ -34,7 +36,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// </summary>
         /// <param name="options"><see cref="FixEnumsOptions"/>.</param>
         /// <param name="configureOptions">An <see cref="Action{FixEnumsOptions}"/> to configure options for filter.</param>
-        public XEnumNamesSchemaFilter(IOptions<FixEnumsOptions> options, Action<FixEnumsOptions> configureOptions = null)
+        public XEnumNamesSchemaFilter(
+            IOptions<FixEnumsOptions> options,
+            Action<FixEnumsOptions> configureOptions = null)
         {
             if (options.Value != null)
             {
@@ -45,6 +49,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                 _applyFiler = options.Value.ApplySchemaFilter;
                 _xEnumNamesAlias = options.Value.XEnumNamesAlias;
                 _xEnumDescriptionsAlias = options.Value.XEnumDescriptionsAlias;
+                _newLine = options.Value.NewLine;
                 foreach (var filePath in options.Value.IncludedXmlCommentsPaths)
                 {
                     if (File.Exists(filePath))
@@ -64,10 +69,14 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// </summary>
         /// <param name="schema"><see cref="OpenApiSchema"/>.</param>
         /// <param name="context"><see cref="SchemaFilterContext"/>.</param>
-        public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+        public void Apply(
+            OpenApiSchema schema,
+            SchemaFilterContext context)
         {
             if (!_applyFiler)
+            {
                 return;
+            }
 
             var typeInfo = context.Type.GetTypeInfo();
             var enumsArray = new OpenApiArray();
@@ -89,6 +98,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                         schema.Extensions.Add(_xEnumDescriptionsAlias, enumsDescriptionsArray);
                     }
                 }
+
                 return;
             }
 
@@ -123,7 +133,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                                         }
                                     }
 
-                                    var description = propertySchema.AddEnumValuesDescription(_xEnumNamesAlias, _xEnumDescriptionsAlias, _includeXEnumDescriptions);
+                                    var description = propertySchema.AddEnumValuesDescription(_xEnumNamesAlias, _xEnumDescriptionsAlias, _includeXEnumDescriptions, _newLine);
                                     if (description != null)
                                     {
                                         if (schemaPropertyValue.Description == null)
@@ -148,7 +158,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                 {
                     var schemaPropertyValue = schemaProperty.Value;
                     var propertySchema = context.SchemaRepository.Schemas.FirstOrDefault(s => schemaPropertyValue.AllOf.FirstOrDefault(a => a.Reference.Id == s.Key) != null).Value;
-                    var description = propertySchema?.AddEnumValuesDescription(_xEnumNamesAlias, _xEnumDescriptionsAlias, _includeXEnumDescriptions);
+                    var description = propertySchema?.AddEnumValuesDescription(_xEnumNamesAlias, _xEnumDescriptionsAlias, _includeXEnumDescriptions, _newLine);
                     if (description != null)
                     {
                         if (schemaPropertyValue.Description == null)

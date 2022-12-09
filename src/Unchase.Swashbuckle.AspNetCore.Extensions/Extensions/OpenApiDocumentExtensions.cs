@@ -28,7 +28,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
         public static OpenApiDocument RemovePathsAndComponentsWithoutAcceptedRolesFor<TController>(
             this OpenApiDocument openApiDoc,
             Func<TController, string> actionNameSelector,
-            IReadOnlyList<string> acceptedRoles) where TController : class, new()
+            IReadOnlyList<string> acceptedRoles)
+            where TController : class, new()
         {
             var actionDescriptor = ApiDescriptionFactory.Create(actionNameSelector, typeof(TController).GetCustomAttribute<RouteAttribute>().Template)?.ActionDescriptor;
             if (actionDescriptor != null)
@@ -93,6 +94,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                     paths.Add((((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)actionDescriptor).MethodInfo, typeof(TController)), actionDescriptor.AttributeRouteInfo.Template);
                 }
             }
+
             HidePathsAndDefinitionsByRolesDocumentFilter.RemovePathsAndComponents(openApiDoc, paths, openApiDoc.Components.Schemas, acceptedRoles);
 
             return openApiDoc;

@@ -26,9 +26,10 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// Конструктор класса <see cref="HidePathsAndDefinitionsByRolesDocumentFilter"/>.
         /// </summary>
         /// <param name="acceptedRoles"></param>
-        public HidePathsAndDefinitionsByRolesDocumentFilter(IEnumerable<string> acceptedRoles)
+        public HidePathsAndDefinitionsByRolesDocumentFilter(
+            IEnumerable<string> acceptedRoles)
         {
-            this._acceptedRoles = acceptedRoles;
+            _acceptedRoles = acceptedRoles;
         }
 
         #endregion
@@ -37,7 +38,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
         #region GetRequiredDefinitions
 
-        private static List<string> GetRequiredDefinitions(IDictionary<string, OpenApiSchema> schemas, OpenApiReference reference)
+        private static List<string> GetRequiredDefinitions(
+            IDictionary<string, OpenApiSchema> schemas,
+            OpenApiReference reference)
         {
             var result = new List<string>();
 
@@ -204,6 +207,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             foreach (var operation in openApiDoc?.Paths?.Where(p => p.Value?.Operations != null)?.SelectMany(p => p.Value?.Operations))
             {
                 if (operation.Value?.Responses != null)
+                {
                     foreach (var response in operation.Value?.Responses)
                     {
                         if (response.Value?.Reference?.Id != null && !requiredRefs.Contains(response.Value?.Reference?.Id))
@@ -230,6 +234,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                             }
                         }
                     }
+                }
 
                 if (operation.Value?.RequestBody != null)
                 {
@@ -295,7 +300,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             foreach (var openApiDocTag in openApiDoc.Tags)
             {
                 if (!tagsDict.ContainsKey(openApiDocTag.Name))
+                {
                     tagsDict.Add(openApiDocTag.Name, 0);
+                }
             }
 
             foreach (var operation in openApiDoc.Paths?.Where(p => p.Value?.Operations != null).SelectMany(p => p.Value?.Operations))
@@ -318,7 +325,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                 {
                     var swaggerTag = openApiDoc.Tags.FirstOrDefault(t => t.Name == tag);
                     if (swaggerTag != null)
+                    {
                         openApiDoc.Tags.Remove(swaggerTag);
+                    }
                 }
             }
 
@@ -334,10 +343,14 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// </summary>
         /// <param name="openApiDoc"><see cref="OpenApiDocument"/>.</param>
         /// <param name="context"><see cref="DocumentFilterContext"/>.</param>
-        public void Apply(OpenApiDocument openApiDoc, DocumentFilterContext context)
+        public void Apply(
+            OpenApiDocument openApiDoc,
+            DocumentFilterContext context)
         {
-            if (!this._acceptedRoles.Any())
+            if (!_acceptedRoles.Any())
+            {
                 return;
+            }
 
             var apiDescriptions = context.ApiDescriptions;
             var schemas = context.SchemaRepository.Schemas;
@@ -346,10 +359,10 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             foreach (var actionDescriptor in apiDescriptions.Select(ad => ad.ActionDescriptor))
             {
                 var t = ((ControllerActionDescriptor) actionDescriptor).ControllerTypeInfo.AsType();
-                paths.Add((((ControllerActionDescriptor)actionDescriptor).MethodInfo, ((ControllerActionDescriptor)actionDescriptor).ControllerTypeInfo.AsType()), actionDescriptor.AttributeRouteInfo.Template);
+                paths.Add((((ControllerActionDescriptor)actionDescriptor).MethodInfo, t), actionDescriptor.AttributeRouteInfo.Template);
             }
 
-            RemovePathsAndComponents(openApiDoc, paths, schemas, this._acceptedRoles.ToList());
+            RemovePathsAndComponents(openApiDoc, paths, schemas, _acceptedRoles.ToList());
         }
 
         #endregion

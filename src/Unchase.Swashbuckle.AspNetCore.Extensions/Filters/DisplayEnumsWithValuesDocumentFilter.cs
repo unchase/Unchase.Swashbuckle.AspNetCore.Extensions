@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -8,7 +9,8 @@ using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 {
-    internal class DisplayEnumsWithValuesDocumentFilter : IDocumentFilter
+    internal class DisplayEnumsWithValuesDocumentFilter :
+        IDocumentFilter
     {
         #region Fields
 
@@ -16,6 +18,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         private readonly bool _includeDescriptionFromAttribute;
         private readonly string _xEnumNamesAlias;
         private readonly string _xEnumDescriptionsAlias;
+        private readonly string _newLine;
 
         #endregion
 
@@ -26,7 +29,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// </summary>
         /// <param name="options"><see cref="FixEnumsOptions"/>.</param>
         /// <param name="configureOptions">An <see cref="Action{FixEnumsOptions}"/> to configure options for filter.</param>
-        public DisplayEnumsWithValuesDocumentFilter(IOptions<FixEnumsOptions> options, Action<FixEnumsOptions> configureOptions = null)
+        public DisplayEnumsWithValuesDocumentFilter(
+            IOptions<FixEnumsOptions> options,
+            Action<FixEnumsOptions> configureOptions = null)
         {
             if (options.Value != null)
             {
@@ -35,6 +40,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                 _applyFiler = options.Value.ApplyDocumentFilter;
                 _xEnumNamesAlias = options.Value.XEnumNamesAlias;
                 _xEnumDescriptionsAlias = options.Value.XEnumDescriptionsAlias;
+                _newLine = options.Value.NewLine;
             }
         }
 
@@ -47,15 +53,19 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// </summary>
         /// <param name="openApiDoc"><see cref="OpenApiDocument"/>.</param>
         /// <param name="context"><see cref="DocumentFilterContext"/>.</param>
-        public void Apply(OpenApiDocument openApiDoc, DocumentFilterContext context)
+        public void Apply(
+            OpenApiDocument openApiDoc,
+            DocumentFilterContext context)
         {
             if (!_applyFiler)
+            {
                 return;
+            }
 
             foreach (var schemaDictionaryItem in openApiDoc.Components.Schemas)
             {
                 var schema = schemaDictionaryItem.Value;
-                var description = schema.AddEnumValuesDescription(_xEnumNamesAlias, _xEnumDescriptionsAlias, _includeDescriptionFromAttribute);
+                var description = schema.AddEnumValuesDescription(_xEnumNamesAlias, _xEnumDescriptionsAlias, _includeDescriptionFromAttribute, _newLine);
                 if (description != null)
                 {
                     if (schema.Description == null)
@@ -70,7 +80,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             }
 
             if (openApiDoc.Paths.Count <= 0)
+            {
                 return;
+            }
 
             // add enum descriptions to input parameters of every operation
             foreach (var parameter in openApiDoc.Paths.Values.SelectMany(v => v.Operations).SelectMany(op => op.Value.Parameters))
@@ -98,7 +110,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
                 if (schema != null)
                 {
-                    var description = schema.AddEnumValuesDescription(_xEnumNamesAlias, _xEnumDescriptionsAlias, _includeDescriptionFromAttribute);
+                    var description = schema.AddEnumValuesDescription(_xEnumNamesAlias, _xEnumDescriptionsAlias, _includeDescriptionFromAttribute, _newLine);
                     if (description != null)
                     {
                         if (parameter.Description == null)

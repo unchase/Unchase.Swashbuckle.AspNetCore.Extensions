@@ -612,6 +612,14 @@
             Alias for replacing "x-enumDescriptions" in swagger documentation.
             </summary>
         </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions.NewLine">
+            <summary>
+            New line for enum values descriptions.
+            </summary>
+            <remarks>
+            For example, <see cref="P:System.Environment.NewLine"/> or "\n".
+            </remarks>
+        </member>
         <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptionsExtensions">
             <summary>
             Extensions for <see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions"/>.

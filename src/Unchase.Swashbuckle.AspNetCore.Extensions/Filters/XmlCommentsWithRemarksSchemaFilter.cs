@@ -10,7 +10,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
     /// <summary>
     /// Inject human-friendly remarks to descriptions for Schemas based on XML Comment files.
     /// </summary>
-    internal class XmlCommentsWithRemarksSchemaFilter : ISchemaFilter
+    internal class XmlCommentsWithRemarksSchemaFilter :
+        ISchemaFilter
     {
         #region Fields
 
@@ -28,7 +29,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// </summary>
         /// <param name="xmlDoc"><see cref="XPathDocument"/></param>
         /// <param name="excludedTypes">Excluded types.</param>
-        public XmlCommentsWithRemarksSchemaFilter(XPathDocument xmlDoc, params Type[] excludedTypes)
+        public XmlCommentsWithRemarksSchemaFilter(
+            XPathDocument xmlDoc,
+            params Type[] excludedTypes)
         {
             _xmlNavigator = xmlDoc.CreateNavigator();
             _excludedTypes = excludedTypes;
@@ -43,7 +46,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// </summary>
         /// <param name="schema"><see cref="OpenApiSchema"/>.</param>
         /// <param name="context"><see cref="SchemaFilterContext"/>.</param>
-        public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+        public void Apply(
+            OpenApiSchema schema,
+            SchemaFilterContext context)
         {
             ApplyTypeTags(schema, context.Type);
 

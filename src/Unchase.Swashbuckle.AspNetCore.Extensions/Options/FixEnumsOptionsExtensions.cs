@@ -15,10 +15,14 @@
         /// <returns>
         /// Returns <see cref="FixEnumsOptions"/>.
         /// </returns>
-        public static FixEnumsOptions IncludeXmlCommentsFrom(this FixEnumsOptions options, string fullPath)
+        public static FixEnumsOptions IncludeXmlCommentsFrom(
+            this FixEnumsOptions options,
+            string fullPath)
         {
             if (!options.IncludedXmlCommentsPaths.Contains(fullPath))
+            {
                 options.IncludedXmlCommentsPaths.Add(fullPath);
+            }
 
             return options;
         }

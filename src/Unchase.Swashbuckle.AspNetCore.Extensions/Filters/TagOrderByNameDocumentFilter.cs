@@ -7,7 +7,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
     /// <summary>
     /// Document filter for ordering tags by name in OpenApi document.
     /// </summary>
-    public class TagOrderByNameDocumentFilter : IDocumentFilter
+    public class TagOrderByNameDocumentFilter :
+        IDocumentFilter
     {
         #region Methods
 
@@ -16,7 +17,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// </summary>
         /// <param name="swaggerDoc"><see cref="OpenApiDocument"/>.</param>
         /// <param name="context"><see cref="DocumentFilterContext"/>.</param>
-        public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+        public void Apply(
+            OpenApiDocument swaggerDoc,
+            DocumentFilterContext context)
         {
             swaggerDoc.Tags = swaggerDoc.Tags.OrderBy(t => t.Name).ToList();
         }

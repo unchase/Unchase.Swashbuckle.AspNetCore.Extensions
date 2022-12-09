@@ -12,7 +12,8 @@ using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 {
-    internal class XEnumNamesParameterFilter : IParameterFilter
+    internal class XEnumNamesParameterFilter :
+        IParameterFilter
     {
         #region Fields
 
@@ -33,18 +34,20 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// </summary>
         /// <param name="options"><see cref="FixEnumsOptions"/>.</param>
         /// <param name="configureOptions">An <see cref="Action{FixEnumsOptions}"/> to configure options for filter.</param>
-        public XEnumNamesParameterFilter(IOptions<FixEnumsOptions> options, Action<FixEnumsOptions> configureOptions = null)
+        public XEnumNamesParameterFilter(
+            IOptions<FixEnumsOptions> options,
+            Action<FixEnumsOptions> configureOptions = null)
         {
             if (options.Value != null)
             {
                 configureOptions?.Invoke(options.Value);
                 _includeXEnumDescriptions = options.Value?.IncludeDescriptions ?? false;
                 _includeXEnumRemarks = options.Value?.IncludeXEnumRemarks ?? false;
-                _descriptionSources = options.Value.DescriptionSource;
+                _descriptionSources = options.Value?.DescriptionSource ?? DescriptionSources.DescriptionAttributes;
                 _applyFiler = options.Value?.ApplyParameterFilter ?? false;
                 _xEnumNamesAlias = options.Value?.XEnumNamesAlias;
                 _xEnumDescriptionsAlias = options.Value?.XEnumDescriptionsAlias;
-                foreach (var filePath in options.Value?.IncludedXmlCommentsPaths)
+                foreach (var filePath in options.Value?.IncludedXmlCommentsPaths ?? new HashSet<string>())
                 {
                     if (File.Exists(filePath))
                     {
@@ -63,14 +66,20 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// </summary>
         /// <param name="parameter"><see cref="OpenApiParameter"/>.</param>
         /// <param name="context"><see cref="ParameterFilterContext"/>.</param>
-        public void Apply(OpenApiParameter parameter, ParameterFilterContext context)
+        public void Apply(
+            OpenApiParameter parameter,
+            ParameterFilterContext context)
         {
             if (!_applyFiler)
+            {
                 return;
+            }
 
             var typeInfo = context.ParameterInfo?.ParameterType ?? context.PropertyInfo?.PropertyType;
             if (typeInfo == null)
+            {
                 return;
+            }
 
             var enumsArray = new OpenApiArray();
             var enumsDescriptionsArray = new OpenApiArray();

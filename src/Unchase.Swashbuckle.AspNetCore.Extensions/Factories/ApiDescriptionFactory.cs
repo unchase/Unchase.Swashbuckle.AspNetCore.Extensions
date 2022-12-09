@@ -42,14 +42,19 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Factories
             IEnumerable<ApiResponseType> supportedResponseTypes = null)
         {
             if (methodInfo == null)
+            {
                 return null;
+            }
 
             var actionDescriptor = CreateActionDescriptor(methodInfo);
 
             var routAttr = controllerType.GetCustomAttributes(true).OfType<RouteAttribute>().LastOrDefault();
 
             if (string.IsNullOrWhiteSpace(actionDescriptor?.AttributeRouteInfo?.Template))
+            {
                 return null;
+            }
+
             //throw new InvalidOperationException($"HttpMethod attribute of \"{methodInfo.Name}\" action in \"{controllerType.Name}\" controller must have a template specified.");
 
             if (routAttr != null && !string.IsNullOrWhiteSpace(routAttr.Template))

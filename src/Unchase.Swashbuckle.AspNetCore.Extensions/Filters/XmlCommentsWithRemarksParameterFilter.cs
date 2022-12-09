@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using System.Xml.XPath;
+
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -10,7 +11,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
     /// <summary>
     /// Inject human-friendly remarks to descriptions for Parameters based on XML Comment files.
     /// </summary>
-    internal class XmlCommentsWithRemarksParameterFilter : IParameterFilter
+    internal class XmlCommentsWithRemarksParameterFilter :
+        IParameterFilter
     {
         #region Fields
 
@@ -28,7 +30,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// </summary>
         /// <param name="xmlDoc"><see cref="XPathDocument"/></param>
         /// <param name="excludedTypes">Excluded types.</param>
-        public XmlCommentsWithRemarksParameterFilter(XPathDocument xmlDoc, params Type[] excludedTypes)
+        public XmlCommentsWithRemarksParameterFilter(
+            XPathDocument xmlDoc,
+            params Type[] excludedTypes)
         {
             _xmlNavigator = xmlDoc.CreateNavigator();
             _excludedTypes = excludedTypes;
@@ -43,7 +47,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// </summary>
         /// <param name="parameter"><see cref="OpenApiParameter"/>.</param>
         /// <param name="context"><see cref="ParameterFilterContext"/>.</param>
-        public void Apply(OpenApiParameter parameter, ParameterFilterContext context)
+        public void Apply(
+            OpenApiParameter parameter,
+            ParameterFilterContext context)
         {
             if (context.PropertyInfo != null)
             {
