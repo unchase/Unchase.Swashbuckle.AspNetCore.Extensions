@@ -94,14 +94,12 @@
             Returns <see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions"/>.
             </returns>
         </member>
-        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.SwaggerGenOptionsExtensions.AddEnumsWithValuesFixFilters(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions})">
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.SwaggerGenOptionsExtensions.AddEnumsWithValuesFixFilters(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,System.Action{Unchase.Swashbuckle.AspNetCore.Extensions.Options.FixEnumsOptions})">
             <summary>
             Add filters to fix enums in OpenApi document.
             </summary>
             <param name="swaggerGenOptions"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions"/>.</param>
-            <param name="services"><see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.</param>
             <param name="configureOptions">An <see cref="T:System.Action`1"/> to configure options for filters.</param>
-            <returns></returns>
         </member>
         <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.SwaggerGenOptionsExtensions.IncludeXmlCommentsWithRemarks(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions,System.Func{System.Xml.XPath.XPathDocument},System.Boolean,System.Type[])">
             <summary>

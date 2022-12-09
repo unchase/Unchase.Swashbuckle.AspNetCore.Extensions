@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29709.97
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7C4518F9-6506-49BE-B39D-1BD1BE121E4B}"
 EndProject
@@ -34,7 +34,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Unchase.Swashbuckle.AspNetC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi3.1-Swashbuckle", "test\WebApi3.1-Swashbuckle\WebApi3.1-Swashbuckle.csproj", "{1AD5C40F-8AF7-4DAA-9C72-40D1269304C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi5-Swashbuckle", "test\WebApi5-Swashbuckle\WebApi5-Swashbuckle.csproj", "{C9251364-9941-4776-A9A3-841173DB58C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi5-Swashbuckle", "test\WebApi5-Swashbuckle\WebApi5-Swashbuckle.csproj", "{C9251364-9941-4776-A9A3-841173DB58C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi7-Swashbuckle", "test\WebApi7-Swashbuckle\WebApi7-Swashbuckle.csproj", "{4C6ADEFF-E66A-4E7D-B8B7-24FCDB3F6A89}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +60,10 @@ Global
 		{C9251364-9941-4776-A9A3-841173DB58C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9251364-9941-4776-A9A3-841173DB58C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9251364-9941-4776-A9A3-841173DB58C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C6ADEFF-E66A-4E7D-B8B7-24FCDB3F6A89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C6ADEFF-E66A-4E7D-B8B7-24FCDB3F6A89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C6ADEFF-E66A-4E7D-B8B7-24FCDB3F6A89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C6ADEFF-E66A-4E7D-B8B7-24FCDB3F6A89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{ADFE3232-3F94-4582-BE4E-CD93603EAE18} = {41C53B82-ED58-4927-B597-CCCAEC8E3BF8}
 		{1AD5C40F-8AF7-4DAA-9C72-40D1269304C0} = {41C53B82-ED58-4927-B597-CCCAEC8E3BF8}
 		{C9251364-9941-4776-A9A3-841173DB58C4} = {41C53B82-ED58-4927-B597-CCCAEC8E3BF8}
+		{4C6ADEFF-E66A-4E7D-B8B7-24FCDB3F6A89} = {41C53B82-ED58-4927-B597-CCCAEC8E3BF8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4830AE48-C5E4-460E-B23E-B2D7D0578670}

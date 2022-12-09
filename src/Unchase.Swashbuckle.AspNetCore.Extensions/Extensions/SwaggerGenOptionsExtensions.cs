@@ -66,21 +66,13 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
         /// Add filters to fix enums in OpenApi document.
         /// </summary>
         /// <param name="swaggerGenOptions"><see cref="SwaggerGenOptions"/>.</param>
-        /// <param name="services"><see cref="IServiceCollection"/>.</param>
         /// <param name="configureOptions">An <see cref="Action{FixEnumsOptions}"/> to configure options for filters.</param>
-        /// <returns></returns>
         public static SwaggerGenOptions AddEnumsWithValuesFixFilters(
             this SwaggerGenOptions swaggerGenOptions,
-            IServiceCollection services = null,
             Action<FixEnumsOptions> configureOptions = null)
         {
             // local function
             void EmptyAction(FixEnumsOptions x) { }
-
-            if (configureOptions != null)
-            {
-                services?.Configure(configureOptions);
-            }
 
             swaggerGenOptions.SchemaFilter<XEnumNamesSchemaFilter>(configureOptions ?? EmptyAction);
             swaggerGenOptions.ParameterFilter<XEnumNamesParameterFilter>(configureOptions ?? EmptyAction);

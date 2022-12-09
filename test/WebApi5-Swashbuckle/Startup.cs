@@ -69,7 +69,7 @@ namespace WebApi5_Swashbuckle
                 options.AddEnumsWithValuesFixFilters();
 
                 // or configured:
-                options.AddEnumsWithValuesFixFilters(services, o =>
+                options.AddEnumsWithValuesFixFilters(o =>
                 {
                     // add schema filter to fix enums (add 'x-enumNames' for NSwag or its alias from XEnumNamesAlias) in schema
                     o.ApplySchemaFilter = true;
@@ -94,6 +94,10 @@ namespace WebApi5_Swashbuckle
 
                     // get descriptions from DescriptionAttribute then from xml-comments
                     o.DescriptionSource = DescriptionSources.DescriptionAttributesThenXmlComments;
+
+                    // new line for enum values descriptions
+                    // o.NewLine = Environment.NewLine;
+                    o.NewLine = "\n";
 
                     // get descriptions from xml-file comments on the specified path
                     // should use "options.IncludeXmlComments(xmlFilePath);" before

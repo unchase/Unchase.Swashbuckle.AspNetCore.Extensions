@@ -149,6 +149,10 @@ public void ConfigureServices(IServiceCollection services)
             // get descriptions from DescriptionAttribute then from xml-comments
             o.DescriptionSource = DescriptionSources.DescriptionAttributesThenXmlComments;
 
+            // new line for enum values descriptions
+            // o.NewLine = Environment.NewLine;
+            o.NewLine = "\n";
+
             // get descriptions from xml-file comments on the specified path
             // should use "options.IncludeXmlComments(xmlFilePath);" before
             o.IncludeXmlCommentsFrom(xmlFilePath);
