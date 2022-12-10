@@ -17,8 +17,9 @@
     <Version>2.7.0</Version>
     <AssemblyVersion>2.7.0.0</AssemblyVersion>
     <FileVersion>2.7.0.0</FileVersion>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <DocumentationFile>Unchase.Swashbuckle.AspNetCore.Extensions.xml</DocumentationFile>
+    <Title>Unchase.Swashbuckle.AspNetCore.Extensions</Title>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
