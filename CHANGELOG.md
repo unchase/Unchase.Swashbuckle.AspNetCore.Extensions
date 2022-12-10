@@ -12,6 +12,7 @@ These are the changes to each version that has been released on the [nuget](http
 
 - [x] Add support for .NET7/.NET6
 - [x] Update and remove unused nuget-dependencies
+- [x] Fix [#20](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/20): Multiple Enum Labels with the Same Value Results in Unusable Output
 - [x] Fix [#21](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/21): Line Break is OS dependent (\r\n vs \n)
 - [x] Fix [#27](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/27): Enum descriptions are only written to the type description text if all enum values have a description
 - [x] Fix [#28](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/28): selecting distinct members when including inherited XML comments

@@ -17,7 +17,7 @@ namespace WebApi7_Swashbuckle.Controllers
     [ProducesResponseType(420)]
     public class RecordsController : ControllerBase
     {
-        /*/// <summary>
+        /// <summary>
         /// Get record response action
         /// </summary>
         /// <remarks>
@@ -28,6 +28,6 @@ namespace WebApi7_Swashbuckle.Controllers
         public ActionResult<RecordResponse> GetRecordResponseAction()
         {
             return Ok(new RecordResponse(5, "name1"));
-        }*/
+        }
     }
 }

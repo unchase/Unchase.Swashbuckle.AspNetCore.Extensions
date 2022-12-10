@@ -64,13 +64,13 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             return string.Empty;
         }
 
-        internal static List<OpenApiString> GetEnumValuesDescription(
+        internal static List<(object EnumValue, OpenApiString EnumDescription)> GetEnumValuesDescription(
             Type enumType,
             DescriptionSources descriptionSource,
             IEnumerable<XPathNavigator> xmlNavigators,
             bool includeRemarks = false)
         {
-            var enumsDescriptions = new List<OpenApiString>();
+            var enumsDescriptions = new List<(object, OpenApiString)>();
             foreach (var enumValue in Enum.GetValues(enumType))
             {
                 var enumDescription = string.Empty;
@@ -105,11 +105,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                 {
                     if (!string.IsNullOrWhiteSpace(enumDescription))
                     {
-                        enumsDescriptions.Add(new OpenApiString(enumDescription));
+                        enumsDescriptions.Add((enumValue, new OpenApiString(enumDescription)));
                     }
                     else
                     {
-                        enumsDescriptions.Add(new OpenApiString(string.Empty));
+                        enumsDescriptions.Add((enumValue, new OpenApiString(string.Empty)));
                     }
                 }
             }

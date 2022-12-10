@@ -25,6 +25,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models
         public EnumWithoutXmlComments Enum { get; set; }
 
         /// <summary>
+        /// Some enum with multiple value labels.
+        /// </summary>
+        public EnumWithMultipleValueLabels EnumMultiple { get; set; }
+
+        /// <summary>
         /// Inner class
         /// </summary>
         /// <remarks>

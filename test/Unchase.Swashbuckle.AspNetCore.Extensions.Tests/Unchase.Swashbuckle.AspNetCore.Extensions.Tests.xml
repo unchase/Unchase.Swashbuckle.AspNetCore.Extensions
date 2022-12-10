@@ -173,6 +173,11 @@
             Some enum without xml-comments for one of values.
             </summary>
         </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.ComplicatedClass.EnumMultiple">
+            <summary>
+            Some enum with multiple value labels.
+            </summary>
+        </member>
         <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.ComplicatedClass.InnerClass">
             <summary>
             Inner class
@@ -252,6 +257,26 @@
             <remarks>
             Second inner enum value remarks
             </remarks>
+        </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.EnumWithMultipleValueLabels">
+            <summary>
+            Enum with multiple value labels.
+            </summary>
+        </member>
+        <member name="F:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.EnumWithMultipleValueLabels.Field1">
+            <summary>
+            Field 1.
+            </summary>
+        </member>
+        <member name="F:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.EnumWithMultipleValueLabels.AnotherNameForField1">
+            <summary>
+            Another name for field 1.
+            </summary>
+        </member>
+        <member name="F:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.EnumWithMultipleValueLabels.Field2">
+            <summary>
+            Field 2.
+            </summary>
         </member>
         <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.EnumWithoutXmlComments">
             <summary>

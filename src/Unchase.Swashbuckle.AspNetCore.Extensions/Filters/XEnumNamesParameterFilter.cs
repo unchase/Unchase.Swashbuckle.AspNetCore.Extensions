@@ -85,7 +85,12 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             var enumsDescriptionsArray = new OpenApiArray();
             if (typeInfo.IsEnum)
             {
-                var names = Enum.GetNames(typeInfo).Select(name => new OpenApiString(name));
+                var names = Enum
+                    .GetNames(typeInfo)
+                    .Select(name => (Enum.Parse(typeInfo, name), new OpenApiString(name)))
+                    .GroupBy(x => x.Item1)
+                    .Select(x => x.LastOrDefault().Item2)
+                    .ToList();
                 enumsArray.AddRange(names);
                 if (!parameter.Extensions.ContainsKey(_xEnumNamesAlias) && enumsArray.Any())
                 {
@@ -94,7 +99,10 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
                 if (_includeXEnumDescriptions)
                 {
-                    enumsDescriptionsArray.AddRange(EnumTypeExtensions.GetEnumValuesDescription(typeInfo, _descriptionSources, _xmlNavigators, _includeXEnumRemarks));
+                    enumsDescriptionsArray.AddRange(EnumTypeExtensions
+                        .GetEnumValuesDescription(typeInfo, _descriptionSources, _xmlNavigators, _includeXEnumRemarks)
+                        .GroupBy(x => x.EnumValue)
+                        .Select(x => x.LastOrDefault().EnumDescription));
                     if (!parameter.Extensions.ContainsKey(_xEnumDescriptionsAlias) && enumsDescriptionsArray.Any())
                     {
                         parameter.Extensions.Add(_xEnumDescriptionsAlias, enumsDescriptionsArray);
@@ -107,7 +115,12 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                 {
                     if (genericArgumentType.IsEnum)
                     {
-                        var names = Enum.GetNames(genericArgumentType).Select(name => new OpenApiString(name));
+                        var names = Enum
+                            .GetNames(genericArgumentType)
+                            .Select(name => (Enum.Parse(genericArgumentType, name), new OpenApiString(name)))
+                            .GroupBy(x => x.Item1)
+                            .Select(x => x.LastOrDefault().Item2)
+                            .ToList();
                         enumsArray.AddRange(names);
                         if (!parameter.Extensions.ContainsKey(_xEnumNamesAlias) && enumsArray.Any())
                         {
@@ -116,7 +129,10 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
                         if (_includeXEnumDescriptions)
                         {
-                            enumsDescriptionsArray.AddRange(EnumTypeExtensions.GetEnumValuesDescription(genericArgumentType, _descriptionSources, _xmlNavigators, _includeXEnumRemarks));
+                            enumsDescriptionsArray.AddRange(EnumTypeExtensions
+                                .GetEnumValuesDescription(genericArgumentType, _descriptionSources, _xmlNavigators, _includeXEnumRemarks)
+                                .GroupBy(x => x.EnumValue)
+                                .Select(x => x.LastOrDefault().EnumDescription));
                             if (!parameter.Extensions.ContainsKey(_xEnumDescriptionsAlias) && enumsDescriptionsArray.Any())
                             {
                                 parameter.Extensions.Add(_xEnumDescriptionsAlias, enumsDescriptionsArray);
