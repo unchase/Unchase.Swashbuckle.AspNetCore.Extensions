@@ -21,6 +21,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         private readonly bool _includeXEnumRemarks;
         private readonly string _xEnumNamesAlias;
         private readonly string _xEnumDescriptionsAlias;
+        private readonly bool _includeDescriptionFromAttribute;
+        private readonly string _newLine;
         private readonly DescriptionSources _descriptionSources;
         private readonly bool _applyFiler;
         private readonly HashSet<XPathNavigator> _xmlNavigators = new HashSet<XPathNavigator>();
@@ -47,6 +49,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                 _applyFiler = options.Value?.ApplyParameterFilter ?? false;
                 _xEnumNamesAlias = options.Value?.XEnumNamesAlias;
                 _xEnumDescriptionsAlias = options.Value?.XEnumDescriptionsAlias;
+                _includeDescriptionFromAttribute = options.Value.IncludeDescriptions;
+                _newLine = options.Value.NewLine;
                 foreach (var filePath in options.Value?.IncludedXmlCommentsPaths ?? new HashSet<string>())
                 {
                     if (File.Exists(filePath))
@@ -138,6 +142,38 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                                 parameter.Extensions.Add(_xEnumDescriptionsAlias, enumsDescriptionsArray);
                             }
                         }
+                    }
+                    else if (genericArgumentType.IsArray && genericArgumentType.GetElementType()?.IsEnum == true)
+                    {
+                        var enumSchema = context.SchemaRepository.Schemas[parameter.Schema.Items.Items.Reference.Id];
+                        var description = enumSchema.AddEnumValuesDescription(_xEnumNamesAlias, _xEnumDescriptionsAlias, _includeDescriptionFromAttribute, _newLine);
+                        if (description != null)
+                        {
+                            if (parameter.Description == null)
+                            {
+                                parameter.Description = description;
+                            }
+                            else if (!parameter.Description.Contains(description))
+                            {
+                                parameter.Description += description;
+                            }
+                        }
+                    }
+                }
+            }
+            else if (typeInfo.IsArray && typeInfo.GetElementType()?.IsEnum == true)
+            {
+                var enumSchema = context.SchemaRepository.Schemas[parameter.Schema.Items.Reference.Id];
+                var description = enumSchema.AddEnumValuesDescription(_xEnumNamesAlias, _xEnumDescriptionsAlias, _includeDescriptionFromAttribute, _newLine);
+                if (description != null)
+                {
+                    if (parameter.Description == null)
+                    {
+                        parameter.Description = description;
+                    }
+                    else if (!parameter.Description.Contains(description))
+                    {
+                        parameter.Description += description;
                     }
                 }
             }

@@ -16,6 +16,7 @@ These are the changes to each version that has been released on the [nuget](http
 - [x] Fix [#21](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/21): Line Break is OS dependent (\r\n vs \n)
 - [x] Fix [#27](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/27): Enum descriptions are only written to the type description text if all enum values have a description
 - [x] Fix [#28](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/28): selecting distinct members when including inherited XML comments
+- [x] Fix [#31](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/31): enum descriptions do not work as expected when enum array is provided
 
 ## v2.6.12 `2021-10-05`
 

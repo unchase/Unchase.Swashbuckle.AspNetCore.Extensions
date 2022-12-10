@@ -158,5 +158,31 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers
         {
             return Ok("Ok");
         }
+
+        /// <summary>
+        /// Get Tags value from class
+        /// </summary>
+        /// <param name="obj">Class with tags.</param>
+        /// <returns>Tags.</returns>
+        /// <response code="201">Returns tags.</response>
+        [HttpGet("get-tags-from-generic-class")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public ActionResult<Tag[]> CreateFromQuery([FromQuery] ClassWithEnumArray<Tag[]> obj)
+        {
+            return Ok(obj.EnumArray);
+        }
+
+        /// <summary>
+        /// Get Tags
+        /// </summary>
+        /// <param name="items">Tags.</param>
+        /// <returns>Tags.</returns>
+        /// <response code="201">Returns tags.</response>
+        [HttpGet("get-tags")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public ActionResult<Tag[]> CreateFromQuery([FromQuery(Name = "tags[]")] Tag[] items)
+        {
+            return Ok(items);
+        }
     }
 }
