@@ -1,8 +1,8 @@
-version: 2.6.{build}
+version: 2.7.{build}
 pull_requests:
   do_not_increment_build_number: true
 skip_tags: true
-image: Visual Studio 2019
+image: Visual Studio 2022
 platform: Any CPU
 dotnet_csproj:
   patch: true
