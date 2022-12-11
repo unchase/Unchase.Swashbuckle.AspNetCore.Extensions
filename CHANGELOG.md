@@ -8,6 +8,11 @@
 
 These are the changes to each version that has been released on the [nuget](https://www.nuget.org/packages/Unchase.Swashbuckle.AspNetCore.Extensions/).
 
+## v2.7.1 `2022-12-11`
+
+- [x] Fix [#24](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/24)
+- [x] Fix [#30](https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/issues/30)
+
 ## v2.7.0 `2022-12-09`
 
 - [x] Add support for .NET7/.NET6

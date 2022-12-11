@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml.XPath;
+
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
@@ -23,7 +24,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         private const string ExampleTag = "example";
         private readonly bool _includeRemarks;
         private readonly List<XPathDocument> _documents;
-        private readonly Dictionary<string, string> _inheritedDocs;
+        private readonly Dictionary<string, (string Cref, string Path)> _inheritedDocs;
         private readonly Type[] _excludedTypes;
 
         #endregion
@@ -38,7 +39,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// <param name="documents">List of <see cref="XPathDocument"/>.</param>
         public InheritDocParameterFilter(
             List<XPathDocument> documents,
-            Dictionary<string, string> inheritedDocs,
+            Dictionary<string, (string Cref, string Path)> inheritedDocs,
             bool includeRemarks = false)
             : this(documents, inheritedDocs, includeRemarks, Array.Empty<Type>())
         {
@@ -53,7 +54,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// <param name="excludedTypes">Excluded types.</param>
         public InheritDocParameterFilter(
             List<XPathDocument> documents,
-            Dictionary<string, string> inheritedDocs,
+            Dictionary<string, (string Cref, string Path)> inheritedDocs,
             bool includeRemarks = false,
             params Type[] excludedTypes)
         {
@@ -95,7 +96,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             string parameterMemberName = XmlCommentsNodeNameHelper.GetMemberNameForFieldOrProperty(context.ApiParameterDescription.PropertyInfo());
             if (string.IsNullOrWhiteSpace(parameter.Description) && _inheritedDocs.ContainsKey(parameterMemberName))
             {
-                string cref = _inheritedDocs[parameterMemberName];
+                string cref = _inheritedDocs[parameterMemberName].Cref;
                 XPathNavigator targetXmlNode;
                 if (string.IsNullOrWhiteSpace(cref))
                 {

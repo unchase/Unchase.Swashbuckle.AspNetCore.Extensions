@@ -23,7 +23,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         private const string ExampleTag = "example";
         private readonly bool _includeRemarks;
         private readonly List<XPathDocument> _documents;
-        private readonly Dictionary<string, string> _inheritedDocs;
+        private readonly Dictionary<string, (string Cref, string Path)> _inheritedDocs;
         private readonly Type[] _excludedTypes;
 
         #endregion
@@ -38,7 +38,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// <param name="documents">List of <see cref="XPathDocument"/>.</param>
         public InheritDocRequestBodyFilter(
             List<XPathDocument> documents,
-            Dictionary<string, string> inheritedDocs,
+            Dictionary<string, (string Cref, string Path)> inheritedDocs,
             bool includeRemarks = false)
             : this(documents, inheritedDocs, includeRemarks, Array.Empty<Type>())
         {
@@ -53,7 +53,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         /// <param name="excludedTypes">Excluded types.</param>
         public InheritDocRequestBodyFilter(
             List<XPathDocument> documents,
-            Dictionary<string, string> inheritedDocs,
+            Dictionary<string, (string Cref, string Path)> inheritedDocs,
             bool includeRemarks = false,
             params Type[] excludedTypes)
         {
@@ -84,7 +84,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
         private void ApplyForType(
             OpenApiRequestBody requestBody,
-            RequestBodyFilterContext context, Type type)
+            RequestBodyFilterContext context,
+            Type type)
         {
             if (type == null)
             {
@@ -100,7 +101,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             string parameterMemberName = XmlCommentsNodeNameHelper.GetMemberNameForType(type);
             if (string.IsNullOrWhiteSpace(requestBody.Description) && _inheritedDocs.ContainsKey(parameterMemberName))
             {
-                string cref = _inheritedDocs[parameterMemberName];
+                string cref = _inheritedDocs[parameterMemberName].Cref;
                 XPathNavigator targetXmlNode;
                 if (string.IsNullOrWhiteSpace(cref))
                 {

@@ -1,12 +1,13 @@
-﻿using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
-using System;
+﻿using System;
 using System.Text;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Xml.XPath;
+
+using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions

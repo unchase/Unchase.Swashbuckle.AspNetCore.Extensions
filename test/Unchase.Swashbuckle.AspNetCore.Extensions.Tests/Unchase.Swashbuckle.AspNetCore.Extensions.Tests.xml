@@ -68,12 +68,23 @@
             Second controller
             </summary>
         </member>
-        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers.SecondController.TestAction">
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers.SecondController.TestAction(Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.Tag,System.String)">
             <summary>
             Test action
             </summary>
+            <param name="tag">Tag parameter.</param>
+            <param name="empty">Empty string parameter.</param>
             <remarks>
             Test action remarks
+            </remarks>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers.SecondController.InheritedTestAction(Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.Tag,System.String)">
+            <inheritdoc cref="M:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers.SecondController.TestAction(Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.Tag,System.String)" path="param|remarks"/>
+            <summary>
+            Inherited test action
+            </summary>
+            <remarks>
+            Inherited test action remarks
             </remarks>
         </member>
         <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers.TodoController">

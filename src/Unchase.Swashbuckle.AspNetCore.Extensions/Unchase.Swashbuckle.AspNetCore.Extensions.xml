@@ -352,13 +352,37 @@
             <param name="openApiDoc"><see cref="T:Microsoft.OpenApi.Models.OpenApiDocument"/>.</param>
             <param name="context"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.DocumentFilterContext"/>.</param>
         </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocOperationFilter.#ctor(System.Collections.Generic.List{System.Xml.XPath.XPathDocument},System.Collections.Generic.Dictionary{System.String,System.ValueTuple{System.String,System.String}},System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocOperationFilter" /> class.
+            </summary>
+            <param name="inheritedDocs">Dictionary with inheritdoc in form of name-cref.</param>
+            <param name="includeRemarks">Include remarks from inheritdoc XML comments.</param>
+            <param name="documents">List of <see cref="T:System.Xml.XPath.XPathDocument"/>.</param>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocOperationFilter.#ctor(System.Collections.Generic.List{System.Xml.XPath.XPathDocument},System.Collections.Generic.Dictionary{System.String,System.ValueTuple{System.String,System.String}},System.Boolean,System.Type[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocOperationFilter" /> class.
+            </summary>
+            <param name="inheritedDocs">Dictionary with inheritdoc in form of name-cref.</param>
+            <param name="includeRemarks">Include remarks from inheritdoc XML comments.</param>
+            <param name="excludedTypes">Excluded types.</param>
+            <param name="documents">List of <see cref="T:System.Xml.XPath.XPathDocument"/>.</param>
+        </member>
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocOperationFilter.Apply(Microsoft.OpenApi.Models.OpenApiOperation,Swashbuckle.AspNetCore.SwaggerGen.OperationFilterContext)">
+            <summary>
+            Apply filter.
+            </summary>
+            <param name="operation"><see cref="T:Microsoft.OpenApi.Models.OpenApiOperation"/>.</param>
+            <param name="context"><see cref="T:Swashbuckle.AspNetCore.SwaggerGen.OperationFilterContext"/>.</param>
+        </member>
         <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocParameterFilter">
             <summary>
             Adds documentation to parameters that is provided by the &lt;inhertidoc /&gt; tag.
             </summary>
             <seealso cref="T:Swashbuckle.AspNetCore.SwaggerGen.IParameterFilter" />
         </member>
-        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocParameterFilter.#ctor(System.Collections.Generic.List{System.Xml.XPath.XPathDocument},System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)">
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocParameterFilter.#ctor(System.Collections.Generic.List{System.Xml.XPath.XPathDocument},System.Collections.Generic.Dictionary{System.String,System.ValueTuple{System.String,System.String}},System.Boolean)">
             <summary>
             Initializes a new instance of the <see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocParameterFilter" /> class.
             </summary>
@@ -366,7 +390,7 @@
             <param name="includeRemarks">Include remarks from inheritdoc XML comments.</param>
             <param name="documents">List of <see cref="T:System.Xml.XPath.XPathDocument"/>.</param>
         </member>
-        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocParameterFilter.#ctor(System.Collections.Generic.List{System.Xml.XPath.XPathDocument},System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean,System.Type[])">
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocParameterFilter.#ctor(System.Collections.Generic.List{System.Xml.XPath.XPathDocument},System.Collections.Generic.Dictionary{System.String,System.ValueTuple{System.String,System.String}},System.Boolean,System.Type[])">
             <summary>
             Initializes a new instance of the <see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocParameterFilter" /> class.
             </summary>
@@ -388,7 +412,7 @@
             </summary>
             <seealso cref="T:Swashbuckle.AspNetCore.SwaggerGen.IRequestBodyFilter" />
         </member>
-        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocRequestBodyFilter.#ctor(System.Collections.Generic.List{System.Xml.XPath.XPathDocument},System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)">
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocRequestBodyFilter.#ctor(System.Collections.Generic.List{System.Xml.XPath.XPathDocument},System.Collections.Generic.Dictionary{System.String,System.ValueTuple{System.String,System.String}},System.Boolean)">
             <summary>
             Initializes a new instance of the <see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocRequestBodyFilter" /> class.
             </summary>
@@ -396,7 +420,7 @@
             <param name="includeRemarks">Include remarks from inheritdoc XML comments.</param>
             <param name="documents">List of <see cref="T:System.Xml.XPath.XPathDocument"/>.</param>
         </member>
-        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocRequestBodyFilter.#ctor(System.Collections.Generic.List{System.Xml.XPath.XPathDocument},System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean,System.Type[])">
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocRequestBodyFilter.#ctor(System.Collections.Generic.List{System.Xml.XPath.XPathDocument},System.Collections.Generic.Dictionary{System.String,System.ValueTuple{System.String,System.String}},System.Boolean,System.Type[])">
             <summary>
             Initializes a new instance of the <see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocRequestBodyFilter" /> class.
             </summary>
@@ -411,7 +435,7 @@
             </summary>
             <seealso cref="T:Swashbuckle.AspNetCore.SwaggerGen.ISchemaFilter" />
         </member>
-        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocSchemaFilter.#ctor(System.Collections.Generic.List{System.Xml.XPath.XPathDocument},System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)">
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocSchemaFilter.#ctor(System.Collections.Generic.List{System.Xml.XPath.XPathDocument},System.Collections.Generic.Dictionary{System.String,System.ValueTuple{System.String,System.String}},System.Boolean)">
             <summary>
             Initializes a new instance of the <see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocSchemaFilter" /> class.
             </summary>
@@ -419,7 +443,7 @@
             <param name="includeRemarks">Include remarks from inheritdoc XML comments.</param>
             <param name="documents">List of <see cref="T:System.Xml.XPath.XPathDocument"/>.</param>
         </member>
-        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocSchemaFilter.#ctor(System.Collections.Generic.List{System.Xml.XPath.XPathDocument},System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean,System.Type[])">
+        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocSchemaFilter.#ctor(System.Collections.Generic.List{System.Xml.XPath.XPathDocument},System.Collections.Generic.Dictionary{System.String,System.ValueTuple{System.String,System.String}},System.Boolean,System.Type[])">
             <summary>
             Initializes a new instance of the <see cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Filters.InheritDocSchemaFilter" /> class.
             </summary>

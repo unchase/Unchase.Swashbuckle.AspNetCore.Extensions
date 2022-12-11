@@ -1,7 +1,8 @@
-﻿using Microsoft.OpenApi.Any;
+﻿using System.Linq;
+
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Linq;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 {

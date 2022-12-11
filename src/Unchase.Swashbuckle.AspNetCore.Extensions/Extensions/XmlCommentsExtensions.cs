@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml.XPath;
+
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -15,7 +16,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
         private const string RemarksTag = "remarks";
         private const string ExampleTag = "example";
 
-        internal static Type GetTargetRecursive(this Type type, Dictionary<string, string> inheritedDocs, string cref)
+        internal static Type GetTargetRecursive(this Type type, Dictionary<string, (string Cref, string Path)> inheritedDocs, string cref)
         {
             var targets = GetTargets(type, cref);
 
@@ -36,7 +37,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                 {
                     if (inheritedDocs.ContainsKey(targetMemberName))
                     {
-                        return GetTargetRecursive(target, inheritedDocs, inheritedDocs[targetMemberName]);
+                        return GetTargetRecursive(target, inheritedDocs, inheritedDocs[targetMemberName].Cref);
                     }
                     else
                     {
@@ -70,7 +71,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             return targets.ToArray();
         }
 
-        internal static MemberInfo GetTargetRecursive(this MemberInfo memberInfo, Dictionary<string, string> inheritedDocs, string cref)
+        internal static MemberInfo GetTargetRecursive(this MemberInfo memberInfo, Dictionary<string, (string Cref, string Path)> inheritedDocs, string cref)
         {
             var targets = GetTargets(memberInfo, cref);
 
@@ -91,7 +92,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                 {
                     if (inheritedDocs.ContainsKey(targetMemberName))
                     {
-                        return GetTargetRecursive(target, inheritedDocs, inheritedDocs[targetMemberName]);
+                        return GetTargetRecursive(target, inheritedDocs, inheritedDocs[targetMemberName].Cref);
                     }
                     else
                     {
@@ -141,7 +142,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             this OpenApiSchema schema,
             MemberInfo memberInfo,
             List<XPathDocument> documents,
-            Dictionary<string, string> inheritedDocs,
+            Dictionary<string, (string Cref, string Path)> inheritedDocs,
             bool includeRemarks = false,
             params Type[] excludedTypes)
         {
@@ -163,7 +164,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                 return;
             }
 
-            string cref = inheritedDocs[memberName];
+            string cref = inheritedDocs[memberName].Cref;
             XPathNavigator targetXmlNode;
             if (string.IsNullOrWhiteSpace(cref))
             {

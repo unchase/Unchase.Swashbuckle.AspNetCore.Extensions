@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models
+﻿namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models
 {
     /// <summary>
     /// Class with enum array

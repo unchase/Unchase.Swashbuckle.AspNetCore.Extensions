@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Xml.XPath;
+
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Filters;
@@ -191,29 +192,33 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             var inheritedDocs = documents.SelectMany(
                     doc =>
                     {
-                        var inheritedElements = new List<(string Name, string Cref)>();
+                        var inheritedElements = new List<(string Name, string Cref, string Path)>();
                         foreach (XPathNavigator member in doc.CreateNavigator().Select("doc/members/member/inheritdoc"))
                         {
                             string cref = member.GetAttribute("cref", string.Empty);
+                            string path = member.GetAttribute("path", string.Empty);
                             member.MoveToParent();
                             string parentCref = member.GetAttribute("cref", string.Empty);
+                            string parentPath = member.GetAttribute("path", string.Empty);
                             if (!string.IsNullOrWhiteSpace(parentCref))
                             {
                                 cref = parentCref;
+                                path = parentPath;
                             }
 
-                            inheritedElements.Add((member.GetAttribute("name", string.Empty), cref));
+                            inheritedElements.Add((member.GetAttribute("name", string.Empty), cref, path));
                         }
 
                         return inheritedElements;
                     })
                 .GroupBy(x => x.Name)
-                .ToDictionary(x => x.Key, x => x.First().Cref);
+                .ToDictionary(x => x.Key, x => (x.First().Cref, x.First().Path));
 
             var distinctExcludedTypes = excludedTypes?.Distinct().ToArray() ?? new Type[] { };
             swaggerGenOptions.ParameterFilter<InheritDocParameterFilter>(documents, inheritedDocs, includeRemarks, distinctExcludedTypes);
             swaggerGenOptions.RequestBodyFilter<InheritDocRequestBodyFilter>(documents, inheritedDocs, includeRemarks, distinctExcludedTypes);
             swaggerGenOptions.SchemaFilter<InheritDocSchemaFilter>(documents, inheritedDocs, includeRemarks, distinctExcludedTypes);
+            swaggerGenOptions.OperationFilter<InheritDocOperationFilter>(documents, inheritedDocs, includeRemarks, distinctExcludedTypes);
             return swaggerGenOptions;
         }
 
