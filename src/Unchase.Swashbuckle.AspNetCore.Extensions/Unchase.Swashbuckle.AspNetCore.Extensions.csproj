@@ -17,7 +17,6 @@
     <Version>2.7.2</Version>
     <AssemblyVersion>2.7.2.0</AssemblyVersion>
     <FileVersion>2.7.2.0</FileVersion>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <DocumentationFile>Unchase.Swashbuckle.AspNetCore.Extensions.xml</DocumentationFile>
     <Title>Unchase.Swashbuckle.AspNetCore.Extensions</Title>
 	  <PackageReadmeFile>readme.md</PackageReadmeFile>
