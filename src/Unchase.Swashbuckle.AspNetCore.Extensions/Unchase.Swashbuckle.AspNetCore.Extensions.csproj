@@ -14,12 +14,13 @@
     <NeutralLanguage></NeutralLanguage>
     <LangVersion>7.3</LangVersion>
     <PackageIcon>icon.png</PackageIcon>
-    <Version>2.7.1</Version>
-    <AssemblyVersion>2.7.1.0</AssemblyVersion>
-    <FileVersion>2.7.1.0</FileVersion>
+    <Version>2.7.2</Version>
+    <AssemblyVersion>2.7.2.0</AssemblyVersion>
+    <FileVersion>2.7.2.0</FileVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <DocumentationFile>Unchase.Swashbuckle.AspNetCore.Extensions.xml</DocumentationFile>
     <Title>Unchase.Swashbuckle.AspNetCore.Extensions</Title>
+	  <PackageReadmeFile>readme.md</PackageReadmeFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -27,10 +28,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\assets\icon.png">
+    <None Include="..\..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+	  <None Include="..\..\assets\icon.png">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+	  </None>
   </ItemGroup>
 
   <ItemGroup>
