@@ -13,7 +13,7 @@
     <PackageTags>Swagger;Swashbuckle;Filters;NSwag</PackageTags>
     <NeutralLanguage></NeutralLanguage>
     <LangVersion>7.3</LangVersion>
-    <PackageIconUrl>https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/blob/master/assets/icon.png?raw=true</PackageIconUrl>
+    <PackageIcon>icon.png</PackageIcon>
     <Version>2.7.1</Version>
     <AssemblyVersion>2.7.1.0</AssemblyVersion>
     <FileVersion>2.7.1.0</FileVersion>
@@ -27,7 +27,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.4.0" />
+    <None Include="..\..\assets\icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
   </ItemGroup>
 
 </Project>
