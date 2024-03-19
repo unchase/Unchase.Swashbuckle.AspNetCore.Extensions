@@ -13,13 +13,15 @@
     <PackageTags>Swagger;Swashbuckle;Filters;NSwag</PackageTags>
     <NeutralLanguage></NeutralLanguage>
     <LangVersion>7.3</LangVersion>
-    <PackageIconUrl>https://github.com/unchase/Unchase.Swashbuckle.AspNetCore.Extensions/blob/master/assets/icon.png?raw=true</PackageIconUrl>
+    <PackageIcon>icon.png</PackageIcon>
     <Version>2.7.1</Version>
     <AssemblyVersion>2.7.1.0</AssemblyVersion>
     <FileVersion>2.7.1.0</FileVersion>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <DocumentationFile>Unchase.Swashbuckle.AspNetCore.Extensions.xml</DocumentationFile>
     <Title>Unchase.Swashbuckle.AspNetCore.Extensions</Title>
+	  <PackageReadmeFile>readme.md</PackageReadmeFile>
+	  <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+	  <Deterministic>False</Deterministic>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -27,7 +29,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.4.0" />
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+	  <None Include="..\..\assets\icon.png">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+	  </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
   </ItemGroup>
 
 </Project>

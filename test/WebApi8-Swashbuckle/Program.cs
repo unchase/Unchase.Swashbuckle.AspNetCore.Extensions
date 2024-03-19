@@ -27,7 +27,7 @@ builder.Services.AddSwaggerGen(options =>
         typeof(InnerEnum));
 
     var xmlFilePath1 = xmlFilePath;
-    xmlFilePath = Path.Combine(AppContext.BaseDirectory, "WebApi7-Swashbuckle.xml");
+    xmlFilePath = Path.Combine(AppContext.BaseDirectory, "WebApi8-Swashbuckle.xml");
     options.IncludeXmlCommentsWithRemarks(filePath: xmlFilePath, includeControllerXmlComments: false,
         typeof(ComplicatedClass),
         typeof(InnerEnum));
@@ -173,6 +173,8 @@ app.UseSwaggerUI(c =>
 
 app.UseRouting();
 
+#pragma warning disable ASP0014
 app.UseEndpoints(endpoints => endpoints.MapControllers());
+#pragma warning restore ASP0014
 
 app.Run();

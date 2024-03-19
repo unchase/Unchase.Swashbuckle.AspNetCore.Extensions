@@ -304,7 +304,7 @@ public void ConfigureServices(IServiceCollection services)
         options.ChangeAllResponsesByHttpStatusCode(
             httpStatusCode: HttpStatusCode.BadRequest,
             responseDescription: "400 status code description",
-            responseExampleOption: ResponseExampleOptions.Clear, // claer response examples
+            responseExampleOption: ResponseExampleOptions.Clear, // clear response examples
             responseExample: new ComplicatedClass()); // some class for response examples
         
         // change responses for specific HTTP status code ("201" (StatusCodes.Status201Created))

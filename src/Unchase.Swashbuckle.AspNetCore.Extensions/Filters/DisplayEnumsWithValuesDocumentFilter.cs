@@ -1,9 +1,8 @@
-﻿using System;
-using System.Linq;
-
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
+using System.Linq;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
 
@@ -135,9 +134,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                     {
                         if (requestBodyContent.Value.Schema?.Reference?.Id != null)
                         {
+                            // ReSharper disable once AssignNullToNotNullAttribute
                             var schema = context.SchemaRepository.Schemas[requestBodyContent.Value.Schema?.Reference?.Id];
                             if (schema != null)
                             {
+                                // ReSharper disable once PossibleNullReferenceException
                                 requestBodyContent.Value.Schema.Description = schema.Description;
                                 requestBodyContent.Value.Schema.Extensions = schema.Extensions;
                             }

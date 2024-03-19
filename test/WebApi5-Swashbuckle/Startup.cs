@@ -1,19 +1,22 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using Microsoft.AspNetCore.Http;
-using Microsoft.OpenApi.Models;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Filters;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Controllers;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models;
+
+// ReSharper disable ArrangeNamespaceBody
+#pragma warning disable IDE0161
 
 namespace WebApi5_Swashbuckle
 {
@@ -25,6 +28,7 @@ namespace WebApi5_Swashbuckle
             Configuration = configuration;
         }
 
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -142,15 +146,13 @@ namespace WebApi5_Swashbuckle
                 //    responseExample: new TodoItem { Tag = Tag.Workout, Id = 111, IsComplete = false, Name = "test" }); // some class for response examples
 
                 // change responses for specific HTTP status code ("400" (HttpStatusCode.BadRequest))
-                options.ChangeAllResponsesByHttpStatusCode(
-                    httpStatusCode: HttpStatusCode.BadRequest,
+                options.ChangeAllResponsesByHttpStatusCode(httpStatusCode: HttpStatusCode.BadRequest,
                     responseDescription: "400 status code description",
-                    responseExampleOption: ResponseExampleOptions.Clear, // claer response examples
+                    responseExampleOption: ResponseExampleOptions.Clear, // clear response examples
                     responseExample: new ComplicatedClass()); // some class for response examples
 
                 // change responses for specific HTTP status code ("201" (StatusCodes.Status201Created))
-                options.ChangeAllResponsesByHttpStatusCode(
-                    httpStatusCode: StatusCodes.Status201Created,
+                options.ChangeAllResponsesByHttpStatusCode(httpStatusCode: StatusCodes.Status201Created,
                     responseDescription: "201 status code description",
                     responseExampleOption: ResponseExampleOptions.None, // do nothing with response examples
                     responseExample: new ComplicatedClass()); // some class for response examples

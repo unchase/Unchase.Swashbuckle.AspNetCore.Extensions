@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml.XPath;
-
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
 {
@@ -114,15 +113,11 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             }
 
             // Find all matching members in all interfaces and the base class.
-            var targets = type.GetInterfaces()
-                .Append(type.BaseType)
-                .SelectMany(
-                    x => x.FindMembers(
-                        memberInfo.MemberType,
-                        BindingFlags.Instance | BindingFlags.Public,
-                        (info, _) => info.Name == memberInfo.Name,
-                        null))
-                .ToList();
+            var targets = type.GetInterfaces().Append(type.BaseType).SelectMany(x => x.FindMembers(
+                memberInfo.MemberType,
+                BindingFlags.Instance | BindingFlags.Public,
+                (info, _) => info.Name == memberInfo.Name,
+                null)).ToList();
 
             // Try to find the target, if one is declared.
             if (!string.IsNullOrWhiteSpace(cref))
@@ -168,7 +163,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             XPathNavigator targetXmlNode;
             if (string.IsNullOrWhiteSpace(cref))
             {
-                var target = memberInfo.GetTargetRecursive(inheritedDocs, cref);
+                var target = GetTargetRecursive(memberInfo, inheritedDocs, cref);
                 if (target == null)
                 {
                     return;
@@ -204,10 +199,54 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             var exampleNode = targetXmlNode.SelectSingleNode(ExampleTag);
             if (exampleNode != null)
             {
-                schema.Example = new OpenApiString(XmlCommentsTextHelper.Humanize(exampleNode.InnerXml));
+                schema.Example = GetExampleValue(memberInfo, exampleNode);
             }
         }
 
+        private static IOpenApiAny GetExampleValue(MemberInfo memberInfo, XPathNavigator exampleNode)
+        {
+            var type = GetUnderlyingType(memberInfo);
+            var exampleValue = exampleNode.InnerXml;
+
+            return string.IsNullOrEmpty(exampleValue)
+                ? new OpenApiNull()
+                : GetExampleValueAsIOpenApiAny(type, XmlCommentsTextHelper.Humanize(exampleValue));
+        }
+
+        private static IOpenApiAny GetExampleValueAsIOpenApiAny(Type type, string exampleString)
+        {
+            return type == typeof(string)
+                ? new OpenApiString(exampleString)
+                : OpenApiAnyFactory.CreateFromJson(exampleString);
+        }
+
+        private static Type GetUnderlyingType(this MemberInfo member)
+        {
+            switch (member.MemberType)
+            {
+                case MemberTypes.Event:
+                    return ((EventInfo)member).EventHandlerType;
+                case MemberTypes.Field:
+                    return ((FieldInfo)member).FieldType;
+                case MemberTypes.Method:
+                    return ((MethodInfo)member).ReturnType;
+                case MemberTypes.Property:
+                    var propType = ((PropertyInfo)member).PropertyType;
+
+                    if (!propType.Name.ToLower().Contains("nullable"))
+                    {
+                        return propType;
+                    }
+
+                    return propType.GenericTypeArguments?.Length > 0 ? propType.GenericTypeArguments[0] : propType;
+
+                default:
+                    throw new ArgumentException
+                    (
+                        "Input MemberInfo must be if type EventInfo, FieldInfo, MethodInfo, or PropertyInfo"
+                    );
+            }
+        }
         internal static XPathNavigator GetMemberXmlNode(string memberName, List<XPathDocument> documents)
         {
             string path = $"/doc/members/member[@name='{memberName}']";

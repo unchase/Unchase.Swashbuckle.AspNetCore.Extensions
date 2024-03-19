@@ -1,14 +1,13 @@
-﻿using System;
+﻿using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml.XPath;
-
-using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
 
@@ -84,11 +83,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             if (typeInfo.IsEnum)
             {
                 var names = Enum
-                    .GetNames(context.Type)
-                    .Select(name => (Enum.Parse(context.Type, name), new OpenApiString(name)))
-                    .GroupBy(x => x.Item1)
-                    .Select(x => x.LastOrDefault().Item2)
-                    .ToList();
+                    .GetNames(context.Type).Select(name => (Enum.Parse(context.Type, name), new OpenApiString(name))).GroupBy(x => x.Item1).Select(x => x.LastOrDefault().Item2).ToList();
                 enumsArray.AddRange(names);
                 if (!schema.Extensions.ContainsKey(_xEnumNamesAlias) && enumsArray.Any())
                 {
@@ -98,9 +93,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                 if (_includeXEnumDescriptions)
                 {
                     enumsDescriptionsArray.AddRange(EnumTypeExtensions
-                        .GetEnumValuesDescription(context.Type, _descriptionSources, _xmlNavigators, _includeXEnumRemarks)
-                        .GroupBy(x => x.EnumValue)
-                        .Select(x => x.LastOrDefault().EnumDescription));
+                        .GetEnumValuesDescription(context.Type, _descriptionSources, _xmlNavigators, _includeXEnumRemarks).GroupBy(x => x.EnumValue).Select(x => x.LastOrDefault().EnumDescription));
                     if (!schema.Extensions.ContainsKey(_xEnumDescriptionsAlias) && enumsDescriptionsArray.Any())
                     {
                         schema.Extensions.Add(_xEnumDescriptionsAlias, enumsDescriptionsArray);
@@ -126,11 +119,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                                 if (propertySchema != null)
                                 {
                                     var names = Enum
-                                        .GetNames(genericArgumentType)
-                                        .Select(name => (Enum.Parse(genericArgumentType, name), new OpenApiString(name)))
-                                        .GroupBy(x => x.Item1)
-                                        .Select(x => x.LastOrDefault().Item2)
-                                        .ToList();
+                                        .GetNames(genericArgumentType).Select(name => (Enum.Parse(genericArgumentType, name), new OpenApiString(name))).GroupBy(x => x.Item1).Select(x => x.LastOrDefault().Item2).ToList();
                                     enumsArray.AddRange(names);
                                     if (!schemaPropertyValue.Extensions.ContainsKey(_xEnumNamesAlias) && enumsArray.Any())
                                     {
@@ -140,9 +129,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                                     if (_includeXEnumDescriptions)
                                     {
                                         enumsDescriptionsArray.AddRange(EnumTypeExtensions
-                                            .GetEnumValuesDescription(genericArgumentType, _descriptionSources, _xmlNavigators, _includeXEnumRemarks)
-                                            .GroupBy(x => x.EnumValue)
-                                            .Select(x => x.LastOrDefault().EnumDescription));
+                                            .GetEnumValuesDescription(genericArgumentType, _descriptionSources, _xmlNavigators, _includeXEnumRemarks).GroupBy(x => x.EnumValue).Select(x => x.LastOrDefault().EnumDescription));
                                         if (!schemaPropertyValue.Extensions.ContainsKey(_xEnumDescriptionsAlias) && enumsDescriptionsArray.Any())
                                         {
                                             schemaPropertyValue.Extensions.Add(_xEnumDescriptionsAlias, enumsDescriptionsArray);

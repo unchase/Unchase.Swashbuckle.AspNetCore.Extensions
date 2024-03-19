@@ -395,6 +395,16 @@
             This is second
             </summary>
         </member>
+        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.FreeText">
+            <summary>
+            Some free text information.
+            </summary>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.FreeText.Text">
+            <summary>
+            The Text of FreeText
+            </summary>
+        </member>
         <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.IInheritDocClass">
             <summary>
             InheritDocClass - inheritdoc
@@ -410,6 +420,79 @@
             <remarks>
             Name remarks - inheritdoc
             </remarks>
+            <example>Donald Duck</example>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.IInheritDocClass.Age">
+            <summary>
+            Age - inheritdoc
+            </summary>
+            <remarks>
+            Age remarks - inheritdoc
+            </remarks>
+            <example>75</example>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.IInheritDocClass.Weight">
+            <summary>
+            Weight - inheritdoc
+            </summary>
+            <remarks>
+            Weight remarks - inheritdoc
+            </remarks>
+            <example>0.174</example>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.IInheritDocClass.NumberOfFeet">
+            <summary>
+            NumberOfFeet - inheritdoc
+            </summary>
+            <remarks>
+            NumberOfFeet remarks - inheritdoc
+            </remarks>
+            <example>2</example>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.IInheritDocClass.AByte">
+            <summary>
+            AByte - inheritdoc
+            </summary>
+            <remarks>
+            AByte remarks - inheritdoc
+            </remarks>
+            <example>1</example>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.IInheritDocClass.AShort">
+            <summary>
+            AShort - inheritdoc
+            </summary>
+            <remarks>
+            AShort remarks - inheritdoc
+            </remarks>
+            <example>1234</example>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.IInheritDocClass.ALong">
+            <summary>
+            ALong - inheritdoc
+            </summary>
+            <remarks>
+            ALong remarks - inheritdoc
+            </remarks>
+            <example>1234</example>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.IInheritDocClass.AnArray">
+            <summary>
+            AnArray - inheritdoc
+            </summary>
+            <remarks>
+            AnArray remarks - inheritdoc
+            </remarks>
+            <example>[ "One", "Two", "Three" ]</example>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.IInheritDocClass.SomeFreeTexts">
+            <summary>
+            SomeFreeTexts - inheritdoc
+            </summary>
+            <remarks>
+            SomeFreeTexts remarks - inheritdoc
+            </remarks>
+            <example>[{"text": "KAROSSERI OFÖRÄNDRAT, FLAK TÄCK MED KÅPA SOM HAR ALLA LUCKOR FASTLÅSTA.B"}, {"text": "AKLÄM FASTLÅST. INGEN MÖJLIGHET TILL LAST FINNS.BAKDÖRRAR FASTSVETSADE"}]</example>
         </member>
         <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.IInheritDocCommon">
             <summary>
@@ -436,6 +519,30 @@
             <inheritdoc cref="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.IInheritDocClass"/>
         </member>
         <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InheritDocClass.Name">
+            <inheritdoc/>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InheritDocClass.Age">
+            <inheritdoc/>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InheritDocClass.Weight">
+            <inheritdoc/>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InheritDocClass.NumberOfFeet">
+            <inheritdoc/>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InheritDocClass.AByte">
+            <inheritdoc/>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InheritDocClass.AShort">
+            <inheritdoc/>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InheritDocClass.ALong">
+            <inheritdoc/>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InheritDocClass.AnArray">
+            <inheritdoc/>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InheritDocClass.SomeFreeTexts">
             <inheritdoc/>
         </member>
         <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InheritDocClass.Common">

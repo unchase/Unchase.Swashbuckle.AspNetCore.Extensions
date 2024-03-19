@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System;
 using System.Reflection;
-
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Factories
 {
