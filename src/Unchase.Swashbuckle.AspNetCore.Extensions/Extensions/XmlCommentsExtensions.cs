@@ -3,7 +3,6 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Xml.XPath;
@@ -209,57 +208,14 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             var type = GetUnderlyingType(memberInfo);
             var exampleValue = exampleNode.InnerXml;
 
-            if (string.IsNullOrEmpty(exampleValue))
-            {
-                return new OpenApiNull();
-            }
+            return string.IsNullOrEmpty(exampleValue)
+                ? new OpenApiNull()
+                : GetExampleValueAsIOpenApiAny(type, XmlCommentsTextHelper.Humanize(exampleValue));
+        }
 
-            if (!type.IsNumber())
-            {
-                return new OpenApiString(XmlCommentsTextHelper.Humanize(exampleValue));
-            }
-
-
-            if (
-                type == typeof(byte)
-                || type == typeof(sbyte)
-            )
-            {
-                return new OpenApiByte(byte.Parse(XmlCommentsTextHelper.Humanize(exampleValue)));
-            }
-
-            if (
-                type == typeof(short)
-                || type == typeof(ushort)
-                || type == typeof(int)
-                || type == typeof(uint)
-            )
-            {
-                return new OpenApiInteger(int.Parse(XmlCommentsTextHelper.Humanize(exampleValue), CultureInfo.InvariantCulture));
-            }
-
-            if (
-                type == typeof(long)
-                || type == typeof(ulong)
-            )
-            {
-                return new OpenApiLong(long.Parse(XmlCommentsTextHelper.Humanize(exampleValue), CultureInfo.InvariantCulture));
-            }
-
-            if (
-                type == typeof(float)
-                || type == typeof(decimal)
-            )
-            {
-                return new OpenApiFloat(float.Parse(XmlCommentsTextHelper.Humanize(exampleValue), CultureInfo.InvariantCulture));
-            }
-
-            if (type == typeof(double))
-            {
-                return new OpenApiDouble(double.Parse(XmlCommentsTextHelper.Humanize(exampleValue), CultureInfo.InvariantCulture));
-            }
-
-            return new OpenApiString(XmlCommentsTextHelper.Humanize(exampleValue));
+        private static IOpenApiAny GetExampleValueAsIOpenApiAny(Type type, string exampleString)
+        {
+            return type == typeof(string) ? new OpenApiString(exampleString) : OpenApiAnyFactory.CreateFromJson(exampleString);
         }
 
         private static Type GetUnderlyingType(this MemberInfo member)

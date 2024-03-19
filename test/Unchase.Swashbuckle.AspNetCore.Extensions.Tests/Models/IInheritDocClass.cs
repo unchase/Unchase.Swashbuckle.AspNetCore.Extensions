@@ -72,5 +72,14 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models
         /// </remarks>
         /// <example>1234</example>
         long? ALong { get; set; }
+
+        /// <summary>
+        /// AnArray - inheritdoc
+        /// </summary>
+        /// <remarks>
+        /// AnArray remarks - inheritdoc
+        /// </remarks>
+        /// <example>[ "One", "Two", "Three" ]</example>
+        string[] AnArray { get; set; }
     }
 }

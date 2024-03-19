@@ -466,6 +466,15 @@
             </remarks>
             <example>1234</example>
         </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.IInheritDocClass.AnArray">
+            <summary>
+            AnArray - inheritdoc
+            </summary>
+            <remarks>
+            AnArray remarks - inheritdoc
+            </remarks>
+            <example>[ "One", "Two", "Three" ]</example>
+        </member>
         <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.IInheritDocCommon">
             <summary>
             IInheritDocCommon interface
@@ -509,6 +518,9 @@
             <inheritdoc/>
         </member>
         <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InheritDocClass.ALong">
+            <inheritdoc/>
+        </member>
+        <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InheritDocClass.AnArray">
             <inheritdoc/>
         </member>
         <member name="P:Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models.InheritDocClass.Common">

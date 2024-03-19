@@ -24,6 +24,9 @@
         /// <inheritdoc/>
         public long? ALong { get; set; }
 
+        /// <inheritdoc/>
+        public string[] AnArray { get; set; }
+
         /// <inheritdoc cref="IInheritDocCommon.Common"/>
         public string Common { get; set; }
 
