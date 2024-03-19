@@ -1,4 +1,6 @@
-﻿namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models
+﻿using System.Collections.Generic;
+
+namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models
 {
     /// <inheritdoc cref="IInheritDocClass"/>
     public class InheritDocClass : IInheritDocClass
@@ -26,6 +28,9 @@
 
         /// <inheritdoc/>
         public string[] AnArray { get; set; }
+
+        /// <inheritdoc/>
+        public IEnumerable<FreeText> SomeFreeTexts { get; set; }
 
         /// <inheritdoc cref="IInheritDocCommon.Common"/>
         public string Common { get; set; }

@@ -1,5 +1,8 @@
 ﻿// ReSharper disable CommentTypo
 // ReSharper disable IdentifierTypo
+
+using System.Collections.Generic;
+
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models
 {
     /// <summary>
@@ -81,5 +84,15 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Tests.Models
         /// </remarks>
         /// <example>[ "One", "Two", "Three" ]</example>
         string[] AnArray { get; set; }
+
+        /// <summary>
+        /// SomeFreeTexts - inheritdoc
+        /// </summary>
+        /// <remarks>
+        /// SomeFreeTexts remarks - inheritdoc
+        /// </remarks>
+        /// <example>[{"text": "KAROSSERI OFÖRÄNDRAT, FLAK TÄCK MED KÅPA SOM HAR ALLA LUCKOR FASTLÅSTA.B"}, {"text": "AKLÄM FASTLÅST. INGEN MÖJLIGHET TILL LAST FINNS.BAKDÖRRAR FASTSVETSADE"}]</example>
+        IEnumerable<FreeText> SomeFreeTexts { get; set; }
+
     }
 }

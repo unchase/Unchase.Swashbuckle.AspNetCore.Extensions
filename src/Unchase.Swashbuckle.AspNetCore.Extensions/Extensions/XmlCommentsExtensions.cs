@@ -215,7 +215,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
 
         private static IOpenApiAny GetExampleValueAsIOpenApiAny(Type type, string exampleString)
         {
-            return type == typeof(string) ? new OpenApiString(exampleString) : OpenApiAnyFactory.CreateFromJson(exampleString);
+            return type == typeof(string)
+                ? new OpenApiString(exampleString)
+                : OpenApiAnyFactory.CreateFromJson(exampleString);
         }
 
         private static Type GetUnderlyingType(this MemberInfo member)

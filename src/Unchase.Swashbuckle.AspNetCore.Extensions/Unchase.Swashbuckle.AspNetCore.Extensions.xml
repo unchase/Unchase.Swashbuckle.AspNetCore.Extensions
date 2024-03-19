@@ -159,18 +159,6 @@
             </param>
             <param name="excludedTypes">Types for which remarks will be excluded.</param>
         </member>
-        <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.TypeExtensions">
-            <summary>
-            Extension methods for <see cref="T:System.Object"/>.
-            </summary>
-        </member>
-        <member name="M:Unchase.Swashbuckle.AspNetCore.Extensions.Extensions.TypeExtensions.IsNumber(System.Type)">
-            <summary>
-            Check if an object is a number
-            </summary>
-            <param name="type"></param>
-            <returns>True or False</returns>
-        </member>
         <member name="T:Unchase.Swashbuckle.AspNetCore.Extensions.Factories.ApiDescriptionFactory">
             <summary>
             <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription"/> factory.
