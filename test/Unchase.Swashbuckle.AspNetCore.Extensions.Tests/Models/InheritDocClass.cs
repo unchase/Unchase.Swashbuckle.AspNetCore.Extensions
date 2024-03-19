@@ -6,6 +6,24 @@
         /// <inheritdoc/>
         public string Name { get; set; }
 
+        /// <inheritdoc/>
+        public int? Age { get; set; }
+
+        /// <inheritdoc/>
+        public float? Weight { get; set; }
+
+        /// <inheritdoc/>
+        public int? NumberOfFeet { get; set; }
+
+        /// <inheritdoc/>
+        public byte? AByte { get; set; }
+
+        /// <inheritdoc/>
+        public short? AShort { get; set; }
+
+        /// <inheritdoc/>
+        public long? ALong { get; set; }
+
         /// <inheritdoc cref="IInheritDocCommon.Common"/>
         public string Common { get; set; }
 
