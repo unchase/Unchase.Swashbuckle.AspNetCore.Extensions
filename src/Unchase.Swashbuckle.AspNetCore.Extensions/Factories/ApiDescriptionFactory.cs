@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Routing;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Factories
 {
@@ -70,6 +69,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Factories
                     actionDescriptor.AttributeRouteInfo.Template.Replace($"[{routeValue.Key}]", routeValue.Value);
             }
 
+            // ReSharper disable once ConstantConditionalAccessQualifier
             httpMethod = httpMethod ?? methodInfo?.GetCustomAttributes(true).OfType<HttpMethodAttribute>().FirstOrDefault()?.HttpMethods?.FirstOrDefault();
 
             var apiDescription = new ApiDescription
@@ -85,9 +85,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Factories
                 foreach (var parameter in parameterDescriptions)
                 {
                     // If the provided action has a matching parameter - use it to assign ParameterDescriptor & ModelMetadata
-                    var controllerParameterDescriptor = actionDescriptor.Parameters
-                        .OfType<ControllerParameterDescriptor>()
-                        .FirstOrDefault(parameterDescriptor => parameterDescriptor.Name == parameter.Name);
+                    var controllerParameterDescriptor = actionDescriptor.Parameters.OfType<ControllerParameterDescriptor>().FirstOrDefault(parameterDescriptor => parameterDescriptor.Name == parameter.Name);
 
                     if (controllerParameterDescriptor != null)
                     {
@@ -242,9 +240,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Factories
                 ? new AttributeRouteInfo { Template = httpMethodAttribute.Template, Name = httpMethodAttribute.Name }
                 : null;
 
-            var parameterDescriptors = methodInfo.GetParameters()
-                .Select(CreateParameterDescriptor)
-                .ToList();
+            var parameterDescriptors = methodInfo.GetParameters().Select(CreateParameterDescriptor).ToList();
 
             var routeValues = new Dictionary<string, string>
             {

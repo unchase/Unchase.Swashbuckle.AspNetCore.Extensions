@@ -23,7 +23,7 @@ namespace WebApi3._1_Swashbuckle
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-                //.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+            //.AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
             // Register the Swagger generator
             services.AddSwaggerGen(options =>
@@ -138,15 +138,13 @@ namespace WebApi3._1_Swashbuckle
                 //    responseExample: new TodoItem { Tag = Tag.Workout, Id = 111, IsComplete = false, Name = "test" }); // some class for response examples
 
                 // change responses for specific HTTP status code ("400" (HttpStatusCode.BadRequest))
-                options.ChangeAllResponsesByHttpStatusCode(
-                    httpStatusCode: HttpStatusCode.BadRequest,
+                options.ChangeAllResponsesByHttpStatusCode(httpStatusCode: HttpStatusCode.BadRequest,
                     responseDescription: "400 status code description",
-                    responseExampleOption: ResponseExampleOptions.Clear, // claer response examples
+                    responseExampleOption: ResponseExampleOptions.Clear, // clear response examples
                     responseExample: new ComplicatedClass()); // some class for response examples
 
                 // change responses for specific HTTP status code ("201" (StatusCodes.Status201Created))
-                options.ChangeAllResponsesByHttpStatusCode(
-                    httpStatusCode: StatusCodes.Status201Created,
+                options.ChangeAllResponsesByHttpStatusCode(httpStatusCode: StatusCodes.Status201Created,
                     responseDescription: "201 status code description",
                     responseExampleOption: ResponseExampleOptions.None, // do nothing with response examples
                     responseExample: new ComplicatedClass()); // some class for response examples
@@ -169,14 +167,14 @@ namespace WebApi3._1_Swashbuckle
                 c.PreSerializeFilters.Add((openApiDoc, httpRequest) =>
                 {
                     // remove Paths and Components from OpenApi documentation for specific controller action without accepted roles
-                    openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesFor<HidedController>(controller => nameof(controller.HidedAction), new List<string> {"AcceptedRole"});
+                    openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesFor<HidedController>(controller => nameof(controller.HidedAction), new List<string> { "AcceptedRole" });
 
                     // or
                     //openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesFor<HidedController>(nameof(HidedController.HidedAction), new List<string> { "AcceptedRole" });
 
 
                     // remove Paths and Components from OpenApi documentation for all controller actions without accepted roles
-                    openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesForController<TodoController>(new List<string> {"AcceptedRole"});
+                    openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesForController<TodoController>(new List<string> { "AcceptedRole" });
 
                     // or you can get accepted roles by httpRequest like this:
                     //openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesForController<TodoController>(GetAcceptedRolesByRemoteIp(httpRequest.HttpContext.Connection.RemoteIpAddress));

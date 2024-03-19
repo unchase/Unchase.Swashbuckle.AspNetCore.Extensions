@@ -1,8 +1,7 @@
-﻿using System.Linq;
-
-using Microsoft.OpenApi.Any;
+﻿using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Linq;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 {
@@ -83,7 +82,6 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
         {
             if (context.SchemaRepository.Schemas.ContainsKey(typeof(T).Name))
             {
-                var schema = context.SchemaRepository.Schemas[typeof(T).Name];
                 foreach (var response in swaggerDoc.Paths.SelectMany(p => p.Value.Operations.SelectMany(o => o.Value.Responses)))
                 {
                     if (response.Key == _httpStatusCode.ToString())

@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml.XPath;
-
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
@@ -21,7 +20,6 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
         private const string SummaryTag = "summary";
         private const string RemarksTag = "remarks";
-        private const string ExampleTag = "example";
         private readonly bool _includeRemarks;
         private readonly List<XPathDocument> _documents;
         private readonly Dictionary<string, (string Cref, string Path)> _inheritedDocs;

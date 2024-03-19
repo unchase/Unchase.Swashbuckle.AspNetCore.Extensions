@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Xml.XPath;
-
-using Microsoft.Extensions.DependencyInjection;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Filters;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
 
@@ -37,7 +35,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             ResponseExampleOptions responseExampleOption = ResponseExampleOptions.None,
             T responseExample = default) where T : class
         {
-            swaggerGenOptions.DocumentFilter<ChangeResponseByHttpStatusCodeDocumentFilter<T>>(httpStatusCode, responseDescription, responseExampleOption, responseExample);
+            Microsoft.Extensions.DependencyInjection.SwaggerGenOptionsExtensions.DocumentFilter<ChangeResponseByHttpStatusCodeDocumentFilter<T>>(swaggerGenOptions, httpStatusCode, responseDescription, responseExampleOption, responseExample);
             return swaggerGenOptions;
         }
 
@@ -60,7 +58,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             ResponseExampleOptions responseExampleOption = ResponseExampleOptions.None,
             T responseExample = default) where T : class
         {
-            return swaggerGenOptions.ChangeAllResponsesByHttpStatusCode((int)httpStatusCode, responseDescription, responseExampleOption, responseExample);
+            return ChangeAllResponsesByHttpStatusCode(swaggerGenOptions, (int)httpStatusCode, responseDescription, responseExampleOption, responseExample);
         }
 
         /// <summary>
@@ -75,9 +73,9 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             // local function
             void EmptyAction(FixEnumsOptions x) { }
 
-            swaggerGenOptions.SchemaFilter<XEnumNamesSchemaFilter>(configureOptions ?? EmptyAction);
-            swaggerGenOptions.ParameterFilter<XEnumNamesParameterFilter>(configureOptions ?? EmptyAction);
-            swaggerGenOptions.DocumentFilter<DisplayEnumsWithValuesDocumentFilter>();
+            Microsoft.Extensions.DependencyInjection.SwaggerGenOptionsExtensions.SchemaFilter<XEnumNamesSchemaFilter>(swaggerGenOptions, configureOptions ?? EmptyAction);
+            Microsoft.Extensions.DependencyInjection.SwaggerGenOptionsExtensions.ParameterFilter<XEnumNamesParameterFilter>(swaggerGenOptions, configureOptions ?? EmptyAction);
+            Microsoft.Extensions.DependencyInjection.SwaggerGenOptionsExtensions.DocumentFilter<DisplayEnumsWithValuesDocumentFilter>(swaggerGenOptions);
             return swaggerGenOptions;
         }
 
@@ -97,18 +95,18 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             bool includeControllerXmlComments = false,
             params Type[] excludedTypes)
         {
-            swaggerGenOptions.IncludeXmlComments(xmlDocFactory, includeControllerXmlComments);
+            Microsoft.Extensions.DependencyInjection.SwaggerGenOptionsExtensions.IncludeXmlComments(swaggerGenOptions, xmlDocFactory, includeControllerXmlComments);
 
             var distinctExcludedTypes = excludedTypes?.Distinct().ToArray() ?? new Type[] { };
 
             var xmlDoc = xmlDocFactory();
-            swaggerGenOptions.ParameterFilter<XmlCommentsWithRemarksParameterFilter>(xmlDoc, distinctExcludedTypes);
-            swaggerGenOptions.RequestBodyFilter<XmlCommentsWithRemarksRequestBodyFilter>(xmlDoc, distinctExcludedTypes);
-            swaggerGenOptions.SchemaFilter<XmlCommentsWithRemarksSchemaFilter>(xmlDoc, distinctExcludedTypes);
+            Microsoft.Extensions.DependencyInjection.SwaggerGenOptionsExtensions.ParameterFilter<XmlCommentsWithRemarksParameterFilter>(swaggerGenOptions, xmlDoc, distinctExcludedTypes);
+            Microsoft.Extensions.DependencyInjection.SwaggerGenOptionsExtensions.RequestBodyFilter<XmlCommentsWithRemarksRequestBodyFilter>(swaggerGenOptions, xmlDoc, distinctExcludedTypes);
+            Microsoft.Extensions.DependencyInjection.SwaggerGenOptionsExtensions.SchemaFilter<XmlCommentsWithRemarksSchemaFilter>(swaggerGenOptions, xmlDoc, distinctExcludedTypes);
 
             if (includeControllerXmlComments)
             {
-                swaggerGenOptions.DocumentFilter<XmlCommentsWithRemarksDocumentFilter>(xmlDoc, distinctExcludedTypes);
+                Microsoft.Extensions.DependencyInjection.SwaggerGenOptionsExtensions.DocumentFilter<XmlCommentsWithRemarksDocumentFilter>(swaggerGenOptions, xmlDoc, distinctExcludedTypes);
             }
 
             return swaggerGenOptions;
@@ -130,7 +128,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             bool includeControllerXmlComments = false,
             params Type[] excludedTypes)
         {
-            return swaggerGenOptions.IncludeXmlCommentsWithRemarks(() => new XPathDocument(filePath), includeControllerXmlComments, excludedTypes);
+            return IncludeXmlCommentsWithRemarks(swaggerGenOptions, () => new XPathDocument(filePath), includeControllerXmlComments, excludedTypes);
         }
 
         /// <summary>
@@ -149,7 +147,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             bool includeControllerXmlComments = false,
             Func<Type[]> excludedTypesFunc = default)
         {
-            return swaggerGenOptions.IncludeXmlCommentsWithRemarks(xmlDocFactory, includeControllerXmlComments, excludedTypesFunc?.Invoke());
+            return IncludeXmlCommentsWithRemarks(swaggerGenOptions, xmlDocFactory, includeControllerXmlComments, excludedTypesFunc?.Invoke());
         }
 
         /// <summary>
@@ -168,7 +166,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             bool includeControllerXmlComments = false,
             Func<Type[]> excludedTypesFunc = default)
         {
-            return swaggerGenOptions.IncludeXmlCommentsWithRemarks(() => new XPathDocument(filePath), includeControllerXmlComments, excludedTypesFunc?.Invoke());
+            return IncludeXmlCommentsWithRemarks(swaggerGenOptions, () => new XPathDocument(filePath), includeControllerXmlComments, excludedTypesFunc?.Invoke());
         }
 
         /// <summary>
@@ -184,41 +182,35 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             bool includeRemarks = false,
             params Type[] excludedTypes)
         {
-            var documents = swaggerGenOptions.SchemaFilterDescriptors.Where(x => x.Type == typeof(XmlCommentsSchemaFilter))
-                .Select(x => x.Arguments.Single())
-                .Cast<XPathDocument>()
-                .ToList();
+            var documents = swaggerGenOptions.SchemaFilterDescriptors.Where(x => x.Type == typeof(XmlCommentsSchemaFilter)).Select(x => x.Arguments.Single()).Cast<XPathDocument>().ToList();
 
-            var inheritedDocs = documents.SelectMany(
-                    doc =>
+            var inheritedDocs = documents.SelectMany(doc =>
+            {
+                var inheritedElements = new List<(string Name, string Cref, string Path)>();
+                foreach (XPathNavigator member in doc.CreateNavigator().Select("doc/members/member/inheritdoc"))
+                {
+                    string cref = member.GetAttribute("cref", string.Empty);
+                    string path = member.GetAttribute("path", string.Empty);
+                    member.MoveToParent();
+                    string parentCref = member.GetAttribute("cref", string.Empty);
+                    string parentPath = member.GetAttribute("path", string.Empty);
+                    if (!string.IsNullOrWhiteSpace(parentCref))
                     {
-                        var inheritedElements = new List<(string Name, string Cref, string Path)>();
-                        foreach (XPathNavigator member in doc.CreateNavigator().Select("doc/members/member/inheritdoc"))
-                        {
-                            string cref = member.GetAttribute("cref", string.Empty);
-                            string path = member.GetAttribute("path", string.Empty);
-                            member.MoveToParent();
-                            string parentCref = member.GetAttribute("cref", string.Empty);
-                            string parentPath = member.GetAttribute("path", string.Empty);
-                            if (!string.IsNullOrWhiteSpace(parentCref))
-                            {
-                                cref = parentCref;
-                                path = parentPath;
-                            }
+                        cref = parentCref;
+                        path = parentPath;
+                    }
 
-                            inheritedElements.Add((member.GetAttribute("name", string.Empty), cref, path));
-                        }
+                    inheritedElements.Add((member.GetAttribute("name", string.Empty), cref, path));
+                }
 
-                        return inheritedElements;
-                    })
-                .GroupBy(x => x.Name)
-                .ToDictionary(x => x.Key, x => (x.First().Cref, x.First().Path));
+                return inheritedElements;
+            }).GroupBy(x => x.Name).ToDictionary(x => x.Key, x => (x.First().Cref, x.First().Path));
 
             var distinctExcludedTypes = excludedTypes?.Distinct().ToArray() ?? new Type[] { };
-            swaggerGenOptions.ParameterFilter<InheritDocParameterFilter>(documents, inheritedDocs, includeRemarks, distinctExcludedTypes);
-            swaggerGenOptions.RequestBodyFilter<InheritDocRequestBodyFilter>(documents, inheritedDocs, includeRemarks, distinctExcludedTypes);
-            swaggerGenOptions.SchemaFilter<InheritDocSchemaFilter>(documents, inheritedDocs, includeRemarks, distinctExcludedTypes);
-            swaggerGenOptions.OperationFilter<InheritDocOperationFilter>(documents, inheritedDocs, includeRemarks, distinctExcludedTypes);
+            Microsoft.Extensions.DependencyInjection.SwaggerGenOptionsExtensions.ParameterFilter<InheritDocParameterFilter>(swaggerGenOptions, documents, inheritedDocs, includeRemarks, distinctExcludedTypes);
+            Microsoft.Extensions.DependencyInjection.SwaggerGenOptionsExtensions.RequestBodyFilter<InheritDocRequestBodyFilter>(swaggerGenOptions, documents, inheritedDocs, includeRemarks, distinctExcludedTypes);
+            Microsoft.Extensions.DependencyInjection.SwaggerGenOptionsExtensions.SchemaFilter<InheritDocSchemaFilter>(swaggerGenOptions, documents, inheritedDocs, includeRemarks, distinctExcludedTypes);
+            Microsoft.Extensions.DependencyInjection.SwaggerGenOptionsExtensions.OperationFilter<InheritDocOperationFilter>(swaggerGenOptions, documents, inheritedDocs, includeRemarks, distinctExcludedTypes);
             return swaggerGenOptions;
         }
 

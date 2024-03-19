@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.XPath;
-
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 {
@@ -54,11 +53,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             DocumentFilterContext context)
         {
             // Collect (unique) controller names and types in a dictionary
-            var controllerNamesAndTypes = context.ApiDescriptions
-                .Select(apiDesc => apiDesc.ActionDescriptor as ControllerActionDescriptor)
-                .SkipWhile(actionDesc => actionDesc == null)
-                .GroupBy(actionDesc => actionDesc.ControllerName)
-                .Select(group => new KeyValuePair<string, Type>(group.Key, group.First().ControllerTypeInfo.AsType()));
+            var controllerNamesAndTypes = context.ApiDescriptions.Select(apiDesc => apiDesc.ActionDescriptor as ControllerActionDescriptor).SkipWhile(actionDesc => actionDesc == null).GroupBy(actionDesc => actionDesc.ControllerName).Select(group => new KeyValuePair<string, Type>(group.Key, group.First().ControllerTypeInfo.AsType()));
 
             foreach (var nameAndType in controllerNamesAndTypes)
             {

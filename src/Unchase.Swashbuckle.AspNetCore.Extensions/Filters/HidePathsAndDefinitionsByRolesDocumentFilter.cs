@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 {
@@ -47,11 +46,13 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
             if (reference?.Id != null)
             {
+                // ReSharper disable once ConstantConditionalAccessQualifier
                 if (!result.Contains(reference?.Id))
                 {
                     result.Add(reference.Id);
                 }
 
+                // ReSharper disable once ConstantConditionalAccessQualifier
                 var responseSchema = schemas[reference?.Id];
                 if (responseSchema != null)
                 {
@@ -359,7 +360,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
             var paths = new Dictionary<(MethodInfo, Type), string>();
             foreach (var actionDescriptor in apiDescriptions.Select(ad => ad.ActionDescriptor))
             {
-                var t = ((ControllerActionDescriptor) actionDescriptor).ControllerTypeInfo.AsType();
+                var t = ((ControllerActionDescriptor)actionDescriptor).ControllerTypeInfo.AsType();
                 paths.Add((((ControllerActionDescriptor)actionDescriptor).MethodInfo, t), actionDescriptor.AttributeRouteInfo.Template);
             }
 

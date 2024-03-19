@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.XPath;
-
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
@@ -16,7 +15,6 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
 
         private const string SummaryTag = "summary";
         private const string RemarksTag = "remarks";
-        private const string ExampleTag = "example";
         private const string ParamTag = "param";
         private const string ParamXPath = "/doc/members/member/param[@name='{0}']";
         private readonly bool _includeRemarks;

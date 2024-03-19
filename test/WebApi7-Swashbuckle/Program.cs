@@ -1,6 +1,5 @@
-using System.Net;
-
 using Microsoft.OpenApi.Models;
+using System.Net;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Filters;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
@@ -123,15 +122,13 @@ builder.Services.AddSwaggerGen(options =>
     //    responseExample: new TodoItem { Tag = Tag.Workout, Id = 111, IsComplete = false, Name = "test" }); // some class for response examples
 
     // change responses for specific HTTP status code ("400" (HttpStatusCode.BadRequest))
-    options.ChangeAllResponsesByHttpStatusCode(
-        httpStatusCode: HttpStatusCode.BadRequest,
+    options.ChangeAllResponsesByHttpStatusCode(httpStatusCode: HttpStatusCode.BadRequest,
         responseDescription: "400 status code description",
-        responseExampleOption: ResponseExampleOptions.Clear, // claer response examples
+        responseExampleOption: ResponseExampleOptions.Clear, // clear response examples
         responseExample: new ComplicatedClass()); // some class for response examples
 
     // change responses for specific HTTP status code ("201" (StatusCodes.Status201Created))
-    options.ChangeAllResponsesByHttpStatusCode(
-        httpStatusCode: StatusCodes.Status201Created,
+    options.ChangeAllResponsesByHttpStatusCode(httpStatusCode: StatusCodes.Status201Created,
         responseDescription: "201 status code description",
         responseExampleOption: ResponseExampleOptions.None, // do nothing with response examples
         responseExample: new ComplicatedClass()); // some class for response examples
@@ -150,7 +147,7 @@ if (!app.Environment.IsDevelopment())
 // enable middleware to serve generated Swagger as a JSON endpoint.
 app.UseSwagger(c =>
 {
-    c.PreSerializeFilters.Add((openApiDoc, httpRequest) =>
+    c.PreSerializeFilters.Add((openApiDoc, _) =>
     {
         // remove Paths and Components from OpenApi documentation for specific controller action without accepted roles
         openApiDoc.RemovePathsAndComponentsWithoutAcceptedRolesFor<HidedController>(controller => nameof(controller.HidedAction), new List<string> { "AcceptedRole" });

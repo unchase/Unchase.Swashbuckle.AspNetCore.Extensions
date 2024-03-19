@@ -1,14 +1,13 @@
-﻿using System;
-using System.Text;
+﻿using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Xml.XPath;
-
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
 {
@@ -41,8 +40,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             Type enumOptionType,
             object enumOption)
         {
-            return enumOptionType
-                .GetFieldAttributeDescription(enumOption, 0);
+            return GetFieldAttributeDescription(enumOptionType, enumOption, 0);
         }
 
         private static string GetFieldAttributeDescription(
@@ -85,6 +83,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                         case DescriptionSources.XmlComments:
                             var memberInfo = enumType.GetMembers().FirstOrDefault(m =>
                                 m.Name.Equals(enumValue.ToString(), StringComparison.InvariantCultureIgnoreCase));
+                            // ReSharper disable once PossibleMultipleEnumeration
                             enumDescription = TryGetMemberComments(memberInfo, xmlNavigators, includeRemarks);
                             break;
                         case DescriptionSources.DescriptionAttributesThenXmlComments:
@@ -93,12 +92,14 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                             {
                                 var memberInfo2 = enumType.GetMembers().FirstOrDefault(m =>
                                     m.Name.Equals(enumValue.ToString(), StringComparison.InvariantCultureIgnoreCase));
+                                // ReSharper disable once PossibleMultipleEnumeration
                                 enumDescription = TryGetMemberComments(memberInfo2, xmlNavigators, includeRemarks);
                             }
 
                             break;
                     }
                 }
+                // ReSharper disable once EmptyGeneralCatchClause
                 catch
                 {
                 }
@@ -140,6 +141,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
                     commentsBuilder.Append(XmlCommentsTextHelper.Humanize(xpathSummaryNavigator.InnerXml));
                     if (includeRemarks)
                     {
+                        // ReSharper disable once ConstantConditionalAccessQualifier
                         var xpathRemarksNavigator = xpathMemberNavigator?.SelectSingleNode("remarks");
                         if (xpathRemarksNavigator != null && !string.IsNullOrWhiteSpace(xpathRemarksNavigator.InnerXml))
                         {
@@ -158,6 +160,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             MemberInfo memberInfo)
         {
             var stringBuilder = new StringBuilder((memberInfo.MemberType & MemberTypes.Field) != 0 ? "F:" : "P:");
+            // ReSharper disable once RedundantArgumentDefaultValue
             stringBuilder.Append(QualifiedNameFor(memberInfo.DeclaringType, false));
             stringBuilder.Append("." + memberInfo.Name);
             return stringBuilder.ToString();
@@ -187,8 +190,7 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             {
                 var str = type.Name.Split('`').First();
                 stringBuilder.Append(str);
-                var values = type.GetGenericArguments()
-                    .Select(t => !t.IsGenericParameter ? QualifiedNameFor(t, true) : string.Format("`{0}", t.GenericParameterPosition));
+                var values = type.GetGenericArguments().Select(t => !t.IsGenericParameter ? QualifiedNameFor(t, true) : string.Format("`{0}", t.GenericParameterPosition));
                 stringBuilder.Append("{" + string.Join(",", values) + "}");
             }
             else
