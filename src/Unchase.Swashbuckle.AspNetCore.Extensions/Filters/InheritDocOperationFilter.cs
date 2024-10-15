@@ -181,19 +181,8 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Filters
                                 {
                                     schema = context.SchemaRepository.Schemas.FirstOrDefault(s => parameter.Schema.AllOf.FirstOrDefault(a => a.Reference.Id == s.Key) != null).Value;
                                 }
-                                else
-                                {
-                                    if (parameter.Description == null)
-                                    {
-                                        parameter.Description = XmlCommentsTextHelper.Humanize(paramNode.InnerXml);
-                                    }
-                                    else if (!parameter.Description.Contains(paramNode.InnerXml))
-                                    {
-                                        parameter.Description += XmlCommentsTextHelper.Humanize(paramNode.InnerXml);
-                                    }
-
-                                    continue;
-                                }
+                                
+                                // paramNode is null, can't use paramNode.InnerXml here (not null check is above)
                             }
                             else
                             {

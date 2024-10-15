@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Xml.XPath;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,13 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
     /// </summary>
     public static class SwaggerGenOptionsExtensions
     {
+        #region Fields
+
+        private static readonly FieldInfo _xmlDocMembers = 
+            typeof(XmlCommentsSchemaFilter).GetField("_xmlDocMembers", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        #endregion
+        
         #region Extension methods
 
         /// <summary>
@@ -184,16 +192,35 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
             bool includeRemarks = false,
             params Type[] excludedTypes)
         {
-            var documents = swaggerGenOptions.SchemaFilterDescriptors.Where(x => x.Type == typeof(XmlCommentsSchemaFilter))
-                .Select(x => x.Arguments.Single())
-                .Cast<XPathDocument>()
-                .ToList();
+            if (_xmlDocMembers is null)
+            {
+                throw new NotSupportedException("Unsupported version of " + typeof(XmlCommentsSchemaFilter).Assembly.GetName().Name);
+            }
 
-            var inheritedDocs = documents.SelectMany(
-                    doc =>
+            var inheritedElements = new List<(string Name, string Cref, string Path)>();
+            var documentUris = new HashSet<string>();
+            foreach (var descriptor in swaggerGenOptions.SchemaFilterDescriptors)
+            {
+                if (descriptor.Type == typeof(XmlCommentsSchemaFilter))
+                {
+                    var navigators = _xmlDocMembers.GetValue(descriptor.FilterInstance) as IEnumerable<KeyValuePair<string, XPathNavigator>>;
+                    if (navigators is null)
                     {
-                        var inheritedElements = new List<(string Name, string Cref, string Path)>();
-                        foreach (XPathNavigator member in doc.CreateNavigator().Select("doc/members/member/inheritdoc"))
+                        continue;
+                    }
+
+                    foreach (var pair in navigators)
+                    {
+                        var navigator = pair.Value;
+                        var baseUri = navigator.BaseURI;
+                        if (!string.IsNullOrEmpty(baseUri))
+                        {
+                            // baseUri is empty string when creating XPathDocument via something like:
+                            // new XPathDocument(new StringReader(File.ReadAllText(text)))
+                            documentUris.Add(baseUri);
+                        }
+
+                        foreach (XPathNavigator member in navigator.Select("inheritdoc"))
                         {
                             string cref = member.GetAttribute("cref", string.Empty);
                             string path = member.GetAttribute("path", string.Empty);
@@ -208,9 +235,15 @@ namespace Unchase.Swashbuckle.AspNetCore.Extensions.Extensions
 
                             inheritedElements.Add((member.GetAttribute("name", string.Empty), cref, path));
                         }
+                    }
+                }
+            }
 
-                        return inheritedElements;
-                    })
+            var documents = documentUris
+                .Select(x => new XPathDocument(x))
+                .ToList();
+
+            var inheritedDocs = inheritedElements
                 .GroupBy(x => x.Name)
                 .ToDictionary(x => x.Key, x => (x.First().Cref, x.First().Path));
 
